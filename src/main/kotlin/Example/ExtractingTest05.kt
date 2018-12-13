@@ -15,7 +15,7 @@ import net.sf.sevenzipjbinding.impl.RandomAccessFileInStream
 
 import net.sf.sevenzipjbinding.*
 
-class Extract04 internal constructor(
+class Extract internal constructor(
     private val archive: String,
     private val outputDirectory: String,
     private val test: Boolean,
@@ -267,23 +267,7 @@ class Extract04 internal constructor(
     }
 }
 
-
 fun main(args: Array<String>) {
-    /*
-    val argList = ArrayList(Arrays.asList(*args))
-    if (argList.size > 0 && argList[0] == "-t") {
-        argList.removeAt(0)
-        test = true
-    }
-    if (argList.size != 2 && argList.size != 3) {
-        println("Usage:")
-        println("java -cp ... example.ExtractExample [-t] <archive> <output-dir> [filter]")
-        System.exit(1)
-    }
-    if (argList.size == 3) {
-        filter = argList[2]
-    }
-    */
     var test = false
     var filter: String? = null
     val theArchivePaths = arrayOf(
@@ -300,7 +284,7 @@ fun main(args: Array<String>) {
     for (aPair in inputList) {
         try {
             println(aPair.first)
-            Extract04(aPair.first, aPair.second, test, filter).extract()
+            Extract(aPair.first, aPair.second, test, filter).extract()
             println("Extraction successful")
 
         } catch (e: ExtractionException) {
