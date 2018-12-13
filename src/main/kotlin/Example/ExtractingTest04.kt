@@ -11,9 +11,10 @@ import java.io.RandomAccessFile
 import java.util.ArrayList
 import java.util.regex.Pattern
 
+import net.sf.sevenzipjbinding.*
 import net.sf.sevenzipjbinding.impl.RandomAccessFileInStream
 
-import net.sf.sevenzipjbinding.*
+import archive.*
 
 class Extract04 internal constructor(
     private val archive: String,

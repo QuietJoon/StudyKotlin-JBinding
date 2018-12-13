@@ -1,3 +1,5 @@
+package archive
+
 class ExtractionException : Exception {
 
     constructor(msg: String) : super(msg) {}
