@@ -10,7 +10,7 @@ import java.util.HashMap
 import util.*
 
 
-class ArchiveAndStream (val inArchive: IInArchive, val inStream: IInStream, var randomAccess: RandomAccessFile?, var archiveCallback: ArchiveOpenVolumeCallback?) {
+class ArchiveAndStream (val inArchive: IInArchive, var randomAccess: RandomAccessFile?, var archiveCallback: ArchiveOpenVolumeCallback?) {
     fun isSingle() = randomAccess != null
     fun isMulti() = archiveCallback != null
 }
@@ -44,7 +44,7 @@ fun openSingleVolumeArchive(aFilePath: String): ArchiveAndStream {
         System.err.println(String.format("[Error]<openArchive>: Fail to open InArchive with $aFilePath\n%s", e.toString()))
         throw e
     }
-    return ArchiveAndStream(inArchive, inStream, randomAccessFile, null)
+    return ArchiveAndStream(inArchive, randomAccessFile, null)
 }
 
 
@@ -71,7 +71,7 @@ fun openMultiVolumeArchive(aFilePath : String): ArchiveAndStream {
         System.err.println(String.format("[Error]<openArchive>: Fail to open InArchive with $aFilePath\n%s", e.toString()))
         throw e
     }
-    return ArchiveAndStream(inArchive, inStream, null, archiveOpenVolumeCallback)
+    return ArchiveAndStream(inArchive, null, archiveOpenVolumeCallback)
 }
 
 fun closeArchiveAndStream(anANS: ArchiveAndStream) {
