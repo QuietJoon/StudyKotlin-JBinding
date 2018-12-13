@@ -10,7 +10,10 @@ import java.util.HashMap
 import util.*
 
 
-data class ArchiveAndStream (val inArchive: IInArchive, val inStream: IInStream, var randomAccess: RandomAccessFile?, var archiveCallback: ArchiveOpenVolumeCallback?)
+class ArchiveAndStream (val inArchive: IInArchive, val inStream: IInStream, var randomAccess: RandomAccessFile?, var archiveCallback: ArchiveOpenVolumeCallback?) {
+    fun isSingle() = randomAccess != null
+    fun isMulti() = archiveCallback != null
+}
 
 fun openArchive(aFilePath: String): ArchiveAndStream {
     return if (aFilePath.isSingleVolume())
@@ -80,15 +83,14 @@ fun closeArchiveAndStream(anANS: ArchiveAndStream) {
             throw e
         }
     }
-    if (anANS.randomAccess != null) {
+    if (anANS.isSingle()) {
         try {
             anANS.randomAccess?.close()
         } catch (e: IOException) {
             System.err.println("Error closing file: $e")
             throw e
         }
-    }
-    if (anANS.archiveCallback != null) {
+    } else {
         try {
             anANS.archiveCallback?.close()
         } catch (e: IOException) {

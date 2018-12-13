@@ -135,7 +135,7 @@ class Extract internal constructor(
     }
 
     @Throws(ExtractionException::class)
-    internal fun extract() {
+    internal fun extractEverything() {
         checkArchiveFile()
         prepareOutputDirectory()
         extractArchive()
@@ -174,7 +174,7 @@ class Extract internal constructor(
         }
 
         try {
-            extractArchive(randomAccessFile)
+
             ok = true
         } finally {
             try {
@@ -284,7 +284,7 @@ fun main(args: Array<String>) {
     for (aPair in inputList) {
         try {
             println(aPair.first)
-            Extract(aPair.first, aPair.second, test, filter).extract()
+            Extract(aPair.first, aPair.second, test, filter).extractEverything()
             println("Extraction successful")
 
         } catch (e: ExtractionException) {
