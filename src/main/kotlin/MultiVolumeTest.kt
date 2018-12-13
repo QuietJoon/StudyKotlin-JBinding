@@ -20,6 +20,8 @@ fun main(args : Array<String>) {
             archiveOpenVolumeCallback
         )
 
+        println(String.format("Archive Format: %s", inArchive.archiveFormat.toString()))
+
         println("   Size   | Compr.Sz. | Filename")
         println("----------+-----------+---------")
         val itemCount = inArchive!!.numberOfItems
