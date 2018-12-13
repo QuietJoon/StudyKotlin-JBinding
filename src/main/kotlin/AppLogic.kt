@@ -1,9 +1,6 @@
-import archive.ArchiveAndStream
-import archive.closeArhiveAndStream
-import archive.listItems
 import java.io.File
 
-import archive.openArchive
+import archive.*
 import util.*
 
 data class RawFileAnalyzed (
@@ -23,7 +20,7 @@ fun rawFileAnalyze(files: List<File>): RawFileAnalyzed {
             println("<firstPhase>: opening $aPath")
             anANS = openArchive(aPath)
             listItems(anANS)
-            closeArhiveAndStream(anANS)
+            closeArchiveAndStream(anANS)
         } catch (e: Exception) {
             println("[Error]<FirstPhase>: Seems to fail opening")
             colorName = "Red"

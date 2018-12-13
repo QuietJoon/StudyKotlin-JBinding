@@ -10,7 +10,7 @@ import java.util.HashMap
 import util.*
 
 
-data class ArchiveAndStream (val archive: IInArchive, var randomAccess: RandomAccessFile?, var archiveCallback: ArchiveOpenVolumeCallback?)
+data class ArchiveAndStream (val inArchive: IInArchive, val inStream: IInStream, var randomAccess: RandomAccessFile?, var archiveCallback: ArchiveOpenVolumeCallback?)
 
 fun openArchive(aFilePath: String): ArchiveAndStream {
     return if (aFilePath.isSingleVolume())
@@ -23,23 +23,25 @@ fun openSingleVolumeArchive(aFilePath: String): ArchiveAndStream {
 
     var randomAccessFile: RandomAccessFile? = null
     var inArchive: IInArchive? = null
+    var inStream: IInStream? = null
     try {
         randomAccessFile = RandomAccessFile(aFilePath, "r")
+        inStream = RandomAccessFileInStream(randomAccessFile)
     } catch (e: Exception) {
         System.err.println(String.format("[Error]<openArchive>: Fail to open RandomAccessFile with $aFilePath\n%s", e.toString()))
         throw e
     }
     try {
         inArchive = SevenZip.openInArchive(
-            null, // autodetect archive type
-            RandomAccessFileInStream(randomAccessFile)
+            null,
+            inStream
         )
     } catch (e: Exception) {
         randomAccessFile.close()
         System.err.println(String.format("[Error]<openArchive>: Fail to open InArchive with $aFilePath\n%s", e.toString()))
         throw e
     }
-    return ArchiveAndStream(inArchive, randomAccessFile, null)
+    return ArchiveAndStream(inArchive, inStream, randomAccessFile, null)
 }
 
 
@@ -66,13 +68,13 @@ fun openMultiVolumeArchive(aFilePath : String): ArchiveAndStream {
         System.err.println(String.format("[Error]<openArchive>: Fail to open InArchive with $aFilePath\n%s", e.toString()))
         throw e
     }
-    return ArchiveAndStream(inArchive, null, archiveOpenVolumeCallback)
+    return ArchiveAndStream(inArchive, inStream, null, archiveOpenVolumeCallback)
 }
 
-fun closeArhiveAndStream(anANS: ArchiveAndStream) {
-    if (anANS.archive != null) {
+fun closeArchiveAndStream(anANS: ArchiveAndStream) {
+    if (anANS.inArchive != null) {
         try {
-            anANS.archive.close()
+            anANS.inArchive.close()
         } catch (e: SevenZipException) {
             System.err.println("Error closing archive: $e")
             throw e

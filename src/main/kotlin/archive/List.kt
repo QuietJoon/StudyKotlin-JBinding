@@ -3,12 +3,12 @@ package archive
 
 fun listItems(ans: ArchiveAndStream) {
     // Getting simple interface of the archive inArchive
-    val simpleInArchive = ans.archive!!.getSimpleInterface()
+    val simpleInArchive = ans.inArchive!!.getSimpleInterface()
     val theSize = simpleInArchive.archiveItems.size
 
     println("Archive item size: $theSize")
 
-    println(String.format("Archive Format: %s", ans.archive.archiveFormat.toString()))
+    println(String.format("Archive Format: %s", ans.inArchive.archiveFormat.toString()))
 
     println("   CRC    |   Size    | Compr.Sz. | Filename")
     println("----------+-----------+-----------+---------")
