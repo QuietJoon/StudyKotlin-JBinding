@@ -7,18 +7,6 @@ import java.io.RandomAccessFile
 import java.io.FileNotFoundException
 import java.util.HashMap
 
-
-fun jBindingChecker(): Boolean{
-    try {
-        SevenZip.initSevenZipFromPlatformJAR()
-        return true
-    } catch (e: SevenZipNativeInitializationException) {
-        println("Fail to initialize 7-Zip-JBinding library")
-        e.printStackTrace()
-        return false
-    }
-}
-
 fun archiveOpener(aFilePath : String) {
     println("archiveOpener with $aFilePath")
     
