@@ -101,9 +101,7 @@ class Extract internal constructor(
         }
 
         @Throws(SevenZipException::class)
-        override fun prepareOperation(extractAskMode: ExtractAskMode) {
-
-        }
+        override fun prepareOperation(extractAskMode: ExtractAskMode) {}
 
         @Throws(SevenZipException::class)
         override fun setOperationResult(
@@ -137,7 +135,7 @@ class Extract internal constructor(
     }
 
     @Throws(ExtractionException::class)
-    private fun prepareOutputDirectory() {
+    fun prepareOutputDirectory() {
         outputDirectoryFile = File(outputDirectory)
         if (!outputDirectoryFile!!.exists()) {
             outputDirectoryFile!!.mkdirs()
@@ -161,16 +159,9 @@ class Extract internal constructor(
     }
 
     @Throws(ExtractionException::class)
-    fun extractEverything(anANS: ArchiveAndStream) {
-        try {
-            extractEverything(anANS.inArchive, anANS.inStream)
-        } finally {
-            closeArchiveAndStream(anANS)
-        }
-    }
-
-    @Throws(ExtractionException::class)
-    private fun extractEverything(inArchive: IInArchive, inStream: IInStream) {
+    private fun extractEverything(anANS: ArchiveAndStream) {
+        val inArchive: IInArchive = anANS.inArchive
+        //val inStream: IInStream = anANS.inStream
         try {
             var ids: IntArray? = null // All items
             if (filterRegex != null) {
@@ -191,6 +182,34 @@ class Extract internal constructor(
             val message = stringBuilder.toString()
 
             throw ExtractionException(message, e)
+        } finally {
+            closeArchiveAndStream(anANS)
+        }
+    }
+
+    @Throws(ExtractionException::class)
+    fun extractSomething(anANS: ArchiveAndStream, ids: IntArray) {
+        val inArchive: IInArchive = anANS.inArchive
+        //val inStream: IInStream = anANS.inStream
+
+        try {
+            inArchive.extract(ids, test, ExtractCallback(inArchive))
+        } catch (e: SevenZipException) {
+            val stringBuilder = StringBuilder()
+            stringBuilder.append("Error extracting archive '")
+            stringBuilder.append(archive)
+            stringBuilder.append("': ")
+            stringBuilder.append(e.message)
+            if (e.cause != null) {
+                stringBuilder.append(" (")
+                stringBuilder.append(e.cause.toString())
+                stringBuilder.append(')')
+            }
+            val message = stringBuilder.toString()
+
+            throw ExtractionException(message, e)
+        } finally {
+            closeArchiveAndStream(anANS)
         }
     }
 

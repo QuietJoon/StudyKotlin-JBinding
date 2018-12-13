@@ -1,5 +1,8 @@
 package archive
 
+import net.sf.sevenzipjbinding.PropID
+import util.isArchive
+
 
 fun listItems(ans: ArchiveAndStream) {
     // Getting simple interface of the archive inArchive
@@ -10,13 +13,14 @@ fun listItems(ans: ArchiveAndStream) {
 
     println(String.format("Archive Format: %s", ans.inArchive.archiveFormat.toString()))
 
-    println("   CRC    |   Size    | Compr.Sz. | Filename")
-    println("----------+-----------+-----------+---------")
+    println("  ID  |   CRC    |   Size    | Compr.Sz. | Filename")
+    println("-----------------+-----------+-----------+---------")
 
     for (item in simpleInArchive.archiveItems) {
         println(
             String.format(
-                " %08X | %9s | %9s | %s", //
+                " %4d | %08X | %9s | %9s | %s", //
+                item.itemIndex,
                 item.crc,
                 item.size,
                 item.packedSize,
@@ -24,4 +28,17 @@ fun listItems(ans: ArchiveAndStream) {
             )
         )
     }
+}
+
+fun getNestedArchivesIDArray(ans: ArchiveAndStream): IntArray {
+    val simpleInArchive = ans.inArchive!!.getSimpleInterface()
+    var idList = mutableListOf<Int>()
+
+    for (item in simpleInArchive.archiveItems) {
+        if (item.path.toString().isArchive()) {
+            idList.add(item.itemIndex)
+        }
+    }
+
+    return idList.toIntArray()
 }

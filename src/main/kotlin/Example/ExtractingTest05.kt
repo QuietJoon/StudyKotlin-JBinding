@@ -21,7 +21,11 @@ fun main(args: Array<String>) {
     for (aPair in inputList) {
         try {
             println(aPair.first)
-            Extract(aPair.first, aPair.second, test, filter).extractEverything()
+            var anANS = openArchive(aPair.first)
+            val ids = getNestedArchivesIDArray(anANS)
+            val extract = Extract(aPair.first, aPair.second, test, filter)
+            extract.prepareOutputDirectory()
+            extract.extractSomething(anANS,ids)
             println("Extraction successful")
 
         } catch (e: ExtractionException) {
