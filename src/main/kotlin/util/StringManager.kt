@@ -30,6 +30,9 @@ fun String.isArchive(): Boolean {
     }
     return false
 }
+
+fun String.isEXE() = this.getExtension() == "exe"
+
 /*
   * null -> SingleVolume
   * 1 -> First Volume
