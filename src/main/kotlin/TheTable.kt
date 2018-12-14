@@ -1,3 +1,5 @@
+import util.getFullName
+
 class TheTable (
       var theArchiveSets: Array<ArchiveSet>
     , var theItemTable: ItemRecordTable
@@ -33,10 +35,13 @@ class ItemRecord (
       val dataCRC: Int
     , val dataSize: DataSize
     , val modifiedDate: Date
-    , val name: Name
+    , val path: Path
     , val existance: Array<Item>
     , val isArchive: Boolean
 ) {
+
+    fun getFullName() = path.getFullName()
+
     fun generateItemKey() = ItemKey(dataCRC, dataSize, 1)
     fun generateItemKey(dupCount: Int) = ItemKey(dataCRC, dataSize, dupCount)
 }

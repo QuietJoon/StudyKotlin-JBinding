@@ -23,6 +23,9 @@ class Item (
     }
 
     fun getFullName() = path.last().getFullName()
+
+    fun generateItemKey() = ItemKey(dataCRC, dataSize, 1)
+    fun generateItemKey(dupCount: Int) = ItemKey(dataCRC, dataSize, dupCount)
 }
 
 fun ISimpleInArchiveItem.makeItemFromArchiveItem(parentPath: JointPath, parentID: ItemID, idInArchive: ItemID, parentArchiveSetID: ArchiveSetID): Item {
