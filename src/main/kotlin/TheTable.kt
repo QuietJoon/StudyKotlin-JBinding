@@ -1,14 +1,14 @@
 import util.getFullName
 
 class TheTable (
-      var theArchiveSets: Array<ArchiveSet>
-    , var theItemTable: ItemRecordTable
-    , var theItemList: ItemTable
+      val theArchiveSets: Array<ArchiveSet>
 ) {
     companion object {
-        var ignoringList: IgnoringList? = null
+        lateinit var ignoringList: IgnoringList
     }
 
+    var theItemTable: ItemRecordTable = mutableMapOf()
+    var theItemList: ItemTable = mutableMapOf()
     val archiveSetNum: Int
 
     init {
