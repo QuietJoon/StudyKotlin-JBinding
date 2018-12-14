@@ -74,7 +74,7 @@ class GUIListingLNAS : Application() {
 
                 for ( aPath in firstResult.firstOrSinglePaths) {
                     val ans = openArchive(aPath)
-                    printItemListByIDs(ans, getNestedArchivesIDArray(ans))
+                    printItemListByIDs(ans.inArchive, getNestedArchivesIDArray(ans.inArchive))
                     ans.close()
                 }
             } else {

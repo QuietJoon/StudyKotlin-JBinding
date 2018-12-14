@@ -1,15 +1,17 @@
 package archive
 
+import net.sf.sevenzipjbinding.IInArchive
+
 import util.isArchive
 
 
-fun printItemList(ans: ArchiveAndStream) {
-    val simpleInArchive = ans.inArchive.getSimpleInterface()
+fun printItemList(inArchive: IInArchive) {
+    val simpleInArchive = inArchive.getSimpleInterface()
     val theSize = simpleInArchive.archiveItems.size
 
     println("Archive item size: $theSize")
 
-    println(String.format("Archive Format: %s", ans.inArchive.archiveFormat.toString()))
+    println(String.format("Archive Format: %s", inArchive.archiveFormat.toString()))
 
     println("  ID  |   CRC    |   Size    | Compr.Sz. |         Modified Date        | Filename")
     println("-----------------+-----------+-----------+------------------------------+---------")
@@ -30,9 +32,9 @@ fun printItemList(ans: ArchiveAndStream) {
 }
 
 
-fun printItemListByIDs(ans: ArchiveAndStream, ids: IntArray) {
+fun printItemListByIDs(inArchive: IInArchive, ids: IntArray) {
     if ( !ids.isEmpty() ) {
-        val simpleInArchive = ans.inArchive.getSimpleInterface()
+        val simpleInArchive = inArchive.getSimpleInterface()
 
         println("  ID  |   CRC    |   Size    | Compr.Sz. |         Modified Date        | Filename")
         println("-----------------+-----------+-----------+------------------------------+---------")
@@ -56,8 +58,8 @@ fun printItemListByIDs(ans: ArchiveAndStream, ids: IntArray) {
     }
 }
 
-fun getNestedArchivesIDArray(ans: ArchiveAndStream): IntArray {
-    val simpleInArchive = ans.inArchive.getSimpleInterface()
+fun getNestedArchivesIDArray(inArchive: IInArchive): IntArray {
+    val simpleInArchive = inArchive.getSimpleInterface()
     var idList = mutableListOf<Int>()
 
     for (item in simpleInArchive.archiveItems) {
