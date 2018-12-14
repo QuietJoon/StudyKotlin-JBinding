@@ -1,6 +1,5 @@
 package archive
 
-import Path
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -10,6 +9,9 @@ import java.util.ArrayList
 import java.util.regex.Pattern
 
 import net.sf.sevenzipjbinding.*
+
+import Path
+
 
 class Extract internal constructor(
     private val archive: Path,

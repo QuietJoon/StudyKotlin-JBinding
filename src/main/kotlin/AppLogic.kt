@@ -4,6 +4,7 @@ import archive.*
 import archive.ArchiveAndStream
 import util.*
 
+
 data class RawFileAnalyzed (
     val paths : RealPath
     , val colorName: String
