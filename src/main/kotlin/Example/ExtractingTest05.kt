@@ -1,7 +1,3 @@
-/*
-Copy from https://gist.github.com/borisbrodski/6120309
- */
-
 import java.io.File
 
 import archive.*
