@@ -1,3 +1,6 @@
+import net.sf.sevenzipjbinding.IInArchive
+
+
 fun printIgnoringList(ignoringList: IgnoringList) {
 
     println("   CRC    |   Size    |         Modified Date        | Filename")
@@ -36,4 +39,18 @@ fun printIgnoringListWithLevel(ignoringList: IgnoringList) {
             )
         )
     }
+}
+
+fun getIDArrayWithoutIgnoringItem(inArchive: IInArchive, ignoringList: IgnoringList): IntArray {
+    val simpleInArchive = inArchive.getSimpleInterface()
+    var idList = mutableListOf<Int>()
+
+    simpleInArchive.archiveItems.forEachIndexed() { idx, sItem ->
+        val item: Item = sItem.makeItemFromArchiveItem(emptyArray(),0,0,0 )
+        if (!ignoringList.match(item)) {
+            idList.add(idx)
+        }
+    }
+
+    return idList.toIntArray()
 }

@@ -9,6 +9,27 @@ class IgnoringItem (
     val itemName: Leveled<Name>,
     val itemModifiedDate: Leveled<Date>
 ) {
+    fun match(item: Item): Boolean {
+        var result = true
+        var checked = false
+        if (itemCRC.level == Level.SURE) {
+            checked = true
+            result = result && (itemCRC.datum == item.dataCRC)
+        }
+        if (itemSize.level == Level.SURE) {
+            checked = true
+            result = result && (itemSize.datum == item.dataSize)
+        }
+        if (itemSize.level == Level.SURE) {
+            checked = true
+            result = result && (itemName.datum == item.path.last().getFullName())
+        }
+        if (itemModifiedDate.level == Level.SURE) {
+            checked = true
+            result = result && (itemModifiedDate.datum == item.modifiedDate)
+        }
+        return if (checked) result else false
+    }
 }
 
 fun makeItemFromRawItem(item: ISimpleInArchiveItem): IgnoringItem {
@@ -45,8 +66,16 @@ class IgnoringList (
         }
         return stringBuilder.toString()
     }
-}
 
+    fun match(item: Item): Boolean {
+        for ( ignoringItem in ignoringList) {
+            if ( ignoringItem.match(item)) {
+                return true
+            }
+        }
+        return false
+    }
+}
 
 fun ignoringListFromString(content: List<String>): IgnoringList {
     var rawIgnoringList = mutableListOf<IgnoringItem>()
