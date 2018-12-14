@@ -86,7 +86,6 @@ class GUIListing : Application() {
 
                 println("End a phase")
             } else {
-                // This seems not to be reached
                 filePathsLabel.text = "No File"
                 statusIndicator.fill = Paint.valueOf("Red")
             }

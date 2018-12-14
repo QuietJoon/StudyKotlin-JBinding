@@ -207,7 +207,7 @@ class Extract04 internal constructor(
 
         try {
 
-            var ids: IntArray? = null // All items
+            var ids: IntArray? = null
             if (filterRegex != null) {
                 ids = filterIds(inArchive, filterRegex)
             }

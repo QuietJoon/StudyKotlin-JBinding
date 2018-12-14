@@ -5,7 +5,6 @@ import util.isArchive
 
 
 fun listItems(ans: ArchiveAndStream) {
-    // Getting simple interface of the archive inArchive
     val simpleInArchive = ans.inArchive.getSimpleInterface()
     val theSize = simpleInArchive.archiveItems.size
 
@@ -19,7 +18,7 @@ fun listItems(ans: ArchiveAndStream) {
     for (item in simpleInArchive.archiveItems) {
         println(
             String.format(
-                " %4d | %08X | %9s | %9s | %s", //
+                " %4d | %08X | %9s | %9s | %s",
                 item.itemIndex,
                 item.crc,
                 item.size,
@@ -32,7 +31,6 @@ fun listItems(ans: ArchiveAndStream) {
 
 
 fun listItemsByIDs(ans: ArchiveAndStream, ids: IntArray) {
-    // Getting simple interface of the archive inArchive
     val simpleInArchive = ans.inArchive.getSimpleInterface()
 
     println("  ID  |   CRC    |   Size    | Compr.Sz. | Filename")
@@ -42,7 +40,7 @@ fun listItemsByIDs(ans: ArchiveAndStream, ids: IntArray) {
         val item = simpleInArchive.getArchiveItem(idx)
         println(
             String.format(
-                " %4d | %08X | %9s | %9s | %s", //
+                " %4d | %08X | %9s | %9s | %s",
                 item.itemIndex,
                 item.crc,
                 item.size,

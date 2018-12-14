@@ -74,7 +74,7 @@ class Extract internal constructor(
                     throw SevenZipException("Error writing to file: " + file!!.absolutePath)
                 }
 
-                data.size // Return amount of consumed data
+                data.size
             }
         }
 
@@ -161,9 +161,8 @@ class Extract internal constructor(
     @Throws(ExtractionException::class)
     private fun extractEverything(anANS: ArchiveAndStream) {
         val inArchive: IInArchive = anANS.inArchive
-        //val inStream: IInStream = anANS.inStream
         try {
-            var ids: IntArray? = null // All items
+            var ids: IntArray? = null
             if (filterRegex != null) {
                 ids = filterIds(inArchive, filterRegex)
             }
@@ -190,7 +189,6 @@ class Extract internal constructor(
     @Throws(ExtractionException::class)
     fun extractSomething(anANS: ArchiveAndStream, ids: IntArray) {
         val inArchive: IInArchive = anANS.inArchive
-        //val inStream: IInStream = anANS.inStream
 
         try {
             inArchive.extract(ids, test, ExtractCallback(inArchive))
