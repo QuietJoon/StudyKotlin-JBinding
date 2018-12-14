@@ -7,8 +7,8 @@ class TheTable (
         lateinit var ignoringList: IgnoringList
     }
 
-    var theItemTable: ItemRecordTable = mutableMapOf()
-    var theItemList: ItemTable = mutableMapOf()
+    val theItemTable: ItemRecordTable = mutableMapOf()
+    val theItemList: ItemTable = mutableMapOf()
     val archiveSetNum: Int
 
     init {

@@ -6,8 +6,8 @@ class ArchiveSet (
     , val superArchiveSetID: ArchiveSetID
     , val inArchive: IInArchive
 ) {
-    var itemList: ItemTable
-    var subArchiveSetList: MutableList<ArchiveSet>
+    val itemList: ItemTable
+    val subArchiveSetList: MutableList<ArchiveSet>
 
     init {
         itemList = mutableMapOf()
