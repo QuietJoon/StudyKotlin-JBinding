@@ -36,7 +36,7 @@ class ItemRecord (
     , val dataSize: DataSize
     , val modifiedDate: Date
     , val path: Path
-    , val existance: Array<Item>
+    , val existance: Array<ItemID?>
     , val isArchive: Boolean
 ) {
 
@@ -47,4 +47,3 @@ class ItemRecord (
 }
 
 typealias ItemRecordTable = MutableMap<ItemKey,ItemRecord>
-typealias ItemTable = MutableMap<ItemKey,ItemRecord>

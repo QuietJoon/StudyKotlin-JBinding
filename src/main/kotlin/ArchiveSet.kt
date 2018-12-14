@@ -10,12 +10,18 @@ class ArchiveSet (
         lateinit var itemList: ItemTable
         lateinit var subArchiveSetList: MutableList<ArchiveSet>
     }
+
     init {
         itemList = mutableMapOf()
         subArchiveSetList = mutableListOf()
     }
+
+    fun addNewItem(item: Item) {
+        itemList.put(item.generateItemKey(),item)
+    }
 }
 
 typealias ArchiveSetID = Int
+typealias ItemTable = MutableMap<ItemKey,Item>
 
 val rootArchiveSetID = 0
