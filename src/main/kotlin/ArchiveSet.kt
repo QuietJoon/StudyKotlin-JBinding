@@ -6,10 +6,8 @@ class ArchiveSet (
     , val superArchiveSetID: ArchiveSetID
     , val inArchive: IInArchive
 ) {
-    companion object {
-        lateinit var itemList: ItemTable
-        lateinit var subArchiveSetList: MutableList<ArchiveSet>
-    }
+    var itemList: ItemTable
+    var subArchiveSetList: MutableList<ArchiveSet>
 
     init {
         itemList = mutableMapOf()
