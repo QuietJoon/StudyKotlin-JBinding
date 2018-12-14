@@ -1,7 +1,7 @@
 class TheTable (
-    val theArchiveSets: Array<ArchiveSet>,
-    var theItemTable: ItemRecordTable,
-    var theItemList: ItemTable
+      var theArchiveSets: Array<ArchiveSet>
+    , var theItemTable: ItemRecordTable
+    , var theItemList: ItemTable
 ) {
     companion object {
         var ignoringList: IgnoringList? = null
@@ -24,18 +24,18 @@ class TheTable (
 }
 
 data class ItemKey (
-    val dataCRC: Int,
-    val dataSize: DataSize,
-    val dupCount: Int
+      val dataCRC: Int
+    , val dataSize: DataSize
+    , val dupCount: Int
 )
 
 class ItemRecord (
-    val dataCRC: Int,
-    val dataSize: DataSize,
-    val modifiedDate: Date,
-    val name: Name,
-    val existance: Array<Item>,
-    val isArchive: Boolean
+      val dataCRC: Int
+    , val dataSize: DataSize
+    , val modifiedDate: Date
+    , val name: Name
+    , val existance: Array<Item>
+    , val isArchive: Boolean
 ) {
     fun generateItemKey() = ItemKey(dataCRC, dataSize, 1)
     fun generateItemKey(dupCount: Int) = ItemKey(dataCRC, dataSize, dupCount)

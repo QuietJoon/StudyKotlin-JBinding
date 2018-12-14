@@ -3,13 +3,13 @@ import util.getFullName
 
 
 class Item (
-    val dataCRC: Int,
-    val dataSize: DataSize,
-    val modifiedDate: Date,
-    val path: JointPath,
-    val parentID: ItemID?,
-    val idInArchive: ItemIndex,
-    val parentArchiveSetID: ArchiveSetID
+      val dataCRC: Int
+    , val dataSize: DataSize
+    , val modifiedDate: Date
+    , val path: JointPath
+    , val parentID: ItemID
+    , val idInArchive: ItemIndex
+    , val parentArchiveSetID: ArchiveSetID
 ) {
     val id: ItemID
 
