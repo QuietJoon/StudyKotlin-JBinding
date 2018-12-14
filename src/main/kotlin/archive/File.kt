@@ -16,13 +16,11 @@ class ArchiveAndStream (val inArchive: IInArchive, var randomAccess: RandomAcces
     fun isMulti() = archiveCallback != null
 
     fun close() {
-        if (this.inArchive != null) {
-            try {
-                this.inArchive.close()
-            } catch (e: SevenZipException) {
-                System.err.println("Error closing archive: $e")
-                throw e
-            }
+        try {
+            this.inArchive.close()
+        } catch (e: SevenZipException) {
+            System.err.println("Error closing archive: $e")
+            throw e
         }
         if (this.isSingle()) {
             try {
@@ -108,12 +106,11 @@ class ArchiveOpenVolumeCallback : IArchiveOpenVolumeCallback, IArchiveOpenCallba
     private var name: String? = null
 
     @Throws(SevenZipException::class)
-    override fun getProperty(propID: PropID): Any? {
+    override fun getProperty(propID: PropID) =
         when (propID) {
-            PropID.NAME -> return name
+            PropID.NAME -> name
+            else -> null
         }
-        return null
-    }
 
     @Throws(SevenZipException::class)
     override fun getStream(filename: String): IInStream? {

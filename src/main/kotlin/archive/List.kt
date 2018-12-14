@@ -6,7 +6,7 @@ import util.isArchive
 
 fun listItems(ans: ArchiveAndStream) {
     // Getting simple interface of the archive inArchive
-    val simpleInArchive = ans.inArchive!!.getSimpleInterface()
+    val simpleInArchive = ans.inArchive.getSimpleInterface()
     val theSize = simpleInArchive.archiveItems.size
 
     println("Archive item size: $theSize")
@@ -31,7 +31,7 @@ fun listItems(ans: ArchiveAndStream) {
 }
 
 fun getNestedArchivesIDArray(ans: ArchiveAndStream): IntArray {
-    val simpleInArchive = ans.inArchive!!.getSimpleInterface()
+    val simpleInArchive = ans.inArchive.getSimpleInterface()
     var idList = mutableListOf<Int>()
 
     for (item in simpleInArchive.archiveItems) {
