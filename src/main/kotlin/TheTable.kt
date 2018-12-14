@@ -37,7 +37,7 @@ class ItemRecord (
     , val modifiedDate: Date
     , val path: Path
     , val existance: Array<ItemID?>
-    , val isArchive: Boolean
+    , val isArchive: Boolean? // null when exe is not sure
 ) {
 
     fun getFullName() = path.getFullName()
