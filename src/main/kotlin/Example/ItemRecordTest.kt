@@ -18,7 +18,7 @@ fun main (args: Array<String>) {
         archiveSetList.add(archiveSet)
     }
 
-    val theIgnoringListPath = "R:\\TestArchives\\IgnoringList.20181214.txt"
+    val theIgnoringListPath = "U:\\Kazuki\\AD\\IgnoringList.20181214.txt"
     val theIgnoringList = readIgnoringList(theIgnoringListPath)
     printIgnoringListWithLevel(theIgnoringList)
 
