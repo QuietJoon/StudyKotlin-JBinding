@@ -4,7 +4,7 @@ import net.sf.sevenzipjbinding.PropID
 import util.isArchive
 
 
-fun listItems(ans: ArchiveAndStream) {
+fun printItemList(ans: ArchiveAndStream) {
     val simpleInArchive = ans.inArchive.getSimpleInterface()
     val theSize = simpleInArchive.archiveItems.size
 
@@ -30,7 +30,7 @@ fun listItems(ans: ArchiveAndStream) {
 }
 
 
-fun listItemsByIDs(ans: ArchiveAndStream, ids: IntArray) {
+fun printItemListByIDs(ans: ArchiveAndStream, ids: IntArray) {
     if ( !ids.isEmpty() ) {
         val simpleInArchive = ans.inArchive.getSimpleInterface()
 
