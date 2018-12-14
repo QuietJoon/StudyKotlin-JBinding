@@ -31,23 +31,27 @@ fun listItems(ans: ArchiveAndStream) {
 
 
 fun listItemsByIDs(ans: ArchiveAndStream, ids: IntArray) {
-    val simpleInArchive = ans.inArchive.getSimpleInterface()
+    if ( !ids.isEmpty() ) {
+        val simpleInArchive = ans.inArchive.getSimpleInterface()
 
-    println("  ID  |   CRC    |   Size    | Compr.Sz. | Filename")
-    println("-----------------+-----------+-----------+---------")
+        println("  ID  |   CRC    |   Size    | Compr.Sz. | Filename")
+        println("-----------------+-----------+-----------+---------")
 
-    for ( idx in ids ) {
-        val item = simpleInArchive.getArchiveItem(idx)
-        println(
-            String.format(
-                " %4d | %08X | %9s | %9s | %s",
-                item.itemIndex,
-                item.crc,
-                item.size,
-                item.packedSize,
-                item.path
+        for (idx in ids) {
+            val item = simpleInArchive.getArchiveItem(idx)
+            println(
+                String.format(
+                    " %4d | %08X | %9s | %9s | %s",
+                    item.itemIndex,
+                    item.crc,
+                    item.size,
+                    item.packedSize,
+                    item.path
+                )
             )
-        )
+        }
+    } else {
+        println("No Item for listing")
     }
 }
 
