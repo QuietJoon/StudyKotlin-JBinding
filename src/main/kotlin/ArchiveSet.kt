@@ -5,9 +5,15 @@ class ArchiveSet (
     , val archiveSetID: ArchiveSetID
     , val superArchiveSetID: ArchiveSetID
     , val inArchive: IInArchive
-    , var itemList: ItemTable
-    , var subArchiveSetList: List<ArchiveSet>
 ) {
+    companion object {
+        lateinit var itemList: ItemTable
+        lateinit var subArchiveSetList: MutableList<ArchiveSet>
+    }
+    init {
+        itemList = mutableMapOf()
+        subArchiveSetList = mutableListOf()
+    }
 }
 
 typealias ArchiveSetID = Int
