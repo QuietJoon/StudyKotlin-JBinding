@@ -25,7 +25,8 @@ class TheTable (
 
 data class ItemKey (
     val dataCRC: Int,
-    val dataSize: DataSize
+    val dataSize: DataSize,
+    val dupCount: Int
 )
 
 class ItemRecord (
@@ -36,7 +37,8 @@ class ItemRecord (
     val existance: Array<Item>,
     val isArchive: Boolean
 ) {
-    fun generateItemKey() = ItemKey(dataCRC, dataSize)
+    fun generateItemKey() = ItemKey(dataCRC, dataSize, 1)
+    fun generateItemKey(dupCount: Int) = ItemKey(dataCRC, dataSize, dupCount)
 }
 
 typealias ItemRecordTable = MutableMap<ItemKey,ItemRecord>
