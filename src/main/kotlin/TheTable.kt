@@ -4,7 +4,7 @@ class TheTable (
     var theItemList: ItemTable
 ) {
     companion object {
-        var ignoringList: ItemRecordTable? = null
+        var ignoringList: IgnoringList? = null
     }
 
     val archiveSetNum: Int
@@ -13,8 +13,14 @@ class TheTable (
         archiveSetNum = theArchiveSets.size
     }
 
-    fun setIgnoringList(records: ItemRecordTable) { ignoringList = records }
-    fun getIgnoringList(): ItemRecordTable? = ignoringList
+    fun setIgnoringList(newIgnoringList: IgnoringList) { ignoringList = newIgnoringList }
+    fun getIgnoringList(): IgnoringList {
+        if (ignoringList == null) {
+            error("[ERROR]<getIgnoringList>: ignoringList is not initialized")
+        } else {
+            return ignoringList as IgnoringList
+        }
+    }
 }
 
 data class ItemKey (
