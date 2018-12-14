@@ -2,6 +2,8 @@
 Copy from https://gist.github.com/borisbrodski/6120309
  */
 
+import java.io.File
+
 import archive.*
 
 fun main(args: Array<String>) {
@@ -21,6 +23,8 @@ fun main(args: Array<String>) {
     for (aPair in inputList) {
         try {
             println(aPair.first)
+            println("Remove directory: $aPair.second")
+            File(aPair.second).deleteRecursively()
             var anANS = openArchive(aPair.first)
             val ids = getNestedArchivesIDArray(anANS)
             val extract = Extract(aPair.first, aPair.second, test, filter)

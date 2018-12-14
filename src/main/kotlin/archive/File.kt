@@ -1,11 +1,12 @@
 package archive
 
-import net.sf.sevenzipjbinding.*
-import net.sf.sevenzipjbinding.impl.RandomAccessFileInStream
 import java.io.IOException
 import java.io.RandomAccessFile
 import java.io.FileNotFoundException
 import java.util.HashMap
+
+import net.sf.sevenzipjbinding.*
+import net.sf.sevenzipjbinding.impl.RandomAccessFileInStream
 
 import util.*
 
@@ -13,15 +14,42 @@ import util.*
 class ArchiveAndStream (val inArchive: IInArchive, var randomAccess: RandomAccessFile?, var archiveCallback: ArchiveOpenVolumeCallback?) {
     fun isSingle() = randomAccess != null
     fun isMulti() = archiveCallback != null
+
+    fun close() {
+        if (this.inArchive != null) {
+            try {
+                this.inArchive.close()
+            } catch (e: SevenZipException) {
+                System.err.println("Error closing archive: $e")
+                throw e
+            }
+        }
+        if (this.isSingle()) {
+            try {
+                this.randomAccess?.close()
+            } catch (e: IOException) {
+                System.err.println("Error closing file: $e")
+                throw e
+            }
+        } else {
+            try {
+                this.archiveCallback?.close()
+            } catch (e: IOException) {
+                System.err.println("Error closing file: $e")
+                throw e
+            }
+        }
+    }
 }
+
 
 fun openArchive(aFilePath: String): ArchiveAndStream {
     return if (aFilePath.isSingleVolume())
         openSingleVolumeArchive(aFilePath)
-        else openMultiVolumeArchive(aFilePath)
+    else openMultiVolumeArchive(aFilePath)
 }
 
-fun openSingleVolumeArchive(aFilePath: String): ArchiveAndStream {
+private fun openSingleVolumeArchive(aFilePath: String): ArchiveAndStream {
     println("Open single volume with $aFilePath")
 
     var randomAccessFile: RandomAccessFile? = null
@@ -48,7 +76,7 @@ fun openSingleVolumeArchive(aFilePath: String): ArchiveAndStream {
 }
 
 
-fun openMultiVolumeArchive(aFilePath : String): ArchiveAndStream {
+private fun openMultiVolumeArchive(aFilePath : String): ArchiveAndStream {
     println("Open multi-volume with $aFilePath")
 
     var archiveOpenVolumeCallback: ArchiveOpenVolumeCallback? = null
@@ -63,7 +91,7 @@ fun openMultiVolumeArchive(aFilePath : String): ArchiveAndStream {
     }
     try {
         inArchive = SevenZip.openInArchive(
-            null, inStream!!,
+            null, inStream,
             archiveOpenVolumeCallback
         )
     } catch (e: Exception) {
@@ -72,32 +100,6 @@ fun openMultiVolumeArchive(aFilePath : String): ArchiveAndStream {
         throw e
     }
     return ArchiveAndStream(inArchive, null, archiveOpenVolumeCallback)
-}
-
-fun closeArchiveAndStream(anANS: ArchiveAndStream) {
-    if (anANS.inArchive != null) {
-        try {
-            anANS.inArchive.close()
-        } catch (e: SevenZipException) {
-            System.err.println("Error closing archive: $e")
-            throw e
-        }
-    }
-    if (anANS.isSingle()) {
-        try {
-            anANS.randomAccess?.close()
-        } catch (e: IOException) {
-            System.err.println("Error closing file: $e")
-            throw e
-        }
-    } else {
-        try {
-            anANS.archiveCallback?.close()
-        } catch (e: IOException) {
-            System.err.println("Error closing file: $e")
-            throw e
-        }
-    }
 }
 
 class ArchiveOpenVolumeCallback : IArchiveOpenVolumeCallback, IArchiveOpenCallback {
@@ -142,7 +144,6 @@ class ArchiveOpenVolumeCallback : IArchiveOpenVolumeCallback, IArchiveOpenCallba
         } catch (e: Exception) {
             throw RuntimeException(e)
         }
-
     }
 
     @Throws(IOException::class)

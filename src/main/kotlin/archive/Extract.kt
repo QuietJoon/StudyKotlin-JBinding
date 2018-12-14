@@ -183,7 +183,7 @@ class Extract internal constructor(
 
             throw ExtractionException(message, e)
         } finally {
-            closeArchiveAndStream(anANS)
+            anANS.close()
         }
     }
 
@@ -209,7 +209,7 @@ class Extract internal constructor(
 
             throw ExtractionException(message, e)
         } finally {
-            closeArchiveAndStream(anANS)
+            anANS.close()
         }
     }
 
