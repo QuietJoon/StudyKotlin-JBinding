@@ -1,5 +1,6 @@
 package archive
 
+import RealPath
 import java.io.IOException
 import java.io.RandomAccessFile
 import java.io.FileNotFoundException
@@ -41,13 +42,13 @@ class ArchiveAndStream (val inArchive: IInArchive, var randomAccess: RandomAcces
 }
 
 
-fun openArchive(aFilePath: String): ArchiveAndStream {
+fun openArchive(aFilePath: RealPath): ArchiveAndStream {
     return if (aFilePath.isSingleVolume())
         openSingleVolumeArchive(aFilePath)
     else openMultiVolumeArchive(aFilePath)
 }
 
-private fun openSingleVolumeArchive(aFilePath: String): ArchiveAndStream {
+private fun openSingleVolumeArchive(aFilePath: RealPath): ArchiveAndStream {
     println("Open single volume with $aFilePath")
 
     var randomAccessFile: RandomAccessFile? = null
@@ -74,7 +75,7 @@ private fun openSingleVolumeArchive(aFilePath: String): ArchiveAndStream {
 }
 
 
-private fun openMultiVolumeArchive(aFilePath : String): ArchiveAndStream {
+private fun openMultiVolumeArchive(aFilePath : RealPath): ArchiveAndStream {
     println("Open multi-volume with $aFilePath")
 
     var archiveOpenVolumeCallback: ArchiveOpenVolumeCallback? = null
@@ -102,8 +103,8 @@ private fun openMultiVolumeArchive(aFilePath : String): ArchiveAndStream {
 
 class ArchiveOpenVolumeCallback : IArchiveOpenVolumeCallback, IArchiveOpenCallback {
 
-    private val openedRandomAccessFileList = HashMap<String, RandomAccessFile>()
-    private var name: String? = null
+    private val openedRandomAccessFileList = HashMap<RealPath, RandomAccessFile>()
+    private var name: RealPath? = null
 
     @Throws(SevenZipException::class)
     override fun getProperty(propID: PropID) =
@@ -113,7 +114,7 @@ class ArchiveOpenVolumeCallback : IArchiveOpenVolumeCallback, IArchiveOpenCallba
         }
 
     @Throws(SevenZipException::class)
-    override fun getStream(filename: String): IInStream? {
+    override fun getStream(filename: RealPath): IInStream? {
         try {
             // We use caching of opened streams, so check cache first
             var randomAccessFile: RandomAccessFile? = openedRandomAccessFileList[filename]

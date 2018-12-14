@@ -5,9 +5,9 @@ import archive.ArchiveAndStream
 import util.*
 
 data class RawFileAnalyzed (
-    val paths : String
+    val paths : RealPath
     , val colorName: String
-    , val firstOrSinglePaths: Array<String>)
+    , val firstOrSinglePaths: Array<RealPath>)
 
 fun rawFileAnalyze(files: List<File>): RawFileAnalyzed {
     val paths = generateStringFromFileList(files)

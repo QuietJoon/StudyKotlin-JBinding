@@ -1,6 +1,6 @@
 import util.*
 
-fun getFirstOrSingleArchivePaths(paths: Array<String>) : Array<String> {
+fun getFirstOrSingleArchivePaths(paths: Array<Path>) : Array<Path> {
     var firstOrSingle: MutableList<String> = mutableListOf()
     for ( aPath in paths ) {
         if ( aPath.isArchive() ) {

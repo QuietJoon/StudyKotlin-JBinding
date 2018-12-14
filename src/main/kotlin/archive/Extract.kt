@@ -1,5 +1,6 @@
 package archive
 
+import Path
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -11,8 +12,8 @@ import java.util.regex.Pattern
 import net.sf.sevenzipjbinding.*
 
 class Extract internal constructor(
-    private val archive: String,
-    private val outputDirectory: String,
+    private val archive: Path,
+    private val outputDirectory: Path,
     private val test: Boolean,
     filter: String?
 ) {
@@ -51,7 +52,7 @@ class Extract internal constructor(
                 return null
             }
 
-            var path = inArchive.getProperty(index, PropID.PATH) as String
+            var path = inArchive.getProperty(index, PropID.PATH) as Path
             path = path.replace("\\s*\\\\".toRegex(), "\\\\").trim { it <= ' ' }
             file = File(outputDirectoryFile, path)
             if (isFolder) {
@@ -108,7 +109,7 @@ class Extract internal constructor(
             extractOperationResult: ExtractOperationResult
         ) {
             closeOutputStream()
-            val path = inArchive.getProperty(index, PropID.PATH) as String
+            val path = inArchive.getProperty(index, PropID.PATH) as Path
             if (extractOperationResult != ExtractOperationResult.OK) {
                 throw SevenZipException("Invalid file: $path")
             }
@@ -225,7 +226,7 @@ class Extract internal constructor(
 
         val pattern = Pattern.compile(regex)
         for (i in 0 until numberOfItems) {
-            val path = inArchive.getProperty(i, PropID.PATH) as String
+            val path = inArchive.getProperty(i, PropID.PATH) as Path
             val fileName = File(path).name
             if (pattern.matcher(fileName).matches()) {
                 idList.add(i)
