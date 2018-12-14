@@ -21,13 +21,13 @@ fun printIgnoringList(ignoringList: IgnoringList) {
 
 fun printIgnoringListWithLevel(ignoringList: IgnoringList) {
 
-    println("    CRC     |    Size     |          Modified Date         | Filename")
-    println("------------+-------------+--------------------------------+---------")
+    println("     CRC     |     Size     |           Modified Date         |  Filename")
+    println("-------------+--------------+---------------------------------+----------")
 
     for (item in ignoringList.ignoringList) {
         println(
             String.format(
-                " %s%08X | %s%9s | %s%28s | %s%s",
+                " %s %08X | %s %9s | %s %28s | %s %s",
                 item.itemCRC.level.toShortString(),
                 item.itemCRC.datum,
                 item.itemSize.level.toShortString(),
