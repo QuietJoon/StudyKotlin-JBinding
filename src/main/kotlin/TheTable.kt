@@ -20,7 +20,7 @@ class TheTable (
         if (ignoringList == null) {
             error("[ERROR]<getIgnoringList>: ignoringList is not initialized")
         } else {
-            return ignoringList as IgnoringList
+            return ignoringList
         }
     }
 }

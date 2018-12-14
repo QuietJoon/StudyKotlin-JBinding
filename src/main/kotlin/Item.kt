@@ -1,5 +1,6 @@
 import net.sf.sevenzipjbinding.simple.ISimpleInArchiveItem
-import util.getFullName
+
+import util.*
 
 
 class Item (
