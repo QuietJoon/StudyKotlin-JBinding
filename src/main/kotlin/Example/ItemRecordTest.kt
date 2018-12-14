@@ -14,7 +14,7 @@ fun main (args: Array<String>) {
     val archiveSetList = mutableListOf<ArchiveSet>()
     theArchivePaths.forEachIndexed() { idx, archivePath ->
         val ans = openArchive(archivePath)
-        val archiveSet = ArchiveSet(arrayOf(archivePath),idx+1,rootArchiveSetID,ans.inArchive)
+        val archiveSet = ArchiveSet(arrayOf(archivePath),idx+1,rootArchiveSetID,ans.inArchive,mutableMapOf(), emptyList())
         archiveSetList.add(archiveSet)
     }
 
