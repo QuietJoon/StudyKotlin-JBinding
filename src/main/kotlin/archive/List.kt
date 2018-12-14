@@ -1,6 +1,5 @@
 package archive
 
-import net.sf.sevenzipjbinding.PropID
 import util.isArchive
 
 
@@ -12,17 +11,18 @@ fun printItemList(ans: ArchiveAndStream) {
 
     println(String.format("Archive Format: %s", ans.inArchive.archiveFormat.toString()))
 
-    println("  ID  |   CRC    |   Size    | Compr.Sz. | Filename")
-    println("-----------------+-----------+-----------+---------")
+    println("  ID  |   CRC    |   Size    | Compr.Sz. |         Modified Date        | Filename")
+    println("-----------------+-----------+-----------+------------------------------+---------")
 
     for (item in simpleInArchive.archiveItems) {
         println(
             String.format(
-                " %4d | %08X | %9s | %9s | %s",
+                " %4d | %08X | %9s | %9s | %28s | %s",
                 item.itemIndex,
                 item.crc,
                 item.size,
                 item.packedSize,
+                item.lastWriteTime.toString(),
                 item.path
             )
         )
@@ -34,18 +34,19 @@ fun printItemListByIDs(ans: ArchiveAndStream, ids: IntArray) {
     if ( !ids.isEmpty() ) {
         val simpleInArchive = ans.inArchive.getSimpleInterface()
 
-        println("  ID  |   CRC    |   Size    | Compr.Sz. | Filename")
-        println("-----------------+-----------+-----------+---------")
+        println("  ID  |   CRC    |   Size    | Compr.Sz. |         Modified Date        | Filename")
+        println("-----------------+-----------+-----------+------------------------------+---------")
 
         for (idx in ids) {
             val item = simpleInArchive.getArchiveItem(idx)
             println(
                 String.format(
-                    " %4d | %08X | %9s | %9s | %s",
+                    " %4d | %08X | %9s | %9s | %28s | %s",
                     item.itemIndex,
                     item.crc,
                     item.size,
                     item.packedSize,
+                    item.lastWriteTime.toString(),
                     item.path
                 )
             )
