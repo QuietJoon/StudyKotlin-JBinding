@@ -66,12 +66,21 @@ class TheTable (
 }
 
 data class ItemKey (
-      val dataCRC: Int
+      val isArchive: Boolean?
+    , val dataCRC: Int
     , val dataSize: DataSize
     , val dupCount: Int
-) {
+) : Comparable<ItemKey> {
+    override fun compareTo(other: ItemKey): Int =
+        if (this.isArchive == other.isArchive) 0
+        else when (this.isArchive) {
+            true -> -1
+            false -> 1
+            null -> if (other.isArchive!!) -1 else 1
+        }
     override fun toString(): String {
         val stringBuilder = StringBuilder()
+        stringBuilder.append(if (isArchive==null) "? " else if (isArchive) "A " else "F ")
         stringBuilder.append(String.format("%08X", this.dataCRC))
         stringBuilder.append("  ")
         stringBuilder.append(String.format("%8d", this.dataSize))

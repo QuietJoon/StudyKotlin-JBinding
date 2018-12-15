@@ -25,8 +25,8 @@ class Item (
 
     fun getFullName() = path.last().getFullName()
 
-    fun generateItemKey() = ItemKey(dataCRC, dataSize, 1)
-    fun generateItemKey(dupCount: Int) = ItemKey(dataCRC, dataSize, dupCount)
+    fun generateItemKey() = ItemKey(path.last().isArchiveSensitively(),dataCRC, dataSize, 1)
+    fun generateItemKey(dupCount: Int) = ItemKey(path.last().isArchiveSensitively(),dataCRC, dataSize, dupCount)
 
 
     fun makeItemRecordFromItem(archiveSetNum: Int, rootArchiveSetID: ArchiveSetID,theArchiveSetID: ArchiveSetID): ItemRecord {
