@@ -1,3 +1,9 @@
+buildscript {
+    dependencies {
+        classpath 'com.google.gradle:osdetector-gradle-plugin:1.6.0'
+    }
+}
+
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.3.11'
 }
@@ -8,9 +14,22 @@ repositories {
     mavenCentral()
 }
 
+apply plugin: 'com.google.osdetector'
+
+ext.platform = osdetector.os == 'osx' ? 'mac' : osdetector.os == 'windows' ? 'win' : osdetector.os
+
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile "org.jetbrains.kotlin:kotlin-reflect"
+    compile "org.openjfx:javafx-base:11.0.1:$platform"
+    compile "org.openjfx:javafx-graphics:11.0.1:$platform"
+    compile "org.openjfx:javafx-controls:11.0.1:$platform"
+    compile "org.openjfx:javafx-fxml:11.0.1:$platform"
+    // Does not work with 16.02
+    //compile "net.sf.sevenzipjbinding:sevenzipjbinding:9.20-2.00beta"
+    //compile "net.sf.sevenzipjbinding:sevenzipjbinding-all-platforms:9.20-2.00beta"
+    compile files("JAVALIB_LOCAL/sevenzipjbinding-16.02-2.01beta-20170914-Windows-amd64/lib/sevenzipjbinding.jar")
+    compile files("JAVALIB_LOCAL/sevenzipjbinding-16.02-2.01beta-20170914-Windows-amd64/lib/sevenzipjbinding-Windows-amd64.jar")
 }
 
 compileKotlin {
