@@ -1,3 +1,4 @@
+import net.sf.sevenzipjbinding.IInArchive
 import util.getFullName
 import java.util.*
 
@@ -127,6 +128,27 @@ class TheTable (
         theItemTable.forEach {
             if (!it.value.isFilled)
                 if (it.key.isArchive != false) return null else it.key
+        }
+        return null
+    }
+
+    fun getInArchive(archiveSetID: ArchiveSetID): IInArchive {
+        for ( anArchiveSet in theArchiveSets) {
+            val result = getInArchiveSub(archiveSetID, anArchiveSet)
+            if ( result != null ) {
+                return result
+                break
+            }
+        }
+        error("[ERROR]<getInArchive>: Couldn't find InArchive($archiveSetID)")
+    }
+
+    fun getInArchiveSub(archiveSetID: ArchiveSetID, anArchiveSet: ArchiveSet): IInArchive? {
+        if (anArchiveSet.archiveSetID == archiveSetID)
+            return anArchiveSet.inArchive
+        for ( subArchiveSet in theArchiveSets ) {
+            val result = getInArchiveSub(archiveSetID, subArchiveSet)
+            if (result != null) return result
         }
         return null
     }
