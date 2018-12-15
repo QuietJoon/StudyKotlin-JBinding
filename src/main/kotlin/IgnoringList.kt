@@ -82,10 +82,6 @@ fun ignoringListFromString(content: List<String>): IgnoringList {
     for (line in content) {
         val tokens = line.split("|")
 
-        tokens.forEachIndexed() { idx, token ->
-            println("$idx: $token")
-        }
-
         val itemCRCL = Level.valueOf(tokens[0])
         val itemCRCV = tokens[1].toInt()
         val itemSIZEL = Level.valueOf(tokens[2])
