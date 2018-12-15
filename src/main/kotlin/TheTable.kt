@@ -1,12 +1,9 @@
 import util.getFullName
 
+
 class TheTable (
       val theArchiveSets: Array<ArchiveSet>
 ) {
-    companion object {
-        lateinit var ignoringList: IgnoringList
-    }
-
     val theItemTable: ItemRecordTable = mutableMapOf()
     val theItemList: ItemTable = mutableMapOf()
     val archiveSetNum: Int
@@ -15,13 +12,8 @@ class TheTable (
         archiveSetNum = theArchiveSets.size
     }
 
-    fun setIgnoringList(newIgnoringList: IgnoringList) { ignoringList = newIgnoringList }
-    fun getIgnoringList(): IgnoringList {
-        if (ignoringList == null) {
-            error("[ERROR]<getIgnoringList>: ignoringList is not initialized")
-        } else {
-            return ignoringList
-        }
+    fun setupTheTable() {
+        // Initialize theItemTable and theItemList
     }
 }
 
