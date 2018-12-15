@@ -8,9 +8,17 @@ class TheTable (
     val theItemTable: ItemRecordTable = sortedMapOf()
     val theItemList: ItemTable = mutableMapOf()
     val archiveSetNum: Int
+    val tableInstance: Int
+
+    companion object {
+        var tableInstanceSerial = 1
+    }
 
     init {
         archiveSetNum = theArchiveSets.size
+        tableInstance = tableInstanceSerial
+        tableInstanceSerial++
+
         for( anArchiveSet in theArchiveSets ) {
             val ids = anArchiveSet.getThisIDs()
             for ( idPair in ids) {
