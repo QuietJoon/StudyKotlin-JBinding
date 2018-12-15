@@ -48,7 +48,7 @@ class ArchiveSet (
     fun getThisIDs(): Array<ItemIndices> {
         val aList = mutableListOf<ItemIndices>()
         for ( itemPair in itemList ) {
-            val item = itemPair.toPair().second
+            val item = itemPair.value
             aList.add(Triple(item.parentArchiveSetID,item.idInArchive,rootArchiveSetID))
         }
         return aList.toTypedArray()

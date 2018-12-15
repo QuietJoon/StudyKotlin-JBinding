@@ -30,8 +30,8 @@ fun main (args: Array<String>) {
         printItemList(anArchiveSet, anArchiveSet.getThisIDs())
 
     for ( anItemRecord in xTable.theItemTable ) {
-        print(anItemRecord.toPair().first.toString())
-        println(anItemRecord.toPair().second.toString())
+        print(anItemRecord.key.toString())
+        println(anItemRecord.value.toString())
     }
 
     for (anKey in xTable.theItemTable.keys)
@@ -63,8 +63,8 @@ fun main (args: Array<String>) {
         printItemList(anArchiveSet, anArchiveSet.getThisIDs())
 
     for ( anItemRecord in theTable.theItemTable ) {
-        print(anItemRecord.toPair().first.toString())
-        println(anItemRecord.toPair().second.toString())
+        print(anItemRecord.key.toString())
+        println(anItemRecord.value.toString())
     }
 
     for (anKey in theTable.theItemTable.keys)
