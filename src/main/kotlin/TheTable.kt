@@ -64,6 +64,14 @@ class TheTable (
         this.forEach{ if(it==null) return false }
         return true
     }
+
+    fun getFirstItemKey(): ItemKey? {
+        theItemTable.forEach {
+            if (!it.value.isFilled)
+                if (it.key.isArchive != false) return null else it.key
+        }
+        return null
+    }
 }
 
 data class ItemKey (
