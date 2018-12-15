@@ -10,6 +10,7 @@ import net.sf.sevenzipjbinding.*
 import net.sf.sevenzipjbinding.impl.RandomAccessFileInStream
 
 import util.*
+import java.io.File
 
 
 class ArchiveAndStream (val inArchive: IInArchive, var randomAccess: RandomAccessFile?, var archiveCallback: ArchiveOpenVolumeCallback?) {
@@ -43,6 +44,13 @@ class ArchiveAndStream (val inArchive: IInArchive, var randomAccess: RandomAcces
 
 
 fun openArchive(aFilePath: RealPath): ArchiveAndStream {
+    if (!File(aFilePath).exists()) {
+        throw ExtractionException("Archive file not found: $aFilePath")
+    }
+    if (!File(aFilePath).canRead()) {
+        println("Can't read archive file: $aFilePath")
+    }
+
     return if (aFilePath.isSingleVolume())
         openSingleVolumeArchive(aFilePath)
     else openMultiVolumeArchive(aFilePath)

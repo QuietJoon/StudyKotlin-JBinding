@@ -133,7 +133,7 @@ class Extract internal constructor(
 
     @Throws(ExtractionException::class)
     internal fun extractEverything() {
-        val anAns = checkArchiveFile()
+        val anAns = openArchive(archive)
         prepareOutputDirectory()
         extractEverything(anAns.inArchive)
         anAns.close()
@@ -149,18 +149,6 @@ class Extract internal constructor(
                 throw ExtractionException("Output directory not empty: $outputDirectory")
             }
         }
-    }
-
-    @Throws(ExtractionException::class)
-    private fun checkArchiveFile(): ArchiveAndStream {
-        if (!File(archive).exists()) {
-            throw ExtractionException("Archive file not found: $archive")
-        }
-        if (!File(archive).canRead()) {
-            println("Can't read archive file: $archive")
-        }
-
-        return openArchive(archive)
     }
 
     @Throws(ExtractionException::class)
