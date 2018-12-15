@@ -31,6 +31,17 @@ fun String.isArchive(): Boolean {
     return false
 }
 
+fun String.isArchiveSensitively(): Boolean? {
+    val archiveExts: Array<String> = arrayOf("rar", "zip")
+    for ( aExt in archiveExts ) {
+        if ( this.getExtension() == aExt ) {
+            return true
+        }
+    }
+    if (this.getExtension() == "exe") return null
+    return false
+}
+
 fun String.isEXE() = this.getExtension() == "exe"
 
 /*

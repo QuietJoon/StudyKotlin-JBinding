@@ -31,4 +31,7 @@ fun main (args: Array<String>) {
     for ( anArchiveSet in theTable.theArchiveSets) {
         printItemList(anArchiveSet, anArchiveSet.getThisIDs())
     }
+
+    for ( anItemRecord in theTable.theItemTable ) println(anItemRecord.toPair().second.toString())
+
 }

@@ -34,6 +34,7 @@ class Item (
         , modifiedDate = this.modifiedDate
         , path = this.path.last()
         , existance = initExistance(archiveSetSize)
+        , isFilled = false
         , isArchive = checkArchiveName(path.last().getFullName())
     )
 
