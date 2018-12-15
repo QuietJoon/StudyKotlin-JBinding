@@ -28,26 +28,19 @@ class Item (
     fun generateItemKey() = ItemKey(dataCRC, dataSize, 1)
     fun generateItemKey(dupCount: Int) = ItemKey(dataCRC, dataSize, dupCount)
 
-    fun generateItemRecord(archiveSetSize: Int) = ItemRecord (
-        dataCRC = this.dataCRC
-        , dataSize = this.dataSize
-        , modifiedDate = this.modifiedDate
-        , path = this.path.last()
-        , existance = initExistance(archiveSetSize)
-        , isFilled = false
-        , isArchive = checkArchiveName(path.last().getFullName())
-    )
 
-    private fun initExistance(archiveSetSize: Int): Array<ItemID?> {
-        var theList: MutableList<ItemID?> = mutableListOf(null)
-        for ( i in 1 .. archiveSetSize) {
-            if (i == parentArchiveSetID) {
-                theList.add(id)
-            } else {
-                theList.add(null)
-            }
-        }
-        return theList.toTypedArray()
+    fun makeItemRecordFromItem(archiveSetNum: Int, rootArchiveSetID: ArchiveSetID,theArchiveSetID: ArchiveSetID): ItemRecord {
+        val existance = arrayOfNulls<ArchiveSetID?>(archiveSetNum)
+        existance[rootArchiveSetID]=theArchiveSetID
+        return ItemRecord(
+            dataCRC = this.dataCRC
+            , dataSize = this.dataSize
+            , modifiedDate = this.modifiedDate
+            , path = this.path.last()
+            , existance = existance
+            , isFilled = false
+            , isArchive = this.path.last().isArchiveSensitively()
+        )
     }
 
     private fun checkArchiveName(fullName: String): Boolean? =

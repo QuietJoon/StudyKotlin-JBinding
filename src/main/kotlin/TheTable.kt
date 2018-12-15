@@ -64,23 +64,6 @@ class TheTable (
         this.forEach{ if(it==null) return false }
         return true
     }
-
-    fun Item.makeItemRecordFromItem(archiveSetNum: Int, rootArchiveSetID: ArchiveSetID,theArchiveSetID: ArchiveSetID): ItemRecord {
-        val existance = mutableListOf<ArchiveSetID?>()
-        for (i in 0.until(archiveSetNum)) {
-            if (i != rootArchiveSetID) existance.add(null)
-            else existance.add(theArchiveSetID)
-        }
-        return ItemRecord(
-          dataCRC = this.dataCRC
-        , dataSize = this.dataSize
-        , modifiedDate = this.modifiedDate
-        , path = this.path.last()
-        , existance = existance.toTypedArray()
-        , isFilled = false
-        , isArchive = this.path.last().isArchiveSensitively()
-        )
-    }
 }
 
 data class ItemKey (
@@ -109,11 +92,7 @@ data class ItemRecord (
     , var isFilled: Boolean
     , val isArchive: Boolean? // null when exe is not sure
 ) {
-
     fun getFullName() = path.getFullName()
-
-    fun generateItemKey() = ItemKey(dataCRC, dataSize, 1)
-    fun generateItemKey(dupCount: Int) = ItemKey(dataCRC, dataSize, dupCount)
 
     override fun toString(): String {
         val stringBuilder = StringBuilder()
