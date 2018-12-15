@@ -68,6 +68,56 @@ class TheTable (
         */
     }
 
+    fun registerAnItemRecord(anArchiveSet: ArchiveSet, idPair: ItemIndices, beforeExistance: Array<ItemID?>) {
+        val anItem = anArchiveSet.inArchive.simpleInterface
+            .getArchiveItem(idPair.second).makeItemFromArchiveItem(
+                anArchiveSet.realArchiveSetPaths
+                , 0
+                , idPair.second
+                , idPair.first
+            )
+        if (theIgnoringList.match(anItem)) {
+            println("Skip: ${anItem.path.last()}")
+            return
+        }
+
+        var aKey = anItem.generateItemKey()
+        val queryItemRecord: ItemRecord? = theItemTable[aKey]
+        if (queryItemRecord == null) {
+            val anItemRecord = anItem.makeItemRecordFromItem(archiveSetNum,idPair.third,idPair.first)
+            theItemTable[aKey] = anItemRecord
+        } else {
+            val newExistance = mergeExistance(queryItemRecord.existance,beforeExistance)
+            theItemTable[aKey]!!.existance = newExistance
+        }
+        if (theItemTable[aKey]!!.existance.isFilled())
+            theItemTable[aKey]!!.isFilled = true
+
+        /*
+        aKey = anItem.generateItemKey()
+        while (true) {
+            val queryItem = theItemList[aKey]
+            if (queryItem != anItem) {
+                aKey = aKey.copy(dupCount = aKey.dupCount + 1)
+                theItemList[aKey] = anItem
+                break
+            }
+        }
+        */
+    }
+
+    fun mergeExistance(a:Array<ItemID?>, b:Array<ItemID?>): Array<ItemID?> {
+        val new = arrayOfNulls<ItemID?>(a.size)
+        for (i in 0.until(a.size)) {
+            if (a[i] != null) {
+                new[i] = a[i]
+            } else if (b[i] != null) {
+                new[i] = b[i]
+            }
+        }
+        return new
+    }
+
     fun Array<ItemID?>.isFilled(): Boolean {
         this.forEach{ if(it==null) return false }
         return true
