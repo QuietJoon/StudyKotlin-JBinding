@@ -68,9 +68,9 @@ fun printItemList(archiveSet: ArchiveSet, itemIDs: Array<Pair<ArchiveSetID,ItemI
     var lastArchiveSetID: ArchiveSetID? = null
     var inArchive: IInArchive? = null
     var itemIndexList: MutableList<Int> = mutableListOf()
-    for (aPair in itemIDs) {
-        val theArchiveSetID = aPair.first
-        val theItemIndex = aPair.second
+    for (idPair in itemIDs) {
+        val theArchiveSetID = idPair.first
+        val theItemIndex = idPair.second
         if (lastArchiveSetID != theArchiveSetID) {
             if (inArchive != null)
                 printItemListByIDs(inArchive, itemIndexList.toIntArray())
