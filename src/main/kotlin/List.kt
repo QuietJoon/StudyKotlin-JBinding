@@ -1,3 +1,4 @@
+import archive.printItemListByIDs
 import net.sf.sevenzipjbinding.IInArchive
 
 
@@ -53,4 +54,34 @@ fun getIDArrayWithoutIgnoringItem(inArchive: IInArchive, ignoringList: IgnoringL
     }
 
     return idList.toIntArray()
+}
+
+fun printItemList(archiveSet: ArchiveSet, itemIDs: Array<Pair<ArchiveSetID,ItemIndex>>) {
+    itemIDs.sortWith(object: Comparator<Pair<ArchiveSetID,ItemIndex>> {
+        override fun compare(a: Pair<Int,Int>, b: Pair<ArchiveSetID,ItemIndex>): Int =
+            if (a.first == b.first)
+                a.second - b.second
+            else a.first - b.first
+    }
+    )
+
+    var lastArchiveSetID: ArchiveSetID? = null
+    var inArchive: IInArchive? = null
+    var itemIndexList: MutableList<Int> = mutableListOf()
+    for (aPair in itemIDs) {
+        val theArchiveSetID = aPair.first
+        val theItemIndex = aPair.second
+        if (lastArchiveSetID != theArchiveSetID) {
+            if (inArchive != null)
+                printItemListByIDs(inArchive, itemIndexList.toIntArray())
+            lastArchiveSetID = theArchiveSetID
+            inArchive = archiveSet.getInArchive(theArchiveSetID)
+            itemIndexList = mutableListOf()
+        }
+        if (inArchive == null)
+            error("[ERROR]<printItemList>: inArchive($theArchiveSetID) found")
+        itemIndexList.add(theItemIndex)
+    }
+    if (inArchive != null)
+        printItemListByIDs(inArchive, itemIndexList.toIntArray())
 }
