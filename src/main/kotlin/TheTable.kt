@@ -1,10 +1,11 @@
 import util.getFullName
+import java.util.*
 
 
 class TheTable (
       val theArchiveSets: Array<ArchiveSet>
 ) {
-    val theItemTable: ItemRecordTable = mutableMapOf()
+    val theItemTable: ItemRecordTable = sortedMapOf()
     val theItemList: ItemTable = mutableMapOf()
     val archiveSetNum: Int
 
@@ -71,12 +72,17 @@ data class ItemKey (
     , val dataSize: DataSize
     , val dupCount: Int
 ) : Comparable<ItemKey> {
+    companion object {
+        val comparator = compareBy(ItemKey::dataCRC, ItemKey::dataCRC, ItemKey::dupCount)
+    }
     override fun compareTo(other: ItemKey): Int =
-        if (this.isArchive == other.isArchive) 0
+        if (this.isArchive == other.isArchive) {
+            comparator.compare(this,other)
+        }
         else when (this.isArchive) {
             true -> -1
             false -> 1
-            null -> if (other.isArchive!!) -1 else 1
+            null -> if (other.isArchive!!) 1 else -1
         }
     override fun toString(): String {
         val stringBuilder = StringBuilder()
@@ -120,4 +126,4 @@ data class ItemRecord (
     }
 }
 
-typealias ItemRecordTable = MutableMap<ItemKey,ItemRecord>
+typealias ItemRecordTable = SortedMap<ItemKey, ItemRecord>
