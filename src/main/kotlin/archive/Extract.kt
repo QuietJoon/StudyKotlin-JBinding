@@ -134,7 +134,8 @@ class Extract internal constructor(
     internal fun extractEverything() {
         val anAns = checkArchiveFile()
         prepareOutputDirectory()
-        extractEverything(anAns)
+        extractEverything(anAns.inArchive)
+        anAns.close()
     }
 
     @Throws(ExtractionException::class)
@@ -162,8 +163,7 @@ class Extract internal constructor(
     }
 
     @Throws(ExtractionException::class)
-    private fun extractEverything(anANS: ArchiveAndStream) {
-        val inArchive: IInArchive = anANS.inArchive
+    private fun extractEverything(inArchive: IInArchive) {
         try {
             var ids: IntArray? = null
             if (filterRegex != null) {
@@ -184,15 +184,11 @@ class Extract internal constructor(
             val message = stringBuilder.toString()
 
             throw ExtractionException(message, e)
-        } finally {
-            anANS.close()
         }
     }
 
     @Throws(ExtractionException::class)
-    fun extractSomething(anANS: ArchiveAndStream, ids: IntArray) {
-        val inArchive: IInArchive = anANS.inArchive
-
+    fun extractSomething(inArchive: IInArchive, ids: IntArray) {
         try {
             inArchive.extract(ids, test, ExtractCallback(inArchive))
         } catch (e: SevenZipException) {
@@ -209,8 +205,6 @@ class Extract internal constructor(
             val message = stringBuilder.toString()
 
             throw ExtractionException(message, e)
-        } finally {
-            anANS.close()
         }
     }
 

@@ -25,7 +25,8 @@ fun main(args: Array<String>) {
             val ids = getNestedArchivesIDArray(anANS.inArchive)
             val extract = Extract(aPair.first, aPair.second, test, filter)
             extract.prepareOutputDirectory()
-            extract.extractSomething(anANS,ids)
+            extract.extractSomething(anANS.inArchive,ids)
+            anANS.close()
             println("Extraction successful")
 
         } catch (e: ExtractionException) {
