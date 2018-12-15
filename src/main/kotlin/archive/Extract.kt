@@ -120,6 +120,7 @@ class Extract internal constructor(
                 when (extractAskMode) {
                     ExtractAskMode.EXTRACT -> println("Extracted $path")
                     ExtractAskMode.TEST -> println("Tested $path")
+                    else -> println("Unknown mode $path")
                 }
             }
         }
