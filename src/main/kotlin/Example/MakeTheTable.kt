@@ -21,12 +21,6 @@ fun main (args: Array<String>) {
         archiveSetList.add(archiveSet)
     }
 
-
-    for ( archiveSet in archiveSetList) {
-        val notIgnoringItemIDArray = getIDArrayWithoutIgnoringItem(archiveSet.inArchive,theIgnoringList)
-        //printItemListByIDs(archiveSet.inArchive, notIgnoringItemIDArray)
-    }
-
     var theTable = TheTable(archiveSetList.toTypedArray())
 
     println(theTable.archiveSetNum)
