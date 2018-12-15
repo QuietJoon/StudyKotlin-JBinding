@@ -12,7 +12,7 @@ fun main (args: Array<String>) {
     )
 
     val archiveSetList = mutableListOf<ArchiveSet>()
-    theArchivePaths.forEachIndexed() { idx, archivePath ->
+    theArchivePaths.forEachIndexed { idx, archivePath ->
         val ans = openArchive(archivePath)
         val archiveSet = ArchiveSet(arrayOf(archivePath),idx,idx,ans.inArchive)
         archiveSetList.add(archiveSet)

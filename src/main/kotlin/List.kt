@@ -46,7 +46,7 @@ fun getIDArrayWithoutIgnoringItem(inArchive: IInArchive, ignoringList: IgnoringL
     val simpleInArchive = inArchive.getSimpleInterface()
     var idList = mutableListOf<Int>()
 
-    simpleInArchive.archiveItems.forEachIndexed() { idx, sItem ->
+    simpleInArchive.archiveItems.forEachIndexed { idx, sItem ->
         val item: Item = sItem.makeItemFromArchiveItem(emptyArray(),0,0,0 )
         if (!ignoringList.match(item)) {
             idList.add(idx)
