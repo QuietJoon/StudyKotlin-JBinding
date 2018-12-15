@@ -53,6 +53,27 @@ class Item (
         if ( fullName.getExtension() == "exe" ) null // Make more logic
         else if ( fullName.isArchive() ) true
         else false
+
+    override fun equals(other: Any?): Boolean {
+        if (other == null || javaClass != other.javaClass) return false
+        val that = other as Item
+        return dataCRC != that.dataCRC &&
+                dataSize != that.dataSize &&
+                modifiedDate != that.modifiedDate &&
+                path != that.path
+    }
+
+    override fun hashCode(): Int {
+        var hash = 1
+        hash = hash * hashPrime + dataCRC.hashCode()
+        hash = hash * hashPrime + dataSize.hashCode()
+        hash = hash * hashPrime + path.hashCode()
+        hash = hash * hashPrime + parentID.hashCode()
+        hash = hash * hashPrime + idInArchive.hashCode()
+        hash = hash * hashPrime + parentArchiveSetID.hashCode()
+        hash = hash * hashPrime + id.hashCode()
+        return hash
+    }
 }
 
 fun ISimpleInArchiveItem.makeItemFromArchiveItem(parentPath: JointPath, parentID: ItemID, idInArchive: ItemID, parentArchiveSetID: ArchiveSetID): Item {
