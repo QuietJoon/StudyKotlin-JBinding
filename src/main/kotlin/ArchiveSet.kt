@@ -3,7 +3,7 @@ import net.sf.sevenzipjbinding.IInArchive
 class ArchiveSet (
       val realArchiveSetPaths: Array<RealPath>
     , val archiveSetID: ArchiveSetID
-    , val superArchiveSetID: ArchiveSetID
+    , val rootArchiveSetID: ArchiveSetID
     , val inArchive: IInArchive
 ) {
     val itemList: ItemTable
@@ -21,5 +21,3 @@ class ArchiveSet (
 
 typealias ArchiveSetID = Int
 typealias ItemTable = MutableMap<ItemKey,Item>
-
-val rootArchiveSetID = 0
