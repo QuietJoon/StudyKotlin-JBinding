@@ -56,9 +56,9 @@ fun getIDArrayWithoutIgnoringItem(inArchive: IInArchive, ignoringList: IgnoringL
     return idList.toIntArray()
 }
 
-fun printItemList(archiveSet: ArchiveSet, itemIDs: Array<Triple<ArchiveSetID,ItemIndex,ArchiveSetID>>) {
-    itemIDs.sortWith(object: Comparator<Triple<ArchiveSetID,ItemIndex,ArchiveSetID>> {
-        override fun compare(a: Triple<ArchiveSetID,ItemIndex,ArchiveSetID>, b: Triple<ArchiveSetID,ItemIndex,ArchiveSetID>): Int =
+fun printItemList(archiveSet: ArchiveSet, itemIDs: Array<ItemIndices>) {
+    itemIDs.sortWith(object: Comparator<ItemIndices> {
+        override fun compare(a: ItemIndices, b: ItemIndices): Int =
             if (a.first == b.first)
                 a.second - b.second
             else a.first - b.first

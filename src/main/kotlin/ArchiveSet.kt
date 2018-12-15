@@ -45,8 +45,8 @@ class ArchiveSet (
         }
     }
 
-    fun getThisIDs(): Array<Triple<ArchiveSetID,ItemIndex,ArchiveSetID>> {
-        val aList = mutableListOf<Triple<ArchiveSetID,ItemIndex,ArchiveSetID>>()
+    fun getThisIDs(): Array<ItemIndices> {
+        val aList = mutableListOf<ItemIndices>()
         for ( itemPair in itemList ) {
             val item = itemPair.toPair().second
             aList.add(Triple(item.parentArchiveSetID,item.idInArchive,rootArchiveSetID))
@@ -73,3 +73,4 @@ class ArchiveSet (
 
 typealias ArchiveSetID = Int
 typealias ItemTable = MutableMap<ItemKey,Item>
+typealias ItemIndices = Triple<ArchiveSetID,ItemIndex,ArchiveSetID>
