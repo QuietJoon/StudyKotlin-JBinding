@@ -1,3 +1,4 @@
 typealias Path = String
-typealias RealPath = String
+typealias RelativePath = Path
+typealias RealPath = Path
 typealias JointPath = Array<Path>

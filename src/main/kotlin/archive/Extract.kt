@@ -10,12 +10,12 @@ import java.util.regex.Pattern
 
 import net.sf.sevenzipjbinding.*
 
-import Path
+import RealPath
 
 
 class Extract internal constructor(
-    private val archive: Path,
-    private val outputDirectory: Path,
+    private val archive: RealPath,
+    private val outputDirectory: RealPath,
     private val test: Boolean,
     filter: String?
 ) {
@@ -54,7 +54,7 @@ class Extract internal constructor(
                 return null
             }
 
-            var path = inArchive.getProperty(index, PropID.PATH) as Path
+            var path = inArchive.getProperty(index, PropID.PATH) as RealPath
             path = path.replace("\\s*\\\\".toRegex(), "\\\\").trim { it <= ' ' }
             file = File(outputDirectoryFile, path)
             if (isFolder) {
@@ -111,7 +111,7 @@ class Extract internal constructor(
             extractOperationResult: ExtractOperationResult
         ) {
             closeOutputStream()
-            val path = inArchive.getProperty(index, PropID.PATH) as Path
+            val path = inArchive.getProperty(index, PropID.PATH) as RealPath
             if (extractOperationResult != ExtractOperationResult.OK) {
                 throw SevenZipException("Invalid file: $path")
             }
@@ -211,7 +211,7 @@ class Extract internal constructor(
 
         val pattern = Pattern.compile(regex)
         for (i in 0 until numberOfItems) {
-            val path = inArchive.getProperty(i, PropID.PATH) as Path
+            val path = inArchive.getProperty(i, PropID.PATH) as RealPath
             val fileName = File(path).name
             if (pattern.matcher(fileName).matches()) {
                 idList.add(i)

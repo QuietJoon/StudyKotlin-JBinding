@@ -4,7 +4,7 @@ import java.util.*
 
 
 class TheTable (
-      val theArchiveSets: Array<ArchiveSet>
+        val theArchiveSets: Array<ArchiveSet>
 ) {
     val theItemTable: ItemRecordTable = sortedMapOf()
     val theItemList: ItemTable = mutableMapOf()
@@ -189,7 +189,7 @@ data class ItemRecord (
       val dataCRC: Int
     , val dataSize: DataSize
     , val modifiedDate: Date
-    , val path: Path
+    , val path: RelativePath
     , var existance: Array<ItemID?>
     , var isFilled: Boolean
     , val isArchive: Boolean? // null when exe is not sure
