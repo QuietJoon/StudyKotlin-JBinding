@@ -20,7 +20,7 @@ fun main (args: Array<String>) {
         xArchiveSetList.add(archiveSet)
     }
 
-    var xTable = TheTable(xArchiveSetList.toTypedArray())
+    var xTable = TheTable(xArchiveSetList.toTypedArray(), "R:\\Debug")
 
     println(xTable.archiveSetNum)
     println(xTable.theItemTable.size)
@@ -52,7 +52,7 @@ fun main (args: Array<String>) {
         archiveSetList.add(archiveSet)
     }
 
-    var theTable = TheTable(archiveSetList.toTypedArray())
+    var theTable = TheTable(archiveSetList.toTypedArray(), "R:\\Debug")
 
     println(theIgnoringList.ignoringList.size)
     println(theTable.archiveSetNum)

@@ -4,7 +4,8 @@ import java.util.*
 
 
 class TheTable (
-        val theArchiveSets: Array<ArchiveSet>
+      val theArchiveSets: Array<ArchiveSet>
+    , val rootOutputDirectory: RealPath
 ) {
     val theItemTable: ItemRecordTable = sortedMapOf()
     val theItemList: ItemTable = mutableMapOf()
