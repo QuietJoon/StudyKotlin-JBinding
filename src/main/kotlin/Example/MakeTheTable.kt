@@ -43,6 +43,7 @@ fun main (args: Array<String>) {
         , "R:\\TestArchives\\ZA1.rar"
         , "R:\\TestArchives\\ZA2.zip"
         , "R:\\TestArchives\\ZA3.zip"
+        , "R:\\TestArchives\\ZA4.rar"
     )
 
     val archiveSetList = mutableListOf<ArchiveSet>()
@@ -67,6 +68,8 @@ fun main (args: Array<String>) {
         println(anItemRecord.value.toString())
     }
 
+/*
     for (anKey in theTable.theItemTable.keys)
         println(anKey.toString())
+*/
 }
