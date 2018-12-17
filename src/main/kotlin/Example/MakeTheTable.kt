@@ -58,14 +58,7 @@ fun main (args: Array<String>) {
         , "H:\\Inad\\ARIA\\[DVDISO] -ARIA- (3 seasons+OVA+α)\\ARIA The NATURAL　vol.01～09\\ARIA2_NA9.rar"
     )
 
-    val archiveSetList = mutableListOf<ArchiveSet>()
-    theArchivePaths.forEachIndexed { idx, archivePath ->
-        val ans = openArchive(archivePath)
-        val archiveSet = ArchiveSet(arrayOf(archivePath),idx,idx,ans)
-        archiveSetList.add(archiveSet)
-    }
-
-    var theTable = TheTable(archiveSetList.toTypedArray(), "R:\\Debug")
+    var theTable = makeTheTable(theArchivePaths, "R:\\Debug")
 
     println(theIgnoringList.ignoringList.size)
     println(theTable.archiveSetNum)
