@@ -51,7 +51,7 @@ class TheTable (
             theItemTable[aKey] = anItemRecord
         } else if (queryItemRecord.existance[idPair.third] == null) {
             val newExistance = queryItemRecord.existance
-            newExistance[idPair.third] = idPair.first
+            newExistance[idPair.third] = Pair(idPair.first,idPair.second)
             theItemTable[aKey]!!.existance = newExistance
         } else {
             println("[WARN]<registerAnItemRecord>: add again ${anItem.path.last()}")
@@ -72,7 +72,7 @@ class TheTable (
         */
     }
 
-    fun registerAnItemRecord(anArchiveSet: ArchiveSet, idPair: ItemIndices, beforeExistance: Array<ItemID?>) {
+    fun registerAnItemRecord(anArchiveSet: ArchiveSet, idPair: ItemIndices, beforeExistance: ExistanceBoard) {
         val anItem = anArchiveSet.inArchive.simpleInterface
             .getArchiveItem(idPair.second).makeItemFromArchiveItem(
                 anArchiveSet.realArchiveSetPaths
@@ -110,8 +110,8 @@ class TheTable (
         */
     }
 
-    fun mergeExistance(a:Array<ItemID?>, b:Array<ItemID?>): Array<ItemID?> {
-        val new = arrayOfNulls<ItemID?>(a.size)
+    fun mergeExistance(a:ExistanceBoard, b:ExistanceBoard): ExistanceBoard {
+        val new = arrayOfNulls<ExistanceMark>(a.size)
         for (i in 0.until(a.size)) {
             if (a[i] != null) {
                 new[i] = a[i]
@@ -122,7 +122,7 @@ class TheTable (
         return new
     }
 
-    fun Array<ItemID?>.isFilled(): Boolean {
+    fun ExistanceBoard.isFilled(): Boolean {
         this.forEach{ if(it==null) return false }
         return true
     }
@@ -193,7 +193,7 @@ data class ItemRecord (
     , val dataSize: DataSize
     , val modifiedDate: Date
     , val path: RelativePath
-    , var existance: Array<ItemID?>
+    , var existance: ExistanceBoard
     , var isFilled: Boolean
     , val isArchive: Boolean? // null when exe is not sure
 ) {
@@ -220,3 +220,5 @@ data class ItemRecord (
 typealias ItemRecordTable = SortedMap<ItemKey, ItemRecord>
 typealias ItemTable = MutableMap<ItemKey,Item>
 typealias ArchiveAndStreamList = MutableMap<Int,ArchiveAndStream>
+typealias ExistanceMark = Pair<ArchiveSetID,ItemID>
+typealias ExistanceBoard = Array<ExistanceMark?>
