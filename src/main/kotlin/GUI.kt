@@ -47,7 +47,7 @@ class GUI : Application() {
                 statusIndicator.fill = Paint.valueOf(firstResult.colorName)
 
                 println("Make the table")
-                val theTable = makeTheTable(theArchivePaths, "R:\\Debug")
+                val theTable = makeTheTable(theArchivePaths, theDebugDirectory)
 
                 println("Test with the table")
                 testWithTheTable(theTable)
