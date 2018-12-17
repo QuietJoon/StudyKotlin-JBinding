@@ -51,16 +51,17 @@ class Item (
     override fun equals(other: Any?): Boolean {
         if (other == null || javaClass != other.javaClass) return false
         val that = other as Item
-        return dataCRC != that.dataCRC &&
-                dataSize != that.dataSize &&
-                modifiedDate != that.modifiedDate &&
-                path != that.path
+        return dataCRC == that.dataCRC &&
+                dataSize == that.dataSize &&
+                modifiedDate == that.modifiedDate &&
+                path == that.path
     }
 
     override fun hashCode(): Int {
         var hash = 1
         hash = hash * hashPrime + dataCRC.hashCode()
         hash = hash * hashPrime + dataSize.hashCode()
+        hash = hash * hashPrime + modifiedDate.hashCode()
         hash = hash * hashPrime + path.hashCode()
         hash = hash * hashPrime + parentID.hashCode()
         hash = hash * hashPrime + idInArchive.hashCode()
