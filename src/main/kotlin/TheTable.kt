@@ -65,32 +65,28 @@ class TheTable (
         if (theItemTable[aKey]!!.existance.isFilled())
             theItemTable[aKey]!!.isFilled = true
 
-        aKey = anItem.generateItemKey()
-        var count = 1
         while (true) {
             val queryItem = theItemList[aKey]
-            if (queryItem != anItem) {
-                aKey = aKey.copy(dupCount = count)
+            if (queryItem == null){
                 theItemList[aKey] = anItem
                 break
-            } else {
-                count++
+            } else if (queryItem.equalsWithoutRealPath(anItem)) {
+                println("<registerAnItemRecord>: Skip because completely same item")
+                break
+            } else  {
+                aKey = aKey.copy(dupCount = aKey.dupCount + 1)
             }
         }
     }
 
-    fun registerAnItemRecord(anArchiveSet: ArchiveSet, idPair: ItemIndices, beforeExistance: ExistanceBoard) {
-        val anItem = anArchiveSet.getInArchive().simpleInterface
-            .getArchiveItem(idPair.second).makeItemFromArchiveItem(
-                anArchiveSet.realArchiveSetPaths
-                , anArchiveSet.archiveSetID
-                , idPair.first
-            )
+    fun registerAnItemRecord(anArchiveSet: ArchiveSet, idx: ItemKey, beforeExistance: ExistanceBoard) {
+        val anItem: Item = anArchiveSet.itemList[idx]!!
         if (theIgnoringList.match(anItem)) {
             println("Skip: ${anItem.path.last()}")
             return
         }
 
+        val idPair = Triple(anItem.parentArchiveSetID,anItem.id,anArchiveSet.rootArchiveSetID)
         var aKey = anItem.generateItemKey()
         val queryItemRecord: ItemRecord? = theItemTable[aKey]
         if (queryItemRecord == null) {
@@ -103,16 +99,16 @@ class TheTable (
         if (theItemTable[aKey]!!.existance.isFilled())
             theItemTable[aKey]!!.isFilled = true
 
-        aKey = anItem.generateItemKey()
-        var count = 1
         while (true) {
             val queryItem = theItemList[aKey]
-            if (queryItem != anItem) {
-                aKey = aKey.copy(dupCount = count)
+            if (queryItem == null){
                 theItemList[aKey] = anItem
                 break
-            } else {
-                count++
+            } else if (queryItem.equalsWithoutRealPath(anItem)) {
+                println("<registerAnItemRecord>: Skip because completely same item")
+                break
+            } else  {
+                aKey = aKey.copy(dupCount = aKey.dupCount + 1)
             }
         }
     }

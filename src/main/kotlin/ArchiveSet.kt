@@ -37,10 +37,16 @@ class ArchiveSet (
         var aKey = anItem.generateItemKey()
         while (true) {
             val queryItem = itemList[aKey]
-            if (queryItem != anItem) {
-                aKey = aKey.copy(dupCount = aKey.dupCount + 1)
+            if (queryItem == null) {
                 itemList[aKey] = anItem
                 break
+            // This condition never satisfied
+            } else if (queryItem.equalsWithoutRealPath(anItem)) {
+                println("[ERROR]<addNewItem>: Skip because completely same item")
+                itemList[aKey] = anItem
+                break
+            } else {
+                aKey = aKey.copy(dupCount = aKey.dupCount + 1)
             }
         }
     }

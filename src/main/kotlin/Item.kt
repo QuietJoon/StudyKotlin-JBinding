@@ -57,6 +57,15 @@ class Item (
                 path == that.path
     }
 
+    fun equalsWithoutRealPath(other: Any?): Boolean {
+        if (other == null || javaClass != other.javaClass) return false
+        val that = other as Item
+        return dataCRC == that.dataCRC &&
+                dataSize == that.dataSize &&
+                modifiedDate == that.modifiedDate &&
+                path.last() == that.path.last()
+    }
+
     override fun hashCode(): Int {
         var hash = 1
         hash = hash * hashPrime + dataCRC.hashCode()
