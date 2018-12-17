@@ -1,3 +1,4 @@
+import archive.ArchiveAndStream
 import net.sf.sevenzipjbinding.IInArchive
 import net.sf.sevenzipjbinding.simple.ISimpleInArchiveItem
 
@@ -6,7 +7,7 @@ class ArchiveSet (
       val realArchiveSetPaths: Array<RealPath>
     , val archiveSetID: ArchiveSetID
     , val rootArchiveSetID: ArchiveSetID
-    , val inArchive: IInArchive
+    , val ans: ArchiveAndStream
 ) {
     val itemList: ItemTable
     val subArchiveSetList: MutableList<ArchiveSet>
@@ -17,7 +18,7 @@ class ArchiveSet (
 
         // Initialize itemList
 
-        val simpleArchive = inArchive.simpleInterface
+        val simpleArchive = ans.inArchive.simpleInterface
         for (sItem in simpleArchive.archiveItems) {
             addNewItem(sItem)
         }
@@ -60,7 +61,7 @@ class ArchiveSet (
 
     fun getInArchive(archiveSetID: ArchiveSetID): IInArchive? {
         if (archiveSetID == this.archiveSetID)
-            return inArchive
+            return ans.inArchive
         else {
             for (subArchiveSet in subArchiveSetList) {
                 val result = subArchiveSet.getInArchive(archiveSetID)
@@ -68,6 +69,10 @@ class ArchiveSet (
             }
             return null
         }
+    }
+
+    fun getInArchive(): IInArchive {
+        return ans.inArchive
     }
 }
 

@@ -10,7 +10,7 @@ class TheTable (
 ) {
     val theItemTable: ItemRecordTable = sortedMapOf()
     val theItemList: ItemTable = mutableMapOf()
-    val theArchiveList: ArchiveAndStreamList = mutableMapOf()
+    val theArchiveList: ArchiveSetList = mutableMapOf()
     val archiveSetNum: Int
     val tableInstance: Int
 
@@ -25,14 +25,19 @@ class TheTable (
 
         for( anArchiveSet in theArchiveSets ) {
             val ids = anArchiveSet.getThisIDs()
+            registerAnArchiveSet(anArchiveSet)
             for ( idPair in ids) {
                 registerAnItemRecord(anArchiveSet,idPair)
             }
         }
     }
 
+    fun registerAnArchiveSet(anArchiveSet: ArchiveSet) {
+        theArchiveList[anArchiveSet.archiveSetID] = anArchiveSet
+    }
+
     fun registerAnItemRecord(anArchiveSet: ArchiveSet, idPair: ItemIndices) {
-        val anItem = anArchiveSet.inArchive.simpleInterface
+        val anItem = anArchiveSet.getInArchive().simpleInterface
             .getArchiveItem(idPair.second).makeItemFromArchiveItem(
                 anArchiveSet.realArchiveSetPaths
                 , 0
@@ -59,21 +64,22 @@ class TheTable (
         if (theItemTable[aKey]!!.existance.isFilled())
             theItemTable[aKey]!!.isFilled = true
 
-        /*
         aKey = anItem.generateItemKey()
+        var count = 1
         while (true) {
             val queryItem = theItemList[aKey]
             if (queryItem != anItem) {
-                aKey = aKey.copy(dupCount = aKey.dupCount + 1)
+                aKey = aKey.copy(dupCount = count)
                 theItemList[aKey] = anItem
                 break
+            } else {
+                count++
             }
         }
-        */
     }
 
     fun registerAnItemRecord(anArchiveSet: ArchiveSet, idPair: ItemIndices, beforeExistance: ExistanceBoard) {
-        val anItem = anArchiveSet.inArchive.simpleInterface
+        val anItem = anArchiveSet.getInArchive().simpleInterface
             .getArchiveItem(idPair.second).makeItemFromArchiveItem(
                 anArchiveSet.realArchiveSetPaths
                 , 0
@@ -97,17 +103,18 @@ class TheTable (
         if (theItemTable[aKey]!!.existance.isFilled())
             theItemTable[aKey]!!.isFilled = true
 
-        /*
         aKey = anItem.generateItemKey()
+        var count = 1
         while (true) {
             val queryItem = theItemList[aKey]
             if (queryItem != anItem) {
-                aKey = aKey.copy(dupCount = aKey.dupCount + 1)
+                aKey = aKey.copy(dupCount = count)
                 theItemList[aKey] = anItem
                 break
+            } else {
+                count++
             }
         }
-        */
     }
 
     fun mergeExistance(a:ExistanceBoard, b:ExistanceBoard): ExistanceBoard {
@@ -148,7 +155,7 @@ class TheTable (
 
     fun getInArchiveSub(archiveSetID: ArchiveSetID, anArchiveSet: ArchiveSet): IInArchive? {
         if (anArchiveSet.archiveSetID == archiveSetID)
-            return anArchiveSet.inArchive
+            return anArchiveSet.getInArchive()
         for ( subArchiveSet in theArchiveSets ) {
             val result = getInArchiveSub(archiveSetID, subArchiveSet)
             if (result != null) return result
@@ -204,8 +211,8 @@ data class ItemRecord (
         stringBuilder.append(if (isFilled) "O " else "X ")
         stringBuilder.append(if (isArchive==null) "? " else if (isArchive) "A " else "F ")
         for(i in existance)
-            stringBuilder.append(if (i==null) "  -" else String.format("%3d",i))
-        stringBuilder.append("  ")
+            stringBuilder.append(if (i==null) "  -     - " else String.format("%3d(%5d)",i.first,i.second))
+        stringBuilder.append(" | ")
         stringBuilder.append(String.format("%08X", this.dataCRC))
         stringBuilder.append("  ")
         stringBuilder.append(String.format("%8d", this.dataSize))
@@ -219,6 +226,6 @@ data class ItemRecord (
 
 typealias ItemRecordTable = SortedMap<ItemKey, ItemRecord>
 typealias ItemTable = MutableMap<ItemKey,Item>
-typealias ArchiveAndStreamList = MutableMap<Int,ArchiveAndStream>
+typealias ArchiveSetList = MutableMap<Int,ArchiveSet>
 typealias ExistanceMark = Pair<ArchiveSetID,ItemID>
 typealias ExistanceBoard = Array<ExistanceMark?>

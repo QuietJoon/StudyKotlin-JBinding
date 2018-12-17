@@ -3,7 +3,7 @@ import archive.*
 
 fun main (args: Array<String>) {
 
-    val theIgnoringListPath = "U:\\Kazuki\\AD\\IgnoringList.20181214.txt"
+    val theIgnoringListPath = "H:\\Kazuki\\AD\\IgnoringList.20181214.txt"
     initialize(theIgnoringListPath)
 
     /*
@@ -37,7 +37,7 @@ fun main (args: Array<String>) {
     for (anKey in xTable.theItemTable.keys)
         println(anKey.toString())
     */
-
+    /*
     val theArchivePaths: Array<RealPath> = arrayOf(
           "R:\\TestArchives\\ZA0.rar"
         , "R:\\TestArchives\\ZA1.rar"
@@ -45,11 +45,23 @@ fun main (args: Array<String>) {
         , "R:\\TestArchives\\ZA3.zip"
         , "R:\\TestArchives\\ZA4.rar"
     )
+    */
+    val theArchivePaths: Array<RealPath> = arrayOf(
+          "H:\\Inad\\ARIA\\[DVDISO] -ARIA- (3 seasons+OVA+α)\\ARIA The NATURAL　vol.01～09\\ARIA2_NA1.rar"
+        , "H:\\Inad\\ARIA\\[DVDISO] -ARIA- (3 seasons+OVA+α)\\ARIA The NATURAL　vol.01～09\\ARIA2_NA2.rar"
+        , "H:\\Inad\\ARIA\\[DVDISO] -ARIA- (3 seasons+OVA+α)\\ARIA The NATURAL　vol.01～09\\ARIA2_NA3.rar"
+        , "H:\\Inad\\ARIA\\[DVDISO] -ARIA- (3 seasons+OVA+α)\\ARIA The NATURAL　vol.01～09\\ARIA2_NA4.rar"
+        , "H:\\Inad\\ARIA\\[DVDISO] -ARIA- (3 seasons+OVA+α)\\ARIA The NATURAL　vol.01～09\\ARIA2_NA5.rar"
+        , "H:\\Inad\\ARIA\\[DVDISO] -ARIA- (3 seasons+OVA+α)\\ARIA The NATURAL　vol.01～09\\ARIA2_NA6.rar"
+        , "H:\\Inad\\ARIA\\[DVDISO] -ARIA- (3 seasons+OVA+α)\\ARIA The NATURAL　vol.01～09\\ARIA2_NA7.rar"
+        , "H:\\Inad\\ARIA\\[DVDISO] -ARIA- (3 seasons+OVA+α)\\ARIA The NATURAL　vol.01～09\\ARIA2_NA8.rar"
+        , "H:\\Inad\\ARIA\\[DVDISO] -ARIA- (3 seasons+OVA+α)\\ARIA The NATURAL　vol.01～09\\ARIA2_NA9.rar"
+    )
 
     val archiveSetList = mutableListOf<ArchiveSet>()
     theArchivePaths.forEachIndexed { idx, archivePath ->
         val ans = openArchive(archivePath)
-        val archiveSet = ArchiveSet(arrayOf(archivePath),idx,idx,ans.inArchive)
+        val archiveSet = ArchiveSet(arrayOf(archivePath),idx,idx,ans)
         archiveSetList.add(archiveSet)
     }
 

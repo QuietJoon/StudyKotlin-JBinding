@@ -14,7 +14,7 @@ fun main (args: Array<String>) {
     val archiveSetList = mutableListOf<ArchiveSet>()
     theArchivePaths.forEachIndexed { idx, archivePath ->
         val ans = openArchive(archivePath)
-        val archiveSet = ArchiveSet(arrayOf(archivePath),idx,idx,ans.inArchive)
+        val archiveSet = ArchiveSet(arrayOf(archivePath),idx,idx,ans)
         archiveSetList.add(archiveSet)
     }
 
@@ -23,7 +23,7 @@ fun main (args: Array<String>) {
     printIgnoringListWithLevel(theIgnoringList)
 
     for ( archiveSet in archiveSetList) {
-        val notIgnoringItemIDArray = getIDArrayWithoutIgnoringItem(archiveSet.inArchive,theIgnoringList)
-        printItemListByIDs(archiveSet.inArchive, notIgnoringItemIDArray)
+        val notIgnoringItemIDArray = getIDArrayWithoutIgnoringItem(archiveSet.getInArchive(),theIgnoringList)
+        printItemListByIDs(archiveSet.getInArchive(), notIgnoringItemIDArray)
     }
 }
