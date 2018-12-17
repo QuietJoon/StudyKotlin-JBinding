@@ -1,3 +1,4 @@
+import archive.ArchiveAndStream
 import net.sf.sevenzipjbinding.IInArchive
 import util.getFullName
 import java.util.*
@@ -9,6 +10,7 @@ class TheTable (
 ) {
     val theItemTable: ItemRecordTable = sortedMapOf()
     val theItemList: ItemTable = mutableMapOf()
+    val theArchiveList: ArchiveAndStreamList = mutableMapOf()
     val archiveSetNum: Int
     val tableInstance: Int
 
@@ -216,3 +218,5 @@ data class ItemRecord (
 }
 
 typealias ItemRecordTable = SortedMap<ItemKey, ItemRecord>
+typealias ItemTable = MutableMap<ItemKey,Item>
+typealias ArchiveAndStreamList = MutableMap<Int,ArchiveAndStream>
