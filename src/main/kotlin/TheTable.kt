@@ -170,11 +170,14 @@ data class ItemKey (
     , val dupCount: Int
 ) : Comparable<ItemKey> {
     companion object {
-        val comparator = compareBy(ItemKey::dataCRC, ItemKey::dataCRC, ItemKey::dupCount)
+        val comparatorKey =
+            compareByDescending(ItemKey::dataSize)
+                .thenBy(ItemKey::dataCRC)
+                .thenBy(ItemKey::dupCount)
     }
     override fun compareTo(other: ItemKey): Int =
         if (this.isArchive == other.isArchive) {
-            comparator.compare(this,other)
+            comparatorKey.compare(this,other)
         }
         else when (this.isArchive) {
             true -> -1
