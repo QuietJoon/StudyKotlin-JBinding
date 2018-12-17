@@ -21,7 +21,7 @@ fun rawFileAnalyze(files: List<File>): RawFileAnalyzed {
         try {
             println("<firstPhase>: opening $aPath")
             anANS = openArchive(aPath)
-            printItemList(anANS.inArchive)
+            //printItemList(anANS.inArchive)
             anANS.close()
         } catch (e: Exception) {
             println("[Error]<FirstPhase>: Seems to fail opening")

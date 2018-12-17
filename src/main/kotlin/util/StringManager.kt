@@ -51,7 +51,7 @@ fun String.isEXE() = this.getExtension() == "exe"
  */
 fun String.maybePartNumber(): Int? {
     val maybeNumberString = this.substringAfterLast(".part","")
-    println(String.format("<maybePartNumber>: %s",maybeNumberString))
+    //println(String.format("<maybePartNumber>: %s",maybeNumberString))
     return maybeNumberString.toIntOrNull()
 }
 
