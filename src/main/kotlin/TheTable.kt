@@ -22,12 +22,10 @@ class TheTable (
         archiveSetNum = theArchiveSets.size
         tableInstance = tableInstanceSerial
         tableInstanceSerial++
-
         for( anArchiveSet in theArchiveSets ) {
-            val ids = anArchiveSet.getThisIDs()
             registerAnArchiveSet(anArchiveSet)
-            for ( idPair in ids) {
-                registerAnItemRecord(anArchiveSet,idPair)
+            for ( idx in anArchiveSet.itemList.keys) {
+                registerAnItemRecord(anArchiveSet,idx)
             }
         }
     }
@@ -36,19 +34,22 @@ class TheTable (
         theArchiveList[anArchiveSet.archiveSetID] = anArchiveSet
     }
 
-    fun registerAnItemRecord(anArchiveSet: ArchiveSet, idPair: ItemIndices) {
-        val anItem = anArchiveSet.getInArchive().simpleInterface
-            .getArchiveItem(idPair.second).makeItemFromArchiveItem(
-                anArchiveSet.realArchiveSetPaths
-                , 0
-                , idPair.second
-                , idPair.first
-            )
+    fun registerAnItemRecord(anArchiveSet: ArchiveSet, idx: ItemKey) {
+        /*
+        FIX:
+        Re-generate an Item from ItemIndices
+        However, the Item may be(or should be) in ArchiveSet already
+        Also, anItem contains ItemIndices info
+        Therefore, we just need to give index of anItem in ArchiveSet's itemList
+        This should be concerned with extracting file function.
+         */
+        val anItem: Item = anArchiveSet.itemList[idx]!!
         if (theIgnoringList.match(anItem)) {
             println("Skip: ${anItem.path.last()}")
             return
         }
 
+        val idPair = Triple(anItem.parentArchiveSetID,anItem.id,anArchiveSet.rootArchiveSetID)
         var aKey = anItem.generateItemKey()
         val queryItemRecord: ItemRecord? = theItemTable[aKey]
         if (queryItemRecord == null) {
@@ -147,7 +148,6 @@ class TheTable (
             val result = getInArchiveSub(archiveSetID, anArchiveSet)
             if ( result != null ) {
                 return result
-                break
             }
         }
         error("[ERROR]<getInArchive>: Couldn't find InArchive($archiveSetID)")
@@ -211,7 +211,7 @@ data class ItemRecord (
         stringBuilder.append(if (isFilled) "O " else "X ")
         stringBuilder.append(if (isArchive==null) "? " else if (isArchive) "A " else "F ")
         for(i in existance)
-            stringBuilder.append(if (i==null) "  -     - " else String.format("%3d(%5d)",i.first,i.second))
+            stringBuilder.append(if (i==null) "    -     " else String.format(" %3d-%-5d",i.first,i.second))
         stringBuilder.append(" | ")
         stringBuilder.append(String.format("%08X", this.dataCRC))
         stringBuilder.append("  ")
