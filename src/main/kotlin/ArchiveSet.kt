@@ -77,3 +77,4 @@ class ArchiveSet (
 
 typealias ArchiveSetID = Int
 typealias ItemIndices = Triple<ArchiveSetID,ItemIndex,ArchiveSetID>
+typealias ItemTable = MutableMap<ItemKey,Item>

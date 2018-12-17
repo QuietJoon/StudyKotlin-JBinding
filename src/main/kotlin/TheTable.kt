@@ -224,7 +224,7 @@ data class ItemRecord (
 }
 
 typealias ItemRecordTable = SortedMap<ItemKey, ItemRecord>
-typealias ItemTable = MutableMap<ItemKey,Item>
+//typealias ItemTable = MutableMap<ItemKey,Item>
 typealias ArchiveSetList = MutableMap<Int,ArchiveSet>
 typealias ExistanceMark = Pair<ArchiveSetID,ItemID>
 typealias ExistanceBoard = Array<ExistanceMark?>
