@@ -73,16 +73,15 @@ class Item (
 
 fun ISimpleInArchiveItem.makeItemFromArchiveItem(parentPath: JointPath, parentID: ItemID, parentArchiveSetID: ArchiveSetID): Item {
 
-    val newPath = parentPath.toMutableList()
-    newPath.add(this.path)
+    val newPath = parentPath.plus(this.path)
 
     return Item (
           dataCRC = this.crc
         , dataSize = this.size
         , modifiedDate = this.lastWriteTime.time
-        , path = newPath.toList().toTypedArray()
+        , path = newPath
         , parentID = parentID
-        , idInArchive = idInArchive
+        , idInArchive = this.itemIndex
         , parentArchiveSetID = parentArchiveSetID
     )
 }
