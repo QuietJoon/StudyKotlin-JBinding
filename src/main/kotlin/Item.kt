@@ -70,7 +70,7 @@ class Item (
     }
 }
 
-fun ISimpleInArchiveItem.makeItemFromArchiveItem(parentPath: JointPath, parentID: ItemID, idInArchive: ItemID, parentArchiveSetID: ArchiveSetID): Item {
+fun ISimpleInArchiveItem.makeItemFromArchiveItem(parentPath: JointPath, parentID: ItemID, parentArchiveSetID: ArchiveSetID): Item {
 
     val newPath = parentPath.toMutableList()
     newPath.add(this.path)

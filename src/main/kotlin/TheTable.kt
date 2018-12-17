@@ -83,8 +83,7 @@ class TheTable (
         val anItem = anArchiveSet.getInArchive().simpleInterface
             .getArchiveItem(idPair.second).makeItemFromArchiveItem(
                 anArchiveSet.realArchiveSetPaths
-                , 0
-                , idPair.second
+                , anArchiveSet.archiveSetID
                 , idPair.first
             )
         if (theIgnoringList.match(anItem)) {

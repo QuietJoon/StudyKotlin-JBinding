@@ -27,9 +27,8 @@ class ArchiveSet (
     fun addNewItem(sItem: ISimpleInArchiveItem) {
         val anItem = sItem.makeItemFromArchiveItem(
             realArchiveSetPaths
-            , 0
-            , sItem.itemIndex
             , archiveSetID
+            , rootArchiveSetID
         )
         if (theIgnoringList.match(anItem)) {
             println("Skip: ${anItem.path.last()}")
