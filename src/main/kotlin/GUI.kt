@@ -41,9 +41,16 @@ class GUI : Application() {
                 }
 
                 val firstResult = rawFileAnalyze(db.files)
+                val theArchivePaths = firstResult.firstOrSinglePaths
 
                 filePathsLabel.text = firstResult.paths
                 statusIndicator.fill = Paint.valueOf(firstResult.colorName)
+
+                println("Make the table")
+                val theTable = makeTheTable(theArchivePaths, "R:\\Debug")
+
+                println("Test with the table")
+                testWithTheTable(theTable)
 
                 println("End a phase")
             } else {
