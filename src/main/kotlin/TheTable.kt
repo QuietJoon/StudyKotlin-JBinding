@@ -115,8 +115,9 @@ class TheTable (
 
     fun getFirstItemKey(): ItemKey? {
         theItemTable.forEach {
-            if (!it.value.isFilled)
-                if (it.key.isArchive != false) return null else it.key
+            if (!it.value.isFilled) {
+                if (it.key.isArchive != false) return it.key
+            }
         }
         return null
     }
