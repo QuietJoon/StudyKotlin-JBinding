@@ -8,7 +8,7 @@ class TheTable (
     , val rootOutputDirectory: RealPath
 ) {
     val theItemTable: ItemRecordTable = sortedMapOf()
-    val theItemList: ItemTable = mutableMapOf()
+    val theItemList: ItemList = mutableMapOf()
     val theArchiveList: ArchiveSetList = mutableMapOf()
     val archiveSetNum: Int
     val tableInstance: Int
@@ -64,18 +64,7 @@ class TheTable (
         if (theItemTable[aKey]!!.existance.isFilled())
             theItemTable[aKey]!!.isFilled = true
 
-        while (true) {
-            val queryItem = theItemList[aKey]
-            if (queryItem == null){
-                theItemList[aKey] = anItem
-                break
-            } else if (queryItem.equalsWithoutRealPath(anItem)) {
-                println("<registerAnItemRecord>: Skip because completely same item")
-                break
-            } else  {
-                aKey = aKey.copy(dupCount = aKey.dupCount + 1)
-            }
-        }
+        theItemList[anItem.id] = anItem
     }
 
     fun registerAnItemRecord(anArchiveSet: ArchiveSet, idx: ItemKey, beforeExistance: ExistanceBoard) {
@@ -98,18 +87,7 @@ class TheTable (
         if (theItemTable[aKey]!!.existance.isFilled())
             theItemTable[aKey]!!.isFilled = true
 
-        while (true) {
-            val queryItem = theItemList[aKey]
-            if (queryItem == null){
-                theItemList[aKey] = anItem
-                break
-            } else if (queryItem.equalsWithoutRealPath(anItem)) {
-                println("<registerAnItemRecord>: Skip because completely same item")
-                break
-            } else  {
-                aKey = aKey.copy(dupCount = aKey.dupCount + 1)
-            }
-        }
+        theItemList[anItem.id] = anItem
     }
 
     fun mergeExistance(a:ExistanceBoard, b:ExistanceBoard): ExistanceBoard {
@@ -233,6 +211,7 @@ data class ItemRecord (
 }
 
 typealias ItemRecordTable = SortedMap<ItemKey, ItemRecord>
+typealias ItemList = MutableMap<ItemID,Item>
 //typealias ItemTable = MutableMap<ItemKey,Item>
 typealias ArchiveSetList = MutableMap<Int,ArchiveSet>
 typealias ExistanceMark = Pair<ArchiveSetID,ItemID>
