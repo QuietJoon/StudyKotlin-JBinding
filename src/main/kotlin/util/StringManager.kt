@@ -4,6 +4,7 @@ import java.io.File
 
 import directoryDelimiter
 import com.ibm.icu.lang.*
+import dateFormat
 
 fun generateStringFromFileList (strings : List<File>): String {
     val internalString = strings.map{it.toString().getFullName()}.joinToString(separator = "\n")
@@ -104,4 +105,8 @@ fun Char.getCharWidth(): Int {
         UCharacter.EastAsianWidth.WIDE -> 2
         else -> 1
     }
+}
+
+fun Long.dateFormatter(): String {
+    return dateFormat.format(java.util.Date(this))
 }

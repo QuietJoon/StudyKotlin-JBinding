@@ -57,7 +57,7 @@ class IgnoringList (
             stringBuilder.append("|")
             stringBuilder.append(item.itemModifiedDate.level.toString())
             stringBuilder.append("|")
-            stringBuilder.append(item.itemModifiedDate.datum.toString())
+            stringBuilder.append(item.itemModifiedDate.datum.dateFormatter())
             stringBuilder.append("|")
             stringBuilder.append(item.itemName.level.toString())
             stringBuilder.append("|")

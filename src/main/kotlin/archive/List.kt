@@ -1,6 +1,7 @@
 package archive
 
 import net.sf.sevenzipjbinding.IInArchive
+import util.dateFormatter
 
 import util.isArchive
 
@@ -13,18 +14,18 @@ fun printItemList(inArchive: IInArchive) {
 
     println(String.format("Archive Format: %s", inArchive.archiveFormat.toString()))
 
-    println("  ID  |   CRC    |    Size    | Compr.Sz. |         Modified Date        | Filename")
-    println("-----------------+------------+-----------+------------------------------+---------")
+    println("  ID  |   CRC    |     Size     |   Compr.Sz.  |    Modified Date    | Filename")
+    println("-----------------+--------------+--------------+---------------------+---------")
 
     for (item in simpleInArchive.archiveItems) {
         println(
             String.format(
-                " %4d | %08X | %10s | %9s | %28s | %s",
+                " %4d | %08X | %12s | %12s | %19s | %s",
                 item.itemIndex,
                 item.crc,
                 item.size,
                 item.packedSize,
-                item.lastWriteTime.toString(),
+                item.lastWriteTime.time.dateFormatter(),
                 item.path
             )
         )
@@ -36,19 +37,19 @@ fun printItemListByIDs(inArchive: IInArchive, ids: IntArray) {
     if ( !ids.isEmpty() ) {
         val simpleInArchive = inArchive.getSimpleInterface()
 
-        println("  ID  |   CRC    |    Size    | Compr.Sz. |         Modified Date        | Filename")
-        println("-----------------+------------+-----------+------------------------------+---------")
+        println("  ID  |   CRC    |     Size     |   Compr.Sz.  |    Modified Date    | Filename")
+        println("-----------------+--------------+--------------+---------------------+---------")
 
         for (idx in ids) {
             val item = simpleInArchive.getArchiveItem(idx)
             println(
                 String.format(
-                    " %4d | %08X | %10s | %9s | %28s | %s",
+                    " %4d | %08X | %12s | %12s | %19s | %s",
                     item.itemIndex,
                     item.crc,
                     item.size,
                     item.packedSize,
-                    item.lastWriteTime.toString(),
+                    item.lastWriteTime.time.dateFormatter(),
                     item.path
                 )
             )

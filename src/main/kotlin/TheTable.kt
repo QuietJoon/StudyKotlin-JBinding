@@ -226,7 +226,7 @@ data class ItemRecord (
         stringBuilder.append("  ")
         stringBuilder.append(String.format("%10d", this.dataSize))
         stringBuilder.append("  ")
-        stringBuilder.append(java.util.Date(this.modifiedDate).toString())
+        stringBuilder.append(this.modifiedDate.dateFormatter())
         stringBuilder.append("  ")
         stringBuilder.append(path)
         return stringBuilder.toString()
