@@ -14,4 +14,15 @@ fun testWithTheTable(theTable: TheTable) {
         print(anItemEntry.key.toString())
         println(anItemEntry.value.toString())
     }
+
+    println("Difference only")
+    var count = 0
+    for (anItemEntry in theTable.theItemTable) {
+        if (!anItemEntry.value.isFilled) {
+            print(anItemEntry.key.toString())
+            println(anItemEntry.value.toString())
+            count++
+        }
+    }
+    if (count == 0 ) println("Have no different files in the ArchiveSets")
 }
