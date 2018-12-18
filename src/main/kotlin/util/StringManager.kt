@@ -3,6 +3,7 @@ package util
 import java.io.File
 
 import directoryDelimiter
+import com.ibm.icu.lang.*
 
 fun generateStringFromFileList (strings : List<File>): String {
     val internalString = strings.map{it.toString().getFullName()}.joinToString(separator = "\n")
@@ -59,20 +60,48 @@ fun String.isSingleVolume(): Boolean = getFileName().maybePartNumber() == null
 
 fun String.isFirstVolume(): Boolean = getFileName().maybePartNumber() == 1
 
-fun String.trimming(maxLen: Int): String {
-    val suffix=".."
-
-    if (this.length > maxLen) return this.substring(0,maxLen-suffix.length) + suffix
-    else return this
+fun String.trimming(width: Int, suffix: String, suffixLength: Int): String {
+    var result = ""
+    var currWidth= 0
+    for ( chr in this){
+        val chrWidth = chr.getCharWidth()
+        when {
+            currWidth+chrWidth == width-suffixLength -> return result + chr + suffix.repeat(suffixLength)
+            currWidth+chrWidth >  width-suffixLength -> return result + suffix.repeat(suffixLength+1)
+        }
+        result += chr
+        currWidth += chrWidth
+    }
+    error("[ERROR]<trimming>: Can't be reached")
 }
 
-fun String.regulating(len: Int): String {
-    val suffix=".."
+fun String.regulating(width: Int): String {
+    val suffix="."
     val prefix=" "
-
+    val thisWidth = this.getWidth()
     return when {
-        this.length < len -> " ".repeat(len-this.length)+this
-        this.length > len -> this.substring(0,len-suffix.length) + suffix
+        thisWidth < width -> prefix.repeat(width-thisWidth)+this
+        thisWidth > width -> this.trimming(width,suffix,2)
         else -> this
+    }
+}
+
+fun String.getWidth(): Int {
+    var width = 0
+    this.forEach {
+        width += it.getCharWidth()
+    }
+    return width
+}
+
+fun Char.getCharWidth(): Int {
+    val width = UCharacter.getIntPropertyValue(this.toInt(), UProperty.EAST_ASIAN_WIDTH)
+    return when (width) {
+        UCharacter.EastAsianWidth.NARROW -> 1
+        UCharacter.EastAsianWidth.NEUTRAL -> 1
+        UCharacter.EastAsianWidth.HALFWIDTH -> 1
+        UCharacter.EastAsianWidth.FULLWIDTH -> 2
+        UCharacter.EastAsianWidth.WIDE -> 2
+        else -> 1
     }
 }

@@ -30,6 +30,7 @@ dependencies {
     //compile "net.sf.sevenzipjbinding:sevenzipjbinding-all-platforms:9.20-2.00beta"
     compile files("JAVALIB_LOCAL/sevenzipjbinding-16.02-2.01beta-20170914-Windows-amd64/lib/sevenzipjbinding.jar")
     compile files("JAVALIB_LOCAL/sevenzipjbinding-16.02-2.01beta-20170914-Windows-amd64/lib/sevenzipjbinding-Windows-amd64.jar")
+    compile "com.ibm.icu:icu4j:63.1"
 }
 
 compileKotlin {
