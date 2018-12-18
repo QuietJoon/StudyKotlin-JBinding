@@ -10,8 +10,8 @@ fun testWithTheTable(theTable: TheTable) {
         printItemList(anArchiveSet, anArchiveSet.getThisIDs())
         */
 
-    for (anItemRecord in theTable.theItemTable) {
-        print(anItemRecord.key.toString())
-        println(anItemRecord.value.toString())
+    for (anItemEntry in theTable.theItemTable) {
+        print(anItemEntry.key.toString())
+        println(anItemEntry.value.toString())
     }
 }
