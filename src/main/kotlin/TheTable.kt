@@ -1,12 +1,13 @@
 import net.sf.sevenzipjbinding.IInArchive
 import java.util.*
+import java.io.File
 
 import util.*
 
 class TheTable (
       val theArchiveSets: Array<ArchiveSet>
-    , val rootOutputDirectory: RealPath
 ) {
+    var rootOutputDirectory: RealPath
     val theItemTable: ItemRecordTable = sortedMapOf()
     val theItemList: ItemList = mutableMapOf()
     val theArchiveList: ArchiveSetList = mutableMapOf()
@@ -27,6 +28,11 @@ class TheTable (
                 registerAnItemRecord(anArchiveSet,idx)
             }
         }
+        rootOutputDirectory = theDebugDirectory + directoryDelimiter + tableInstanceSerial
+    }
+
+    constructor( theArchiveSets: Array<ArchiveSet>, rootOutputDirectory: RealPath ): this(theArchiveSets) {
+        this.rootOutputDirectory = rootOutputDirectory + directoryDelimiter + tableInstanceSerial
     }
 
     fun registerAnArchiveSet(anArchiveSet: ArchiveSet) {
@@ -167,6 +173,10 @@ class TheTable (
         for ( anArchive in theArchiveList ) {
             anArchive.value.ans.close()
         }
+    }
+
+    fun removeAllArchiveSets() {
+        File(rootOutputDirectory).deleteRecursively()
     }
 }
 

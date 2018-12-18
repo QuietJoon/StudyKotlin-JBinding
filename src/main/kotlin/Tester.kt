@@ -1,4 +1,22 @@
+import java.io.File
+
 fun testWithTheTable(theTable: TheTable): Pair<String, Array<String>> {
+    val theDirectory = File(theTable.rootOutputDirectory)
+    if ( !theDirectory.exists() ) {
+        println("<testWithTheTable>: Does not exist")
+
+        File(theTable.rootOutputDirectory).mkdirs()
+        if ( !theDirectory.mkdirs() ) {
+            println("[ERROR]<testWithTheTable>: Fail to make directory")
+        } else {
+            println("<testWithTheTable>: Seems to be made")
+        }
+        if (!theDirectory.exists()) {
+            error("[ERROR]<testWithTheTable>: Can't be")
+        }
+    }
+    println(theTable.rootOutputDirectory)
+
     println("Number of ArchiveSet: ${theTable.archiveSetNum}")
     println("Size of TheIgnoringList: ${theIgnoringList.ignoringList.size}")
     println("Size of TheItemTable: ${theTable.theItemTable.size}")
@@ -41,6 +59,7 @@ fun testWithTheTable(theTable: TheTable): Pair<String, Array<String>> {
     theTable.printSameItemTable(160, true, false)
 
     theTable.closeAllArchiveSets()
+    theTable.removeAllArchiveSets()
 
     return Pair(resultColor, resultArray)
 }
