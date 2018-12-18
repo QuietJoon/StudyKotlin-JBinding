@@ -178,6 +178,23 @@ class TheTable (
     fun removeAllArchiveSets() {
         File(rootOutputDirectory).deleteRecursively()
     }
+
+    fun prepareWorkingDirectory() {
+        val theDirectory = File(rootOutputDirectory)
+        if ( !theDirectory.exists() ) {
+            println("<testWithTheTable>: Does not exist")
+
+            File(rootOutputDirectory).mkdirs()
+            if ( !theDirectory.mkdirs() ) {
+                println("[ERROR]<testWithTheTable>: Fail to make directory")
+            } else {
+                println("<testWithTheTable>: Seems to be made")
+            }
+            if (!theDirectory.exists()) {
+                error("[ERROR]<testWithTheTable>: Can't be")
+            }
+        }
+    }
 }
 
 data class ItemKey (
