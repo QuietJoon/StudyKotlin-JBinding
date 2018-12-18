@@ -1,6 +1,7 @@
 import net.sf.sevenzipjbinding.simple.ISimpleInArchiveItem
 
 import util.*
+import java.time.LocalDate
 
 
 class IgnoringItem (
@@ -57,7 +58,7 @@ class IgnoringList (
             stringBuilder.append("|")
             stringBuilder.append(item.itemModifiedDate.level.toString())
             stringBuilder.append("|")
-            stringBuilder.append(item.itemModifiedDate.datum.dateFormatter())
+            stringBuilder.append(item.itemModifiedDate.datum.toString())
             stringBuilder.append("|")
             stringBuilder.append(item.itemName.level.toString())
             stringBuilder.append("|")
@@ -83,7 +84,7 @@ fun ignoringListFromString(content: List<String>): IgnoringList {
         val tokens = line.split("|")
 
         val itemCRCL = Level.valueOf(tokens[0])
-        val itemCRCV = tokens[1].toInt(16)
+        val itemCRCV = tokens[1].toLong(16).toInt()
         val itemSIZEL = Level.valueOf(tokens[2])
         val itemSIZEV = tokens[3].toLong()
         val itemModifiedDateL = Level.valueOf(tokens[4])
