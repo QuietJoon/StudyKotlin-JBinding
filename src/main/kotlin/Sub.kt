@@ -9,6 +9,9 @@ fun makeTheTable(theArchivePaths: Array<RealPath>, rootOutputDirectory: String):
     val archiveSetList = mutableListOf<ArchiveSet>()
     theArchivePaths.forEachIndexed { idx, archivePath ->
         val ans = openArchive(archivePath)
+
+        if (ans == null) error ("[ERROR]<makeTheTable>: Fail to open the archive ${theArchivePaths.joinToString()}")
+
         val archiveSet = ArchiveSet(arrayOf(archivePath),idx,idx,ans)
         archiveSetList.add(archiveSet)
     }

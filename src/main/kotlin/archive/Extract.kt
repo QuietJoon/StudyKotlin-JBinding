@@ -135,6 +135,7 @@ class Extract internal constructor(
     internal fun extractEverything() {
         val anAns = openArchive(archive)
         prepareOutputDirectory()
+        if (anAns == null) error("[ERROR]<extractEverything>: ----")
         extractEverything(anAns.inArchive)
         anAns.close()
     }
@@ -145,9 +146,11 @@ class Extract internal constructor(
         if (!outputDirectoryFile!!.exists()) {
             outputDirectoryFile!!.mkdirs()
         } else {
+            /*
             if (outputDirectoryFile!!.list()!!.isNotEmpty()) {
                 throw ExtractionException("Output directory not empty: $outputDirectory")
             }
+            */
         }
     }
 

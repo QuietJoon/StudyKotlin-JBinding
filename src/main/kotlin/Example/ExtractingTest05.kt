@@ -21,7 +21,7 @@ fun main(args: Array<String>) {
             println(aPair.first)
             println("Remove directory: $aPair.second")
             File(aPair.second).deleteRecursively()
-            var anANS = openArchive(aPair.first)
+            var anANS = openArchive(aPair.first)!!
             val ids = getNestedArchivesIDArray(anANS.inArchive)
             val extract = Extract(aPair.first, aPair.second, test, filter)
             extract.prepareOutputDirectory()

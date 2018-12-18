@@ -5,7 +5,7 @@ fun main (args: Array<String>) {
 
     var rawIgnoringList: MutableList<IgnoringItem> = mutableListOf()
 
-    val sArchive = ans.inArchive.simpleInterface
+    val sArchive = ans!!.inArchive.simpleInterface
 
     for (item in sArchive.archiveItems) {
         rawIgnoringList.add(makeItemFromRawItem(item))

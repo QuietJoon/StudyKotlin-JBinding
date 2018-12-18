@@ -36,7 +36,7 @@ fun pathAnalyzeLFEAS(files: List<File>): ArchiveSetPathAnalyzedLFEAS {
     for ( aPath in firstOrSinglePaths ) {
         try {
             println("<firstPhase>: opening $aPath")
-            anANS = openArchive(aPath)
+            anANS = openArchive(aPath)!!
             printItemList(anANS.inArchive)
             anANS.close()
         } catch (e: Exception) {

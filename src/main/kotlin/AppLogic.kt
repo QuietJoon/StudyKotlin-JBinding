@@ -15,14 +15,14 @@ fun rawFileAnalyze(files: List<File>): RawFileAnalyzed {
     var colorName = if (files.size == 1) "Yellow" else "Green"
     val pathArray = files.map{it.toString()}.toTypedArray()
     val firstOrSinglePaths = getFirstOrSingleArchivePaths(pathArray)
-    var anANS: ArchiveAndStream
+    var anANS: ArchiveAndStream?
 
     for ( aPath in firstOrSinglePaths ) {
         try {
             println("<firstPhase>: opening $aPath")
             anANS = openArchive(aPath)
             //printItemList(anANS.inArchive)
-            anANS.close()
+            anANS!!.close() // TOOD: Add exception logic
         } catch (e: Exception) {
             println("[Error]<FirstPhase>: Seems to fail opening")
             colorName = "Red"

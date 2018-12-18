@@ -43,7 +43,7 @@ class ArchiveAndStream (val inArchive: IInArchive, var randomAccess: RandomAcces
 }
 
 
-fun openArchive(aFilePath: RealPath): ArchiveAndStream {
+fun openArchive(aFilePath: RealPath): ArchiveAndStream? {
     if (!File(aFilePath).exists()) {
         throw ExtractionException("Archive file not found: $aFilePath")
     }
@@ -56,7 +56,7 @@ fun openArchive(aFilePath: RealPath): ArchiveAndStream {
     else openMultiVolumeArchive(aFilePath)
 }
 
-private fun openSingleVolumeArchive(aFilePath: RealPath): ArchiveAndStream {
+private fun openSingleVolumeArchive(aFilePath: RealPath): ArchiveAndStream? {
     println("Open single volume with $aFilePath")
 
     var randomAccessFile: RandomAccessFile? = null
@@ -76,14 +76,14 @@ private fun openSingleVolumeArchive(aFilePath: RealPath): ArchiveAndStream {
         )
     } catch (e: Exception) {
         randomAccessFile.close()
-        System.err.println(String.format("[Error]<openArchive>: Fail to open InArchive with $aFilePath\n%s", e.toString()))
-        throw e
+        println(String.format("[Error]<openArchive>: Fail to open InArchive with $aFilePath\n%s", e.toString()))
+        return null
     }
     return ArchiveAndStream(inArchive, randomAccessFile, null)
 }
 
 
-private fun openMultiVolumeArchive(aFilePath : RealPath): ArchiveAndStream {
+private fun openMultiVolumeArchive(aFilePath : RealPath): ArchiveAndStream? {
     println("Open multi-volume with $aFilePath")
 
     var archiveOpenVolumeCallback: ArchiveOpenVolumeCallback? = null
@@ -103,8 +103,8 @@ private fun openMultiVolumeArchive(aFilePath : RealPath): ArchiveAndStream {
         )
     } catch (e: Exception) {
         archiveOpenVolumeCallback.close()
-        System.err.println(String.format("[Error]<openArchive>: Fail to open InArchive with $aFilePath\n%s", e.toString()))
-        throw e
+        println(String.format("[Error]<openArchive>: Fail to open InArchive with $aFilePath\n%s", e.toString()))
+        return null
     }
     return ArchiveAndStream(inArchive, null, archiveOpenVolumeCallback)
 }

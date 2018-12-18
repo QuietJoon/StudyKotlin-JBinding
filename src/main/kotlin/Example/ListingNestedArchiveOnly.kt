@@ -73,7 +73,7 @@ class GUIListingLNAS : Application() {
                 statusIndicator.fill = Paint.valueOf(firstResult.colorName)
 
                 for ( aPath in firstResult.firstOrSinglePaths) {
-                    val ans = openArchive(aPath)
+                    val ans = openArchive(aPath)!!
                     printItemListByIDs(ans.inArchive, getNestedArchivesIDArray(ans.inArchive))
                     ans.close()
                 }
