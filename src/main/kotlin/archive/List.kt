@@ -13,13 +13,13 @@ fun printItemList(inArchive: IInArchive) {
 
     println(String.format("Archive Format: %s", inArchive.archiveFormat.toString()))
 
-    println("  ID  |   CRC    |   Size    | Compr.Sz. |         Modified Date        | Filename")
-    println("-----------------+-----------+-----------+------------------------------+---------")
+    println("  ID  |   CRC    |    Size    | Compr.Sz. |         Modified Date        | Filename")
+    println("-----------------+------------+-----------+------------------------------+---------")
 
     for (item in simpleInArchive.archiveItems) {
         println(
             String.format(
-                " %4d | %08X | %9s | %9s | %28s | %s",
+                " %4d | %08X | %10s | %9s | %28s | %s",
                 item.itemIndex,
                 item.crc,
                 item.size,
@@ -36,14 +36,14 @@ fun printItemListByIDs(inArchive: IInArchive, ids: IntArray) {
     if ( !ids.isEmpty() ) {
         val simpleInArchive = inArchive.getSimpleInterface()
 
-        println("  ID  |   CRC    |   Size    | Compr.Sz. |         Modified Date        | Filename")
-        println("-----------------+-----------+-----------+------------------------------+---------")
+        println("  ID  |   CRC    |    Size    | Compr.Sz. |         Modified Date        | Filename")
+        println("-----------------+------------+-----------+------------------------------+---------")
 
         for (idx in ids) {
             val item = simpleInArchive.getArchiveItem(idx)
             println(
                 String.format(
-                    " %4d | %08X | %9s | %9s | %28s | %s",
+                    " %4d | %08X | %10s | %9s | %28s | %s",
                     item.itemIndex,
                     item.crc,
                     item.size,
