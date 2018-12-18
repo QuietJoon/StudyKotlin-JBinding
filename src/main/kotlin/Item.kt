@@ -40,6 +40,7 @@ class Item (
             , existance = existance
             , isFilled = false
             , isArchive = this.path.last().isArchiveSensitively()
+            , isExtracted = false
         )
     }
 

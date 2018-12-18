@@ -221,14 +221,16 @@ data class ItemRecord (
     , val path: RelativePath
     , var existance: ExistanceBoard
     , var isFilled: Boolean
-    , val isArchive: Boolean? // null when exe is not sure
+    , var isArchive: Boolean? // null when exe is not sure
+    , var isExtracted: Boolean
 ) {
     fun getFullName() = path.getFullName()
 
     override fun toString(): String {
         val stringBuilder = StringBuilder()
         stringBuilder.append(if (isFilled) "O " else "X ")
-        stringBuilder.append(if (isArchive==null) "? " else if (isArchive) "A " else "F ")
+        stringBuilder.append(if (isExtracted) "O " else if (isArchive == false) "  " else "- ")
+        stringBuilder.append(if (isArchive==null) "? " else if (isArchive!!) "A " else "F ")
         for(i in existance)
             stringBuilder.append(if (i==null) "    -     " else String.format(" %3d-%-5d",i.first,i.second))
         stringBuilder.append(" | ")
