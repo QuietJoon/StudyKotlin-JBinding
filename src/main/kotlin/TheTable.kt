@@ -169,6 +169,24 @@ class TheTable (
         }
     }
 
+    fun runOnce(): Boolean {
+        val theKey = getFirstItemKey()
+        if (theKey != null) {
+            val theItemRecord = theItemTable[theKey]
+            // When isArchive == null, check the file is archive or not
+            // How to identify which ArchiveSet is used?
+            //Extract(rootOutputDirectory+theItemRecord.,).extractSomething()
+            return false
+        }
+        else return true
+    }
+
+    fun run() {
+        while (true) {
+            if (runOnce()) break
+        }
+    }
+
     fun closeAllArchiveSets() {
         for ( anArchive in theArchiveList ) {
             anArchive.value.ans.close()
