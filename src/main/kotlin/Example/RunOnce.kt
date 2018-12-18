@@ -35,7 +35,7 @@ fun main (args: Array<String>) {
     var count = 0
     val resultList = mutableListOf<String>()
     for (anItemEntry in theTable.theItemTable) {
-        if (!anItemEntry.value.isFilled) {
+        if (!anItemEntry.value.isFilled && !anItemEntry.value.isExtracted) {
             count++
             val stringBuilder = StringBuilder()
             stringBuilder.append(anItemEntry.key.toString())
@@ -64,7 +64,7 @@ fun main (args: Array<String>) {
         var count = 0
         val resultList = mutableListOf<String>()
         for (anItemEntry in theTable.theItemTable) {
-            if (!anItemEntry.value.isFilled) {
+            if (!anItemEntry.value.isFilled && !anItemEntry.value.isExtracted) {
                 count++
                 val stringBuilder = StringBuilder()
                 stringBuilder.append(anItemEntry.key.toString())
