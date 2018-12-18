@@ -1,7 +1,7 @@
 import net.sf.sevenzipjbinding.IInArchive
-import util.getFullName
 import java.util.*
 
+import util.*
 
 class TheTable (
       val theArchiveSets: Array<ArchiveSet>
@@ -144,6 +144,21 @@ class TheTable (
             if (result != null) return result
         }
         return null
+    }
+
+    fun printSameItemTable(len: Int,fullNameOnly: Boolean) {
+        for ( itemEntry in theItemTable ) {
+            if (itemEntry.value.isFilled) {
+                println(itemEntry.key)
+                itemEntry.value.existance.forEachIndexed { anArchiveSetID, itemIdxs ->
+                    val theItem = theItemList[itemIdxs!!.second]
+                    val thePath = if (fullNameOnly) theItem!!.path.last() else theItem!!.path.joinToString(separator="|")
+                    val regulatedPath = thePath.regulating(len)
+                    print(regulatedPath+"  ")
+                }
+                println()
+            }
+        }
     }
 }
 

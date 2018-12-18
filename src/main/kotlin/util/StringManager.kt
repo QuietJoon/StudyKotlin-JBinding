@@ -58,3 +58,21 @@ fun String.maybePartNumber(): Int? {
 fun String.isSingleVolume(): Boolean = getFileName().maybePartNumber() == null
 
 fun String.isFirstVolume(): Boolean = getFileName().maybePartNumber() == 1
+
+fun String.trimming(maxLen: Int): String {
+    val suffix=".."
+
+    if (this.length > maxLen) return this.substring(0,maxLen-suffix.length) + suffix
+    else return this
+}
+
+fun String.regulating(len: Int): String {
+    val suffix=".."
+    val prefix=" "
+
+    return when {
+        this.length < len -> " ".repeat(len-this.length)+this
+        this.length > len -> this.substring(0,len-suffix.length) + suffix
+        else -> this
+    }
+}
