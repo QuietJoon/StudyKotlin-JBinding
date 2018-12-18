@@ -160,6 +160,12 @@ class TheTable (
             }
         }
     }
+
+    fun closeAllArchiveSets() {
+        for ( anArchive in theArchiveList ) {
+            anArchive.value.ans.close()
+        }
+    }
 }
 
 data class ItemKey (
