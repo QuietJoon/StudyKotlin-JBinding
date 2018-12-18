@@ -1,7 +1,7 @@
 import archive.openArchive
 
 fun main (args: Array<String>) {
-    val ans = openArchive("R:\\TestArchives\\BadPattern.rar")
+    val ans = openArchive("R:\\TestArchives\\BadPattern.2018.12.18.rar")
 
     var rawIgnoringList: MutableList<IgnoringItem> = mutableListOf()
 

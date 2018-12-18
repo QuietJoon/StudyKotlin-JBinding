@@ -30,7 +30,7 @@ fun testWithTheTable(theTable: TheTable): Pair<String, Array<String>> {
             stringBuilder.append(anItemEntry.value.toString())
             val theString = stringBuilder.toString()
             resultList.add(theString)
-            print(theString)
+            println(theString)
         }
     }
     val resultArray = resultList.toTypedArray()
@@ -42,7 +42,9 @@ fun testWithTheTable(theTable: TheTable): Pair<String, Array<String>> {
         else -> error("<testWithTheTable>: Can't be")
     }
 
-    theTable.printSameItemTable(160, true, false)
+    theTable.printSameItemTable(80, true, false)
+    //theTable.printSameItemTable(160, false, false)
+    //theTable.printSameItemTable(200, false, false)
 
     theTable.closeAllArchiveSets()
     theTable.removeAllArchiveSets()

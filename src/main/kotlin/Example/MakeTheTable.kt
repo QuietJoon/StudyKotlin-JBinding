@@ -37,7 +37,6 @@ fun main (args: Array<String>) {
     for (anKey in xTable.theItemTable.keys)
         println(anKey.toString())
     */
-    /*
     val theArchivePaths: Array<RealPath> = arrayOf(
           "R:\\TestArchives\\ZA0.rar"
         , "R:\\TestArchives\\ZA1.rar"
@@ -45,7 +44,7 @@ fun main (args: Array<String>) {
         , "R:\\TestArchives\\ZA3.zip"
         , "R:\\TestArchives\\ZA4.rar"
     )
-    */
+    /*
     val theArchivePaths: Array<RealPath> = arrayOf(
           "H:\\Inad\\ARIA\\[DVDISO] -ARIA- (3 seasons+OVA+α)\\ARIA The NATURAL　vol.01～09\\ARIA2_NA1.rar"
         , "H:\\Inad\\ARIA\\[DVDISO] -ARIA- (3 seasons+OVA+α)\\ARIA The NATURAL　vol.01～09\\ARIA2_NA2.rar"
@@ -57,6 +56,7 @@ fun main (args: Array<String>) {
         , "H:\\Inad\\ARIA\\[DVDISO] -ARIA- (3 seasons+OVA+α)\\ARIA The NATURAL　vol.01～09\\ARIA2_NA8.rar"
         , "H:\\Inad\\ARIA\\[DVDISO] -ARIA- (3 seasons+OVA+α)\\ARIA The NATURAL　vol.01～09\\ARIA2_NA9.rar"
     )
+    */
 
     var theTable = makeTheTable(theArchivePaths, "R:\\Debug")
 
