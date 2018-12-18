@@ -181,6 +181,7 @@ class Extract internal constructor(
 
     @Throws(ExtractionException::class)
     fun extractSomething(inArchive: IInArchive, ids: IntArray) {
+        prepareOutputDirectory()
         try {
             inArchive.extract(ids, test, ExtractCallback(inArchive))
         } catch (e: SevenZipException) {

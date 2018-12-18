@@ -13,6 +13,8 @@ fun main (args: Array<String>) {
     println("Size of IgnoringList: ${theIgnoringList.ignoringList.size}")
 
     var theTable = makeTheTable(theArchivePaths, theDebugDirectory)
+    theTable.prepareWorkingDirectory()
+
     println("Number of ArchiveSet: ${theTable.archiveSetNum}")
 
     println("Phase #0")
