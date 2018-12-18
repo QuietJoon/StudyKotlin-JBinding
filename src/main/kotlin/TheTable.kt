@@ -134,26 +134,6 @@ class TheTable (
         }
     }
 
-    fun getInArchive(archiveSetID: ArchiveSetID): IInArchive {
-        for ( anArchiveSet in theArchiveSets) {
-            val result = getInArchiveSub(archiveSetID, anArchiveSet)
-            if ( result != null ) {
-                return result
-            }
-        }
-        error("[ERROR]<getInArchive>: Couldn't find InArchive($archiveSetID)")
-    }
-
-    fun getInArchiveSub(archiveSetID: ArchiveSetID, anArchiveSet: ArchiveSet): IInArchive? {
-        if (anArchiveSet.archiveSetID == archiveSetID)
-            return anArchiveSet.getInArchive()
-        for ( subArchiveSet in theArchiveSets ) {
-            val result = getInArchiveSub(archiveSetID, subArchiveSet)
-            if (result != null) return result
-        }
-        return null
-    }
-
     fun printSameItemTable(len: Int, fullNameOnly: Boolean, relativePathOnly: Boolean) {
         for ( itemEntry in theItemTable ) {
             if (itemEntry.value.isFilled) {
