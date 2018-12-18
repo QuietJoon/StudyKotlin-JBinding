@@ -260,6 +260,13 @@ data class ItemRecord (
         stringBuilder.append(path)
         return stringBuilder.toString()
     }
+
+    fun getAnyID(): ExistanceMark {
+        existance.forEach {
+            if (it != null) return it
+        }
+        error("[ERROR]<getAnyItemID>: Can't be reached - No items in existence")
+    }
 }
 
 typealias ItemRecordTable = SortedMap<ItemKey, ItemRecord>
