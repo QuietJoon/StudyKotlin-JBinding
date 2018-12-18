@@ -1,7 +1,7 @@
-import net.sf.sevenzipjbinding.IInArchive
 import java.util.*
 import java.io.File
 
+import archive.*
 import util.*
 
 class TheTable (
@@ -155,9 +155,40 @@ class TheTable (
         val theKey = getFirstItemKey()
         if (theKey != null) {
             val theItemRecord = theItemTable[theKey]
+            // TODO: Change for multi-volume: Int -> IntArray
+            val idx = theItemRecord!!.getAnyID()
+            val parentArchiveSet: ArchiveSet = theArchiveList[idx.first]!!
+            // TODO: Change for multi-volume: String -> Array<String>
+            val anArchiveSetRealPath = rootOutputDirectory + directoryDelimiter + theItemList[idx.second]!!.path.last()
+
             // When isArchive == null, check the file is archive or not
             // How to identify which ArchiveSet is used?
-            //Extract(rootOutputDirectory+theItemRecord.,).extractSomething()
+            // TODO: How about multi-volume?
+            Extract( parentArchiveSet.realArchiveSetPaths.last(), rootOutputDirectory, false, null)
+                .extractSomething(parentArchiveSet.ans.inArchive, intArrayOf(theItemList[idx.second]!!.idInArchive)) // TODO: Change for multi-volume
+
+            var anANS = openArchive(rootOutputDirectory + directoryDelimiter + theItemList[idx.second]!!.path.last())
+            if (anANS != null) {
+                if (theItemRecord.isArchive == null) {
+                    theItemTable[theKey]!!.isArchive = true
+                    modifyKeyOfTheItemTable(theKey,theKey.copy(isArchive = true))
+                }
+                theItemTable[theKey]!!.isExtracted = true
+
+                var anArchiveSet = ArchiveSet(arrayOf(anArchiveSetRealPath),theArchiveList.size,parentArchiveSet.rootArchiveSetID,anANS)
+                registerAnArchiveSet(anArchiveSet)
+
+                for ( idx in anArchiveSet.itemList.keys) {
+                    registerAnItemRecord(anArchiveSet,idx,theItemRecord!!.existance)
+                }
+            } else {
+                if (theItemRecord.isArchive == null) {
+                    theItemTable[theKey]!!.isArchive = false
+                    modifyKeyOfTheItemTable(theKey,theKey.copy(isArchive = false))
+                } else {
+                    error("[ERROR]<runOnce>: Fail to open an Archive ${theItemRecord.path}")
+                }
+            }
             return false
         }
         else return true
