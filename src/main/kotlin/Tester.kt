@@ -1,4 +1,4 @@
-fun testWithTheTable(theTable: TheTable) {
+fun testWithTheTable(theTable: TheTable): Pair<String, Array<String>> {
     println("Number of ArchiveSet: ${theTable.archiveSetNum}")
     println("Size of TheIgnoringList: ${theIgnoringList.ignoringList.size}")
     println("Size of TheItemTable: ${theTable.theItemTable.size}")
@@ -17,16 +17,30 @@ fun testWithTheTable(theTable: TheTable) {
 
     println("Difference only")
     var count = 0
+    val resultList = mutableListOf<String>()
     for (anItemEntry in theTable.theItemTable) {
         if (!anItemEntry.value.isFilled) {
-            print(anItemEntry.key.toString())
-            println(anItemEntry.value.toString())
             count++
+            val stringBuilder = StringBuilder()
+            stringBuilder.append(anItemEntry.key.toString())
+            stringBuilder.append(anItemEntry.value.toString())
+            val theString = stringBuilder.toString()
+            resultList.add(theString)
+            print(theString)
         }
     }
+    val resultArray = resultList.toTypedArray()
+
     if (count == 0 ) println("Have no different files in the ArchiveSets")
+    val resultColor = when {
+        count == 0 -> "Green"
+        count > 0 -> "Red"
+        else -> error("<testWithTheTable>: Can't be")
+    }
 
     theTable.printSameItemTable(160, true, false)
 
     theTable.closeAllArchiveSets()
+
+    return Pair(resultColor, resultArray)
 }

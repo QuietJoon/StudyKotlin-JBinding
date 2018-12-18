@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.Label
+import javafx.scene.control.TextArea
 import javafx.scene.input.TransferMode
 import javafx.scene.paint.Paint
 import javafx.scene.shape.Rectangle
@@ -19,6 +20,8 @@ class GUI : Application() {
         val scene = Scene(root)
         val filePathsLabel = root.lookup("#FilePathsLabel") as Label
         val statusIndicator = root.lookup("#StatusIndicator") as Rectangle
+        val differencesLabel = root.lookup("#DifferencesLabel") as TextArea
+        val analyzedIndicator = root.lookup("#AnalyzedIndicator") as Rectangle
 
         scene.onDragOver = EventHandler { event ->
             val db = event.dragboard
@@ -51,7 +54,9 @@ class GUI : Application() {
                 val theTable = makeTheTable(theArchivePaths, theDebugDirectory)
 
                 println("Test with the table")
-                testWithTheTable(theTable)
+                val testResult = testWithTheTable(theTable)
+                differencesLabel.text = testResult.second.joinToString(separator = "\n")
+                analyzedIndicator.fill = Paint.valueOf(testResult.first)
 
                 println("End a phase")
             } else {

@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Rectangle fx:id="StatusIndicator" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="100.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-      <Label fx:id="FilePathsLabel" layoutX="100.0" layoutY="60.0" text="Nothing" />
+      <Rectangle fx:id="AnalyzedIndicator" arcHeight="5.0" arcWidth="5.0" fill="#eeff99" height="400.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
+      <Rectangle fx:id="StatusIndicator" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="32.0" layoutY="32.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
+      <Label fx:id="FilePathsLabel" layoutX="32.0" layoutY="64.0" text="Nothing" />
+      <TextArea fx:id="DifferencesLabel" layoutX="200.0" prefHeight="400.0" prefWidth="1600.0">
+         <font>
+            <Font name="Noto Sans Mono Regular" size="12.0" />
+         </font></TextArea>
    </children>
 </AnchorPane>
