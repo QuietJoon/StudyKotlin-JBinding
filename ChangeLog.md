@@ -1,0 +1,15 @@
+# Changelog for ArchiveDiffer-Kotlin
+
+## Unreleased changes
+
+* Can't handle nested multi-volume yet
+
+## 0.1.0.0  -- 2018/12/19
+
+First release
+
+* Could compare every files in each archive set
+  * Even in nested archive
+* Could handle executable archive
+* Could open/compare multi-volume archive
+* Items on IgnoringList will be ignored when comparing
