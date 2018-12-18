@@ -1,4 +1,3 @@
-import archive.ArchiveAndStream
 import net.sf.sevenzipjbinding.IInArchive
 import util.getFullName
 import java.util.*
@@ -136,6 +135,17 @@ class TheTable (
                 if (it.key.isArchive != false) return null else it.key
         }
         return null
+    }
+
+    fun modifyKeyOfTheItemTable(oldKey: ItemKey, newKey: ItemKey) {
+        val queriedValue = theItemTable[oldKey]
+        println(theItemTable)
+        if (queriedValue == null) {
+            error("[ERROR]<modifyKey>: No such ItemRecord with $oldKey")
+        } else {
+            theItemTable.remove(oldKey)
+            theItemTable.put(newKey,queriedValue)
+        }
     }
 
     fun getInArchive(archiveSetID: ArchiveSetID): IInArchive {
