@@ -54,7 +54,7 @@ class IgnoringList (
             stringBuilder.append("|")
             stringBuilder.append(item.itemSize.level.toString())
             stringBuilder.append("|")
-            stringBuilder.append(item.itemSize.datum.toString())
+            stringBuilder.append(String.format("%12s",item.itemSize.datum))
             stringBuilder.append("|")
             stringBuilder.append(item.itemModifiedDate.level.toString())
             stringBuilder.append("|")
@@ -83,13 +83,13 @@ fun ignoringListFromString(content: List<String>): IgnoringList {
     for (line in content) {
         val tokens = line.split("|")
 
-        val itemCRCL = Level.valueOf(tokens[0])
+        val itemCRCL = Level.valueOf(tokens[0].trim())
         val itemCRCV = tokens[1].toLong(16).toInt()
-        val itemSIZEL = Level.valueOf(tokens[2])
-        val itemSIZEV = tokens[3].toLong()
-        val itemModifiedDateL = Level.valueOf(tokens[4])
+        val itemSIZEL = Level.valueOf(tokens[2].trim())
+        val itemSIZEV = tokens[3].trim().toLong()
+        val itemModifiedDateL = Level.valueOf(tokens[4].trim())
         val itemModifiedDateV = tokens[5].toLong()
-        val itemNameL = Level.valueOf(tokens[6])
+        val itemNameL = Level.valueOf(tokens[6].trim())
         val itemNameV = tokens[7]
         rawIgnoringList.add(IgnoringItem(
             Leveled(itemCRCL,itemCRCV)
