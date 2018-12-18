@@ -52,11 +52,63 @@ class GUI : Application() {
 
                 println("Make the table")
                 val theTable = makeTheTable(theArchivePaths, theDebugDirectory)
+                theTable.prepareWorkingDirectory()
 
-                println("Test with the table")
-                val testResult = testWithTheTable(theTable)
-                differencesLabel.text = testResult.second.joinToString(separator = "\n")
-                analyzedIndicator.fill = Paint.valueOf(testResult.first)
+                for ( anArchiveSet in theTable.theArchiveSets)
+                    printItemList(anArchiveSet, anArchiveSet.getThisIDs())
+
+                for ( anItemRecord in theTable.theItemTable ) {
+                    print(anItemRecord.key.toString())
+                    println(anItemRecord.value.toString())
+                }
+
+                println("Difference only")
+                var count = 0
+                var resultList = mutableListOf<String>()
+                for (anItemEntry in theTable.theItemTable) {
+                    if (!anItemEntry.value.isFilled && !anItemEntry.value.isExtracted) {
+                        count++
+                        val stringBuilder = StringBuilder()
+                        stringBuilder.append(anItemEntry.key.toString())
+                        stringBuilder.append(anItemEntry.value.toString())
+                        val theString = stringBuilder.toString()
+                        resultList.add(theString)
+                        println(theString)
+                    }
+                }
+
+                var runCount = 1
+                while(true) {
+                    println("Phase #$runCount")
+                    if (theTable.runOnce()) break
+
+                    for ( anArchiveSet in theTable.theArchiveSets)
+                        printItemList(anArchiveSet, anArchiveSet.getThisIDs())
+
+                    for ( anItemRecord in theTable.theItemTable ) {
+                        print(anItemRecord.key.toString())
+                        println(anItemRecord.value.toString())
+                    }
+
+                    println("Difference only")
+                    count = 0
+                    resultList = mutableListOf<String>()
+                    for (anItemEntry in theTable.theItemTable) {
+                        if (!anItemEntry.value.isFilled && !anItemEntry.value.isExtracted) {
+                            count++
+                            val stringBuilder = StringBuilder()
+                            stringBuilder.append(anItemEntry.key.toString())
+                            stringBuilder.append(anItemEntry.value.toString())
+                            val theString = stringBuilder.toString()
+                            resultList.add(theString)
+                            println(theString)
+                        }
+                    }
+                    runCount++
+                }
+
+                differencesLabel.text = resultList.joinToString(separator = "\n")
+                analyzedIndicator.fill = Paint.valueOf(if (count == 0) "Green" else "Red")
 
                 println("End a phase")
             } else {
