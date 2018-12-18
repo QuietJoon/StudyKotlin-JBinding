@@ -13,6 +13,7 @@ class GUI : Application() {
 
     override fun start(primaryStage: Stage) {
         primaryStage.title = "Study 7-Zip JBinding!"
+        primaryStage.isAlwaysOnTop = true
         val fxml = javaClass.getResource("fxml/Main.fxml")
         val root: Parent = FXMLLoader.load(fxml)
         val scene = Scene(root)
