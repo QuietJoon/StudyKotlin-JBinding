@@ -20,7 +20,8 @@ class ArchiveSet (
 
         val simpleArchive = ans.inArchive.simpleInterface
         for (sItem in simpleArchive.archiveItems) {
-            addNewItem(sItem)
+            if (!sItem.isFolder)
+                addNewItem(sItem)
         }
     }
 
