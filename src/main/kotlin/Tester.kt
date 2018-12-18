@@ -26,7 +26,7 @@ fun testWithTheTable(theTable: TheTable) {
     }
     if (count == 0 ) println("Have no different files in the ArchiveSets")
 
-    theTable.printSameItemTable(200, false)
+    theTable.printSameItemTable(160, true, false)
 
     theTable.closeAllArchiveSets()
 }

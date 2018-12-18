@@ -146,15 +146,17 @@ class TheTable (
         return null
     }
 
-    fun printSameItemTable(len: Int,fullNameOnly: Boolean) {
+    fun printSameItemTable(len: Int, fullNameOnly: Boolean, relativePathOnly: Boolean) {
         for ( itemEntry in theItemTable ) {
             if (itemEntry.value.isFilled) {
                 println(itemEntry.key)
                 itemEntry.value.existance.forEachIndexed { anArchiveSetID, itemIdxs ->
                     val theItem = theItemList[itemIdxs!!.second]
-                    val thePath = if (fullNameOnly) theItem!!.path.last() else theItem!!.path.joinToString(separator="|")
+                    val thePath = if (fullNameOnly) theItem!!.path.last().getFullName()
+                                    else if (relativePathOnly) theItem!!.path.last()
+                                    else theItem!!.path.joinToString(separator="|")
                     val regulatedPath = thePath.regulating(len)
-                    print(regulatedPath+"  ")
+                    print(regulatedPath+" | ")
                 }
                 println()
             }
