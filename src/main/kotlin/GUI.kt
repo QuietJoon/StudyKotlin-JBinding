@@ -127,7 +127,7 @@ class GUI : Application() {
                 analyzedIndicator.fill = Paint.valueOf(if (count == 0) "Green" else "Red")
 
                 theTable.closeAllArchiveSets()
-                //theTable.removeAllArchiveSets()
+                theTable.removeAllArchiveSets()
 
                 println("End a phase")
             } else {
