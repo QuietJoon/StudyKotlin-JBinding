@@ -73,7 +73,7 @@ class TheTable (
         theItemList[anItem.id] = anItem
     }
 
-    fun registerAnItemRecord(anArchiveSet: ArchiveSet, idx: ItemKey, beforeExistance: ExistanceBoard) {
+    fun registerAnItemRecordN(anArchiveSet: ArchiveSet, idx: ItemKey) {
         val anItem: Item = anArchiveSet.itemList[idx]!!
         if (theIgnoringList.match(anItem)) {
             println("Skip: ${anItem.path.last()}")
@@ -87,8 +87,8 @@ class TheTable (
             val anItemRecord = anItem.makeItemRecordFromItem(archiveSetNum,idPair.third,idPair.first)
             theItemTable[aKey] = anItemRecord
         } else {
-            val newExistance = mergeExistance(queryItemRecord.existance,beforeExistance)
-            theItemTable[aKey]!!.existance = newExistance
+            //val newExistance = mergeExistance(queryItemRecord.existance,beforeExistance)
+            theItemTable[aKey]!!.existance[anArchiveSet.rootArchiveSetID] = Pair(anItem.parentArchiveSetID,anItem.id)
         }
         if (theItemTable[aKey]!!.existance.isFilled())
             theItemTable[aKey]!!.isFilled = true
@@ -179,7 +179,7 @@ class TheTable (
                 registerAnArchiveSet(anArchiveSet)
 
                 for ( anIdx in anArchiveSet.itemList.keys) {
-                    registerAnItemRecord(anArchiveSet,anIdx,theItemRecord.existance)
+                    registerAnItemRecordN(anArchiveSet,anIdx)
                 }
             } else {
                 if (theItemRecord.isArchive == null) {
