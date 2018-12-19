@@ -191,9 +191,10 @@ class TheTable (
 
             var anANS = openArchive(rootOutputDirectory + directoryDelimiter + theItemList[idx.second]!!.path.last())
             if (anANS != null) {
+                val newKey = theKey.copy(isArchive = true)
                 if (theItemRecord.isArchive == null) {
                     theItemTable[theKey]!!.isArchive = true
-                    modifyKeyOfTheItemTable(theKey,theKey.copy(isArchive = true))
+                    modifyKeyOfTheItemTable(theKey,newKey)
                 }
 
                 theItemTable[newKey]!!.isExtracted = true
