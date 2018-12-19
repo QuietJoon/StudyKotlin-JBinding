@@ -4,6 +4,13 @@
 
 * Can't handle nested multi-volume yet
 
+## 0.1.0.1  -- 2018/12/19
+
+### Fixed
+* Fix bug with IgnoringList.match
+* Close ArchiveSets after analyzing - was implemented in tested code
+* Fix some error messages - was indicate wrong function
+
 ## 0.1.0.0  -- 2018/12/19
 
 First release
