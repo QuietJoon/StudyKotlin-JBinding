@@ -79,6 +79,7 @@ class GUI : Application() {
 
                 var runCount = 1
                 while(true) {
+                    analyzedIndicator.fill = Paint.valueOf("GRAY")
                     println("Phase #$runCount")
                     if (theTable.runOnce()) break
 
@@ -105,6 +106,23 @@ class GUI : Application() {
                         }
                     }
                     runCount++
+                }
+
+                println("End Phase")
+
+                if (count == 0) {
+                    println("Have no different files in the ArchiveSets")
+
+                    resultList = mutableListOf()
+                    resultList.add("Have no different files in the ArchiveSets")
+                    for (anItemEntry in theTable.theItemTable) {
+                        val stringBuilder = StringBuilder()
+                        stringBuilder.append(anItemEntry.key.toString())
+                        stringBuilder.append(anItemEntry.value.toString())
+                        val theString = stringBuilder.toString()
+                        resultList.add(theString)
+                        println(theString)
+                    }
                 }
 
                 differencesLabel.text = resultList.joinToString(separator = "\n")
