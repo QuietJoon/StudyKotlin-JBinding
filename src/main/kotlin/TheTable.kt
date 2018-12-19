@@ -175,7 +175,7 @@ class TheTable (
                 }
                 theItemTable[theKey]!!.isExtracted = true
 
-                var anArchiveSet = ArchiveSet(arrayOf(anArchiveSetRealPath),theArchiveList.size,parentArchiveSet.rootArchiveSetID,anANS)
+                var anArchiveSet = ArchiveSet(arrayOf(anArchiveSetRealPath),theArchiveList.size,parentArchiveSet.rootArchiveSetID,anANS,idx.second)
                 registerAnArchiveSet(anArchiveSet)
 
                 for ( anIdx in anArchiveSet.itemList.keys) {

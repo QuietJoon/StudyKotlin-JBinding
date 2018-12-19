@@ -8,6 +8,7 @@ class ArchiveSet (
     , val archiveSetID: ArchiveSetID
     , val rootArchiveSetID: ArchiveSetID
     , val ans: ArchiveAndStream
+    , val itemID: ItemID
 ) {
     val itemList: ItemTable
     val subArchiveSetList: MutableList<ArchiveSet>
@@ -28,8 +29,8 @@ class ArchiveSet (
     fun addNewItem(sItem: ISimpleInArchiveItem) {
         val anItem = sItem.makeItemFromArchiveItem(
             realArchiveSetPaths
+            , itemID
             , archiveSetID
-            , rootArchiveSetID
         )
         if (theIgnoringList.match(anItem)) {
             println("Skip: ${anItem.path.last()}")
