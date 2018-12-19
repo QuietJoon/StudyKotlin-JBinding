@@ -213,16 +213,16 @@ class TheTable (
     fun prepareWorkingDirectory() {
         val theDirectory = File(rootOutputDirectory)
         if ( !theDirectory.exists() ) {
-            println("<testWithTheTable>: Does not exist")
+            println("<prepareWorkingDirectory>: Does not exist")
 
             File(rootOutputDirectory).mkdirs()
             if ( !theDirectory.mkdirs() ) {
-                println("[ERROR]<testWithTheTable>: Fail to make directory")
+                println("[ERROR]<prepareWorkingDirectory>: Fail to make directory")
             } else {
-                println("<testWithTheTable>: Seems to be made")
+                println("<prepareWorkingDirectory>: Seems to be made")
             }
             if (!theDirectory.exists()) {
-                error("[ERROR]<testWithTheTable>: Can't be")
+                println("[ERROR]<prepareWorkingDirectory>: Can't be")
             }
         }
     }
