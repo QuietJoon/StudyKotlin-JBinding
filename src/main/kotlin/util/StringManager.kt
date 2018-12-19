@@ -61,6 +61,8 @@ fun String.isSingleVolume(): Boolean = getFileName().maybePartNumber() == null
 
 fun String.isFirstVolume(): Boolean = getFileName().maybePartNumber() == 1
 
+fun String.getCommonNameOfMultiVolume(): String = getFileName().substringBeforeLast(".part")
+
 fun String.trimming(width: Int, suffix: String, suffixLength: Int): String {
     var result = ""
     var currWidth= 0

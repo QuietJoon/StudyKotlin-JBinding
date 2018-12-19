@@ -151,6 +151,19 @@ class TheTable (
         }
     }
 
+    fun findMultiVolumes(path: RelativePath, rootArchiveSetID: ArchiveSetID): IntArray {
+        val commonName = path.getCommonNameOfMultiVolume()
+        val idList = mutableListOf<Int>()
+        for ( itemEntry in theItemTable ) {
+            val existance = itemEntry.value.existance[rootArchiveSetID]
+            if (existance != null)
+                if (!itemEntry.value.isFirstOrSingle)
+                    if (theItemList[existance.second]!!.path.last().getCommonNameOfMultiVolume() == commonName)
+                        idList.add(existance.second)
+        }
+        return idList.toIntArray()
+    }
+
     fun runOnce(): Boolean {
         val theKey = getFirstItemKey()
         if (theKey != null) {
@@ -158,14 +171,23 @@ class TheTable (
             // TODO: Change for multi-volume: Int -> IntArray
             val idx = theItemRecord!!.getAnyID()
             val parentArchiveSet: ArchiveSet = theArchiveList[idx.first]!!
+            // Actually, this is not good enough. However, we assume that even the item is different, same key means same contents.
+            val anArchiveSetPath = theItemList[idx.second]!!.path.last()
+            val idxs: IntArray = findMultiVolumes(anArchiveSetPath,parentArchiveSet.rootArchiveSetID)
             // TODO: Change for multi-volume: String -> Array<String>
-            val anArchiveSetRealPath = rootOutputDirectory + directoryDelimiter + theItemList[idx.second]!!.path.last()
+            val anArchiveSetRealPath = rootOutputDirectory + directoryDelimiter + anArchiveSetPath
+
+            val idsList = mutableListOf<Int>()
+
+            for ( id in idxs.plus(idx.second)) {
+                idsList.add(theItemList[id]!!.idInArchive)
+            }
 
             // When isArchive == null, check the file is archive or not
             // How to identify which ArchiveSet is used?
             // TODO: How about multi-volume?
             Extract( parentArchiveSet.realArchiveSetPaths.last(), rootOutputDirectory, false, null)
-                .extractSomething(parentArchiveSet.ans.inArchive, intArrayOf(theItemList[idx.second]!!.idInArchive)) // TODO: Change for multi-volume
+                .extractSomething(parentArchiveSet.ans.inArchive, idsList.toIntArray()) // TODO: Change for multi-volume
 
             var anANS = openArchive(rootOutputDirectory + directoryDelimiter + theItemList[idx.second]!!.path.last())
             if (anANS != null) {
