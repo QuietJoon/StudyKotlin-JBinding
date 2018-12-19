@@ -108,8 +108,6 @@ class GUI : Application() {
                     runCount++
                 }
 
-                println("End Phase")
-
                 if (count == 0) {
                     println("Have no different files in the ArchiveSets")
 
@@ -127,6 +125,9 @@ class GUI : Application() {
 
                 differencesLabel.text = resultList.joinToString(separator = "\n")
                 analyzedIndicator.fill = Paint.valueOf(if (count == 0) "Green" else "Red")
+
+                theTable.closeAllArchiveSets()
+                //theTable.removeAllArchiveSets()
 
                 println("End a phase")
             } else {
