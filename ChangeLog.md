@@ -4,6 +4,15 @@
 
 * Can't handle nested multi-volume yet
 
+## 0.1.0.2  -- 2018/12/19
+
+### Added
+
+* itemID for ArchiveSet
+
+### Fixed
+* Fix bug that labeling wrong parentArchiveSetID and itemID on existence of theItemTable
+
 ## 0.1.0.1  -- 2018/12/19
 
 ### Fixed
