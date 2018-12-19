@@ -2,12 +2,17 @@
 
 ## Unreleased changes
 
-* Can't handle nested multi-volume yet
+## Known Bug
+* When opening multi-volume, the program print `theItemTable` and ends unexpectedly
+
+## 0.2.0.0  -- 2018/12/19
+
+### Added
+* Could extract/test with nested multi-volume archive
 
 ## 0.1.0.2  -- 2018/12/19
 
 ### Added
-
 * itemID for ArchiveSet
 
 ### Fixed
