@@ -125,7 +125,7 @@ class TheTable (
 
     fun modifyKeyOfTheItemTable(oldKey: ItemKey, newKey: ItemKey) {
         val queriedValue = theItemTable[oldKey]
-        println(theItemTable)
+
         if (queriedValue == null) {
             error("[ERROR]<modifyKey>: No such ItemRecord with $oldKey")
         } else {
