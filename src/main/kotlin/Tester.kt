@@ -1,5 +1,3 @@
-import java.io.File
-
 fun testWithTheTable(theTable: TheTable): Pair<String, Array<String>> {
     theTable.prepareWorkingDirectory()
 

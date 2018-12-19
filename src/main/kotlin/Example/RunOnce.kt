@@ -33,7 +33,7 @@ fun main (args: Array<String>) {
 
     println("Difference only")
     var count = 0
-    val resultList = mutableListOf<String>()
+    var resultList = mutableListOf<String>()
     for (anItemEntry in theTable.theItemTable) {
         if (!anItemEntry.value.isFilled && !anItemEntry.value.isExtracted) {
             count++
@@ -61,8 +61,8 @@ fun main (args: Array<String>) {
         }
 
         println("Difference only")
-        var count = 0
-        val resultList = mutableListOf<String>()
+        count = 0
+        resultList = mutableListOf<String>()
         for (anItemEntry in theTable.theItemTable) {
             if (!anItemEntry.value.isFilled && !anItemEntry.value.isExtracted) {
                 count++

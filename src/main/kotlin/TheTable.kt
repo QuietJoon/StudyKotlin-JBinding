@@ -138,8 +138,8 @@ class TheTable (
         for ( itemEntry in theItemTable ) {
             if (itemEntry.value.isFilled) {
                 println(itemEntry.key)
-                itemEntry.value.existance.forEachIndexed { anArchiveSetID, itemIdxs ->
-                    val theItem = theItemList[itemIdxs!!.second]
+                itemEntry.value.existance.forEach {
+                    val theItem = theItemList[it!!.second]
                     val thePath = if (fullNameOnly) theItem!!.path.last().getFullName()
                                     else if (relativePathOnly) theItem!!.path.last()
                                     else theItem!!.path.joinToString(separator="|")
@@ -178,8 +178,8 @@ class TheTable (
                 var anArchiveSet = ArchiveSet(arrayOf(anArchiveSetRealPath),theArchiveList.size,parentArchiveSet.rootArchiveSetID,anANS)
                 registerAnArchiveSet(anArchiveSet)
 
-                for ( idx in anArchiveSet.itemList.keys) {
-                    registerAnItemRecord(anArchiveSet,idx,theItemRecord!!.existance)
+                for ( anIdx in anArchiveSet.itemList.keys) {
+                    registerAnItemRecord(anArchiveSet,anIdx,theItemRecord.existance)
                 }
             } else {
                 if (theItemRecord.isArchive == null) {
