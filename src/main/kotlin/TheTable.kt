@@ -115,10 +115,10 @@ class TheTable (
 
     fun getFirstItemKey(): ItemKey? {
         theItemTable.forEach {
-            if (!it.value.isFilled) {
+            if (!it.value.isFilled)
                 if (it.key.isArchive != false)
-                    if (!theItemTable[it.key]!!.isExtracted) return it.key
-            }
+                    if (theItemTable[it.key]!!.isFirstOrSingle
+                        && !theItemTable[it.key]!!.isExtracted) return it.key
         }
         return null
     }
@@ -271,6 +271,7 @@ data class ItemRecord (
     , var isFilled: Boolean
     , var isArchive: Boolean? // null when exe is not sure
     , var isExtracted: Boolean
+    , var isFirstOrSingle: Boolean
 ) {
     fun getFullName() = path.getFullName()
 
@@ -279,6 +280,7 @@ data class ItemRecord (
         stringBuilder.append(if (isFilled) "O " else "X ")
         stringBuilder.append(if (isExtracted) "O " else if (isArchive == false) "  " else "- ")
         stringBuilder.append(if (isArchive==null) "? " else if (isArchive!!) "A " else "F ")
+        stringBuilder.append(if (isArchive==false) "  " else if (isFirstOrSingle) "S " else "M ")
         for(i in existance)
             stringBuilder.append(if (i==null) "    -     " else String.format(" %3d-%-5d",i.first,i.second))
         stringBuilder.append(" | ")

@@ -33,14 +33,15 @@ class Item (
         val existance = arrayOfNulls<ExistanceMark>(archiveSetNum)
         existance[rootArchiveSetID]=Pair(theArchiveSetID,id)
         return ItemRecord(
-            dataCRC = this.dataCRC
-            , dataSize = this.dataSize
-            , modifiedDate = this.modifiedDate
-            , path = this.path.last()
+            dataCRC = dataCRC
+            , dataSize = dataSize
+            , modifiedDate = modifiedDate
+            , path = path.last()
             , existance = existance
             , isFilled = false
-            , isArchive = this.path.last().isArchiveSensitively()
+            , isArchive = getFullName().isArchiveSensitively()
             , isExtracted = false
+            , isFirstOrSingle = getFullName().isSingleVolume() || getFullName().isFirstVolume()
         )
     }
 
