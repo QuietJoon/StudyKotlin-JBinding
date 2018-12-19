@@ -195,7 +195,12 @@ class TheTable (
                     theItemTable[theKey]!!.isArchive = true
                     modifyKeyOfTheItemTable(theKey,theKey.copy(isArchive = true))
                 }
-                theItemTable[theKey]!!.isExtracted = true
+
+                theItemTable[newKey]!!.isExtracted = true
+                for (id in idxs) {
+                    val anKey = theItemList[id]!!.generateItemKey()
+                    theItemTable[anKey]!!.isExtracted = true
+                }
 
                 var anArchiveSet = ArchiveSet(arrayOf(anArchiveSetRealPath),theArchiveList.size,parentArchiveSet.rootArchiveSetID,anANS,idx.second)
                 registerAnArchiveSet(anArchiveSet)
