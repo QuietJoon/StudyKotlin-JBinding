@@ -21,7 +21,7 @@ class IgnoringItem (
             checked = true
             result = result && (itemSize.datum == item.dataSize)
         }
-        if (itemSize.level == Level.SURE) {
+        if (itemName.level == Level.SURE) {
             checked = true
             result = result && (itemName.datum == item.path.last().getFullName())
         }
