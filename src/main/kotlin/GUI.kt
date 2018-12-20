@@ -105,6 +105,18 @@ class GUI : Application() {
                             println(theString)
                         }
                     }
+                    println("Same")
+                    resultList.add("---------------- Same ----------------")
+                    for (anItemEntry in theTable.theItemTable) {
+                        if (anItemEntry.value.isFilled || anItemEntry.value.isExtracted) {
+                            val stringBuilder = StringBuilder()
+                            stringBuilder.append(anItemEntry.key.toString())
+                            stringBuilder.append(anItemEntry.value.toString())
+                            val theString = stringBuilder.toString()
+                            resultList.add(theString)
+                            println(theString)
+                        }
+                    }
                     runCount++
                 }
 
