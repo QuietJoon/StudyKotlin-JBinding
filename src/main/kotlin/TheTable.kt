@@ -168,26 +168,20 @@ class TheTable (
         val theKey = getFirstItemKey()
         if (theKey != null) {
             val theItemRecord = theItemTable[theKey]
-            // TODO: Change for multi-volume: Int -> IntArray
             val idx = theItemRecord!!.getAnyID()
             val parentArchiveSet: ArchiveSet = theArchiveList[idx.first]!!
             // Actually, this is not good enough. However, we assume that even the item is different, same key means same contents.
             val anArchiveSetPath = theItemList[idx.second]!!.path.last()
             val idxs: IntArray = findMultiVolumes(anArchiveSetPath,parentArchiveSet.rootArchiveSetID)
-            // TODO: Change for multi-volume: String -> Array<String>
             val anArchiveSetRealPath = rootOutputDirectory + directoryDelimiter + anArchiveSetPath
 
             val idsList = mutableListOf<Int>()
 
-            for ( id in idxs.plus(idx.second)) {
+            for ( id in idxs.plus(idx.second))
                 idsList.add(theItemList[id]!!.idInArchive)
-            }
 
-            // When isArchive == null, check the file is archive or not
-            // How to identify which ArchiveSet is used?
-            // TODO: How about multi-volume?
             Extract( parentArchiveSet.realArchiveSetPaths.last(), rootOutputDirectory, false, null)
-                .extractSomething(parentArchiveSet.ans.inArchive, idsList.toIntArray()) // TODO: Change for multi-volume
+                .extractSomething(parentArchiveSet.ans.inArchive, idsList.toIntArray())
 
             var anANS = openArchive(rootOutputDirectory + directoryDelimiter + theItemList[idx.second]!!.path.last())
             if (anANS != null) {
