@@ -2,8 +2,21 @@
 
 ## Unreleased changes
 
-## Known Bug
-* When opening multi-volume, the program print `theItemTable` and ends unexpectedly
+* Change UI with threading
+
+## 0.2.1.0  -- 2018/12/20
+
+### Fixed
+* Implement `queryInsensitive`
+* Printing miss of `ItemRecord.toString()` when treating `isEXtracted`
+* When opening an ArchiveSet which is contained by more then one ArchiveSet,
+  fail to marking on existence
+* Typo: existance -> existence
+
+## 0.2.0.1  -- 2018/12/19
+
+### Fixed
+* Fix bug when opening exe type archive
 
 ## 0.2.0.0  -- 2018/12/19
 
