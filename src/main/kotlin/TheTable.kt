@@ -73,7 +73,7 @@ class TheTable (
         theItemList[anItem.id] = anItem
     }
 
-    fun registerAnItemRecordN(anArchiveSet: ArchiveSet, idx: ItemKey) {
+    fun registerAnItemRecordWithExistance(anArchiveSet: ArchiveSet, idx: ItemKey, rootArchiveSetIDs: IntArray) {
         val anItem: Item = anArchiveSet.itemList[idx]!!
         if (theIgnoringList.match(anItem)) {
             println("Skip: ${anItem.path.last()}")
@@ -200,9 +200,12 @@ class TheTable (
                 var anArchiveSet = ArchiveSet(arrayOf(anArchiveSetRealPath),theArchiveList.size,parentArchiveSet.rootArchiveSetID,anANS,idx.second)
                 registerAnArchiveSet(anArchiveSet)
 
-                for ( anIdx in anArchiveSet.itemList.keys) {
-                    registerAnItemRecordN(anArchiveSet,anIdx)
-                }
+                val aExistance = mutableListOf<Int>()
+                theItemRecord.existance.forEachIndexed{ eIdx, eV -> if (eV != null) aExistance.add(eIdx) }
+
+                for ( anIdx in anArchiveSet.itemList.keys)
+                    registerAnItemRecordWithExistance(anArchiveSet,anIdx,aExistance.toIntArray())
+
             } else {
                 if (theItemRecord.isArchive == null) {
                     theItemTable[theKey]!!.isArchive = false
