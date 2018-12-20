@@ -30,14 +30,14 @@ class Item (
 
 
     fun makeItemRecordFromItem(archiveSetNum: Int, rootArchiveSetID: ArchiveSetID,theArchiveSetID: ArchiveSetID): ItemRecord {
-        val existance = arrayOfNulls<ExistanceMark>(archiveSetNum)
-        existance[rootArchiveSetID]=Pair(theArchiveSetID,id)
+        val existence = arrayOfNulls<ExistanceMark>(archiveSetNum)
+        existence[rootArchiveSetID]=Pair(theArchiveSetID,id)
         return ItemRecord(
             dataCRC = dataCRC
             , dataSize = dataSize
             , modifiedDate = modifiedDate
             , path = path.last()
-            , existance = existance
+            , existence = existence
             , isFilled = false
             , isArchive = getFullName().isArchiveSensitively()
             , isExtracted = false

@@ -62,14 +62,14 @@ class TheTable (
         if (queryItemRecord == null) {
             val anItemRecord = anItem.makeItemRecordFromItem(archiveSetNum,idPair.third,idPair.first)
             theItemTable[aKey] = anItemRecord
-        } else if (queryItemRecord.existance[idPair.third] == null) {
-            val newExistance = queryItemRecord.existance
+        } else if (queryItemRecord.existence[idPair.third] == null) {
+            val newExistance = queryItemRecord.existence
             newExistance[idPair.third] = Pair(idPair.first,idPair.second)
-            theItemTable[aKey]!!.existance = newExistance
+            theItemTable[aKey]!!.existence = newExistance
         } else {
             println("[WARN]<registerAnItemRecord>: add again ${anItem.path.last()}")
         }
-        if (theItemTable[aKey]!!.existance.isFilled())
+        if (theItemTable[aKey]!!.existence.isFilled())
             theItemTable[aKey]!!.isFilled = true
 
         theItemList[anItem.id] = anItem
@@ -92,11 +92,11 @@ class TheTable (
             theItemTable[aKey] = anItemRecord
         } else {
             rootArchiveSetIDs.forEach {
-                theItemTable[aKey]!!.existance[it] =
+                theItemTable[aKey]!!.existence[it] =
                         Pair(anItem.parentArchiveSetID, anItem.id)
             }
         }
-        if (theItemTable[aKey]!!.existance.isFilled())
+        if (theItemTable[aKey]!!.existence.isFilled())
             theItemTable[aKey]!!.isFilled = true
 
         theItemList[anItem.id] = anItem
@@ -166,7 +166,7 @@ class TheTable (
         for ( itemEntry in theItemTable ) {
             if (itemEntry.value.isFilled) {
                 println(itemEntry.key)
-                itemEntry.value.existance.forEach {
+                itemEntry.value.existence.forEach {
                     val theItem = theItemList[it!!.second]
                     val thePath = if (fullNameOnly) theItem!!.path.last().getFullName()
                                     else if (relativePathOnly) theItem!!.path.last()
@@ -183,11 +183,11 @@ class TheTable (
         val commonName = path.getCommonNameOfMultiVolume()
         val idList = mutableListOf<Int>()
         for ( itemEntry in theItemTable ) {
-            val existance = itemEntry.value.existance[rootArchiveSetID]
-            if (existance != null)
+            val existence = itemEntry.value.existence[rootArchiveSetID]
+            if (existence != null)
                 if (!itemEntry.value.isFirstOrSingle)
-                    if (theItemList[existance.second]!!.path.last().getCommonNameOfMultiVolume() == commonName)
-                        idList.add(existance.second)
+                    if (theItemList[existence.second]!!.path.last().getCommonNameOfMultiVolume() == commonName)
+                        idList.add(existence.second)
         }
         return idList.toIntArray()
     }
@@ -229,7 +229,7 @@ class TheTable (
                 registerAnArchiveSet(anArchiveSet)
 
                 val aExistance = mutableListOf<Int>()
-                theItemRecord.existance.forEachIndexed{ eIdx, eV -> if (eV != null) aExistance.add(eIdx) }
+                theItemRecord.existence.forEachIndexed{ eIdx, eV -> if (eV != null) aExistance.add(eIdx) }
 
                 for ( anIdx in anArchiveSet.itemList.keys)
                     registerAnItemRecordWithExistance(anArchiveSet,anIdx,aExistance.toIntArray())
@@ -320,7 +320,7 @@ data class ItemRecord (
     , val dataSize: DataSize
     , val modifiedDate: Date
     , val path: RelativePath
-    , var existance: ExistanceBoard
+    , var existence: ExistanceBoard
     , var isFilled: Boolean
     , var isArchive: Boolean? // null when exe is not sure
     , var isExtracted: Boolean
@@ -334,7 +334,7 @@ data class ItemRecord (
         stringBuilder.append(if (isArchive == true) (if (isExtracted) "E " else "- ") else "- ")
         stringBuilder.append(if (isArchive==null) "? " else if (isArchive!!) "A " else "F ")
         stringBuilder.append(if (isArchive==false) "  " else if (isFirstOrSingle) "S " else "M ")
-        for(i in existance)
+        for(i in existence)
             stringBuilder.append(if (i==null) "    -     " else String.format(" %3d-%-5d",i.first,i.second))
         stringBuilder.append(" | ")
         stringBuilder.append(String.format("%08X", this.dataCRC))
@@ -348,7 +348,7 @@ data class ItemRecord (
     }
 
     fun getAnyID(): ExistanceMark {
-        existance.forEach {
+        existence.forEach {
             if (it != null) return it
         }
         error("[ERROR]<getAnyItemID>: Can't be reached - No items in existence")
