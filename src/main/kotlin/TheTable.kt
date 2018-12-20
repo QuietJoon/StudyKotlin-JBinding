@@ -56,7 +56,9 @@ class TheTable (
 
         val idPair = Triple(anItem.parentArchiveSetID,anItem.id,anArchiveSet.rootArchiveSetID)
         var aKey = anItem.generateItemKey()
-        val queryItemRecord: ItemRecord? = theItemTable[aKey]
+        val queryResult = queryInsensitive(aKey)
+        val queryItemRecord: ItemRecord? = queryResult.first
+        aKey = queryResult.second
         if (queryItemRecord == null) {
             val anItemRecord = anItem.makeItemRecordFromItem(archiveSetNum,idPair.third,idPair.first)
             theItemTable[aKey] = anItemRecord
@@ -82,18 +84,44 @@ class TheTable (
 
         val idPair = Triple(anItem.parentArchiveSetID,anItem.id,anArchiveSet.rootArchiveSetID)
         var aKey = anItem.generateItemKey()
-        val queryItemRecord: ItemRecord? = theItemTable[aKey]
+        val queryResult = queryInsensitive(aKey)
+        val queryItemRecord: ItemRecord? = queryResult.first
+        aKey = queryResult.second
         if (queryItemRecord == null) {
             val anItemRecord = anItem.makeItemRecordFromItem(archiveSetNum,idPair.third,idPair.first)
             theItemTable[aKey] = anItemRecord
         } else {
-            //val newExistance = mergeExistance(queryItemRecord.existance,beforeExistance)
-            theItemTable[aKey]!!.existance[anArchiveSet.rootArchiveSetID] = Pair(anItem.parentArchiveSetID,anItem.id)
+            rootArchiveSetIDs.forEach {
+                theItemTable[aKey]!!.existance[it] =
+                        Pair(anItem.parentArchiveSetID, anItem.id)
+            }
         }
         if (theItemTable[aKey]!!.existance.isFilled())
             theItemTable[aKey]!!.isFilled = true
 
         theItemList[anItem.id] = anItem
+    }
+
+    fun queryInsensitive(aKey: ItemKey): Pair<ItemRecord?,ItemKey> {
+        val aRecord = theItemTable[aKey]
+        if (aRecord != null) return Pair(aRecord,aKey)
+
+        var newKey: ItemKey
+        var newRecord: ItemRecord?
+        if (aKey.isArchive == null) {
+            newKey = aKey.copy(isArchive = true)
+            newRecord = theItemTable[newKey]
+            if (newRecord == null) {
+                newKey = aKey.copy(isArchive = false)
+                newRecord = theItemTable[newKey]
+            }
+        }
+        else {
+            newKey = aKey.copy(isArchive = null)
+            newRecord = theItemTable[newKey]
+        }
+        return if (newRecord == null) Pair(aRecord,aKey)
+                else Pair(newRecord,newKey)
     }
 
     fun mergeExistance(a:ExistanceBoard, b:ExistanceBoard): ExistanceBoard {
