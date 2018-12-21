@@ -19,13 +19,13 @@ class Extract internal constructor(
     private val test: Boolean,
     filter: String?
 ) {
-    private var outputDirectoryFile: File? = null
+    private lateinit var outputDirectoryFile: File
     private val filterRegex: String?
 
     inner class ExtractCallback(private val inArchive: IInArchive) : IArchiveExtractCallback {
         private var index: Int = 0
         private var outputStream: OutputStream? = null
-        private var file: File? = null
+        private lateinit var file: File
         private var extractAskMode: ExtractAskMode? = null
         private var isFolder: Boolean = false
 
@@ -57,24 +57,25 @@ class Extract internal constructor(
             var path = inArchive.getProperty(index, PropID.PATH) as RealPath
             path = path.replace("\\s*\\\\".toRegex(), "\\\\").trim { it <= ' ' }
             file = File(outputDirectoryFile, path)
+
             if (isFolder) {
-                createDirectory(file!!)
+                createDirectory(file)
                 return null
             }
 
-            createDirectory(file!!.parentFile)
+            createDirectory(file.parentFile)
 
             try {
-                outputStream = FileOutputStream(file!!)
+                outputStream = FileOutputStream(file)
             } catch (e: FileNotFoundException) {
-                throw SevenZipException("Error opening file: " + file!!.absolutePath, e)
+                throw SevenZipException("Error opening file: " + file.absolutePath, e)
             }
 
             return ISequentialOutStream { data ->
                 try {
                     outputStream!!.write(data)
                 } catch (e: IOException) {
-                    throw SevenZipException("Error writing to file: " + file!!.absolutePath)
+                    throw SevenZipException("Error writing to file: " + file.absolutePath)
                 }
 
                 data.size
@@ -97,7 +98,7 @@ class Extract internal constructor(
                     outputStream!!.close()
                     outputStream = null
                 } catch (e: IOException) {
-                    throw SevenZipException("Error closing file: " + file!!.absolutePath)
+                    throw SevenZipException("Error closing file: " + file.absolutePath)
                 }
 
             }
@@ -143,8 +144,8 @@ class Extract internal constructor(
     @Throws(ExtractionException::class)
     fun prepareOutputDirectory() {
         outputDirectoryFile = File(outputDirectory)
-        if (!outputDirectoryFile!!.exists()) {
-            outputDirectoryFile!!.mkdirs()
+        if (!outputDirectoryFile.exists()) {
+            outputDirectoryFile.mkdirs()
         } else {
             /*
             if (outputDirectoryFile!!.list()!!.isNotEmpty()) {

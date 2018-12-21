@@ -31,7 +31,6 @@ fun pathAnalyzeLNAS(files: List<File>): ArchiveSetPathAnalyzedLNAS {
     var colorName = if (files.size == 1) "Yellow" else "Green"
     val pathArray = files.map{it.toString()}.toTypedArray()
     val firstOrSinglePaths = getFirstOrSingleArchivePaths(pathArray)
-    var anANS: ArchiveAndStream
 
     return ArchiveSetPathAnalyzedLNAS (paths, colorName, firstOrSinglePaths)
 }
@@ -73,7 +72,7 @@ class GUIListingLNAS : Application() {
                 statusIndicator.fill = Paint.valueOf(firstResult.colorName)
 
                 for ( aPath in firstResult.firstOrSinglePaths) {
-                    val ans = openArchive(aPath)!!
+                    val ans = openArchive(aPath) ?: error("[Error]<GUIListingLNAS>: Fail to open")
                     printItemListByIDs(ans.inArchive, getNestedArchivesIDArray(ans.inArchive))
                     ans.close()
                 }

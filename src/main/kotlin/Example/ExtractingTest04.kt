@@ -125,6 +125,7 @@ class Extract04 internal constructor(
                 when (extractAskMode) {
                     ExtractAskMode.EXTRACT -> println("Extracted $path")
                     ExtractAskMode.TEST -> println("Tested $path")
+                    else ->error("[Error]<setOperationResult>: Unknown mode: $extractAskMode")
                 }
             }
         }

@@ -31,18 +31,18 @@ fun pathAnalyzeLFEAS(files: List<File>): ArchiveSetPathAnalyzedLFEAS {
     var colorName = if (files.size == 1) "Yellow" else "Green"
     val pathArray = files.map{it.toString()}.toTypedArray()
     val firstOrSinglePaths = getFirstOrSingleArchivePaths(pathArray)
-    var anANS: ArchiveAndStream
+    lateinit var anANS: ArchiveAndStream
 
     for ( aPath in firstOrSinglePaths ) {
         try {
             println("<firstPhase>: opening $aPath")
-            anANS = openArchive(aPath)!!
-            printItemList(anANS.inArchive)
-            anANS.close()
+            anANS = openArchive(aPath) ?: error("[Error]<FirstPhase>: Fail ot open")
         } catch (e: Exception) {
             println("[Error]<FirstPhase>: Seems to fail opening")
             colorName = "Red"
         }
+        printItemList(anANS.inArchive)
+        anANS.close()
     }
 
     return ArchiveSetPathAnalyzedLFEAS (paths, colorName, firstOrSinglePaths)

@@ -20,16 +20,16 @@ fun main(args : Array<String>) {
     val thePath = "R:\\TestArchives\\WhereIs.rar"
 
     var randomAccessFile: RandomAccessFile? = null
-    var inArchive: IInArchive? = null
+    lateinit var inArchive: IInArchive
     try {
         randomAccessFile = RandomAccessFile(thePath, "r")
         inArchive = SevenZip.openInArchive(
             null, // autodetect archive type
             RandomAccessFileInStream(randomAccessFile)
-        )
+        ) ?: error("[Error]<ExtractingTest01>: Fail to open")
 
         // Getting simple interface of the archive inArchive
-        val simpleInArchive = inArchive!!.simpleInterface
+        val simpleInArchive = inArchive.simpleInterface
 
         println("   Hash   |    Size    | Filename")
         println("----------+------------+---------")
@@ -62,13 +62,10 @@ fun main(args : Array<String>) {
     } catch (e: Exception) {
         System.err.println("Error occurs: $e")
     } finally {
-        if (inArchive != null) {
-            try {
-                inArchive.close()
-            } catch (e: SevenZipException) {
-                System.err.println("Error closing archive: $e")
-            }
-
+        try {
+            inArchive.close()
+        } catch (e: SevenZipException) {
+            System.err.println("Error closing archive: $e")
         }
         if (randomAccessFile != null) {
             try {

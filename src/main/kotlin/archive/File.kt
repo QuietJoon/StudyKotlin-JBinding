@@ -59,9 +59,9 @@ fun openArchive(aFilePath: RealPath): ArchiveAndStream? {
 private fun openSingleVolumeArchive(aFilePath: RealPath): ArchiveAndStream? {
     println("Open single volume with $aFilePath")
 
-    var randomAccessFile: RandomAccessFile? = null
-    var inArchive: IInArchive? = null
-    var inStream: IInStream? = null
+    var randomAccessFile: RandomAccessFile
+    var inArchive: IInArchive
+    var inStream: IInStream?
     try {
         randomAccessFile = RandomAccessFile(aFilePath, "r")
         inStream = RandomAccessFileInStream(randomAccessFile)
@@ -86,8 +86,8 @@ private fun openSingleVolumeArchive(aFilePath: RealPath): ArchiveAndStream? {
 private fun openMultiVolumeArchive(aFilePath : RealPath): ArchiveAndStream? {
     println("Open multi-volume with $aFilePath")
 
-    var archiveOpenVolumeCallback: ArchiveOpenVolumeCallback? = null
-    var inArchive: IInArchive? = null
+    var archiveOpenVolumeCallback: ArchiveOpenVolumeCallback
+    var inArchive: IInArchive
     val inStream: IInStream?
     try {
         archiveOpenVolumeCallback = ArchiveOpenVolumeCallback()

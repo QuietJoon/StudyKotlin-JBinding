@@ -1,11 +1,11 @@
 import archive.openArchive
 
 fun main (args: Array<String>) {
-    val ans = openArchive("R:\\TestArchives\\BadPattern.2018.12.18.rar")
+    val ans = openArchive("R:\\TestArchives\\BadPattern.2018.12.18.rar") ?: error("[Error]<Leveled>: Fail to open")
 
     var rawIgnoringList: MutableList<IgnoringItem> = mutableListOf()
 
-    val sArchive = ans!!.inArchive.simpleInterface
+    val sArchive = ans.inArchive.simpleInterface
 
     for (item in sArchive.archiveItems) {
         rawIgnoringList.add(makeItemFromRawItem(item))

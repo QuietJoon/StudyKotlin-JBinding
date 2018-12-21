@@ -48,7 +48,7 @@ class TheTable (
         Therefore, we just need to give index of anItem in ArchiveSet's itemList
         This should be concerned with extracting file function.
          */
-        val anItem: Item = anArchiveSet.itemList[idx]!!
+        val anItem: Item = anArchiveSet.itemList[idx] ?: error("[Error]<registerAnItemRecord>: No such item by $idx")
         if (theIgnoringList.match(anItem)) {
             println("Skip: ${anItem.path.last()}")
             return
@@ -76,7 +76,7 @@ class TheTable (
     }
 
     fun registerAnItemRecordWithExistance(anArchiveSet: ArchiveSet, idx: ItemKey, rootArchiveSetIDs: IntArray) {
-        val anItem: Item = anArchiveSet.itemList[idx]!!
+        val anItem: Item = anArchiveSet.itemList[idx] ?: error("[Error]<registerAnItemRecordWithExistance>: No such item by $idx")
         if (theIgnoringList.match(anItem)) {
             println("Skip: ${anItem.path.last()}")
             return
@@ -167,12 +167,15 @@ class TheTable (
             if (itemEntry.value.isFilled) {
                 println(itemEntry.key)
                 itemEntry.value.existence.forEach {
-                    val theItem = theItemList[it!!.second]
-                    val thePath = if (fullNameOnly) theItem!!.path.last().getFullName()
-                                    else if (relativePathOnly) theItem!!.path.last()
-                                    else theItem!!.path.joinToString(separator="|")
-                    val regulatedPath = thePath.regulating(len)
-                    print(regulatedPath+" | ")
+                    if (it == null) error("[Error]<printSameItemTable>: No item when `isFilled = true`")
+                    else {
+                        val theItem = theItemList[it.second] ?: error("[Error]<printSameItemTable>: No queried item from the key in existence: $itemEntry.key")
+                        val thePath = if (fullNameOnly) theItem.path.last().getFullName()
+                        else if (relativePathOnly) theItem.path.last()
+                        else theItem.path.joinToString(separator = "|")
+                        val regulatedPath = thePath.regulating(len)
+                        print(regulatedPath + " | ")
+                    }
                 }
                 println()
             }
@@ -195,9 +198,9 @@ class TheTable (
     fun runOnce(): Boolean {
         val theKey = getFirstItemKey()
         if (theKey != null) {
-            val theItemRecord = theItemTable[theKey]
-            val idx = theItemRecord!!.getAnyID()
-            val parentArchiveSet: ArchiveSet = theArchiveList[idx.first]!!
+            val theItemRecord = theItemTable[theKey] ?: error("[Error]<runOnce>: No such item by $theKey")
+            val idx = theItemRecord.getAnyID()
+            val parentArchiveSet: ArchiveSet = theArchiveList[idx.first] ?: error("[Error]<runOnce>: No such ArchiveSet by ${idx.first}")
             // Actually, this is not good enough. However, we assume that even the item is different, same key means same contents.
             val anArchiveSetPath = theItemList[idx.second]!!.path.last()
             val idxs: IntArray = findMultiVolumes(anArchiveSetPath,parentArchiveSet.rootArchiveSetID)
@@ -211,7 +214,7 @@ class TheTable (
             Extract( parentArchiveSet.realArchiveSetPaths.last(), rootOutputDirectory, false, null)
                 .extractSomething(parentArchiveSet.ans.inArchive, idsList.toIntArray())
 
-            var anANS = openArchive(rootOutputDirectory + directoryDelimiter + theItemList[idx.second]!!.path.last())
+            var anANS = openArchive(anArchiveSetRealPath)
             if (anANS != null) {
                 val newKey = theKey.copy(isArchive = true)
                 if (theItemRecord.isArchive == null) {

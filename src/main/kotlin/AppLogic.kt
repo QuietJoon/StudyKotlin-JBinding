@@ -20,9 +20,9 @@ fun rawFileAnalyze(files: List<File>): RawFileAnalyzed {
     for ( aPath in firstOrSinglePaths ) {
         try {
             println("<firstPhase>: opening $aPath")
-            anANS = openArchive(aPath)
+            anANS = openArchive(aPath) ?: error("[Error]<rawFileAnalyze>: Fail to open")
             //printItemList(anANS.inArchive)
-            anANS!!.close() // TOOD: Add exception logic
+            anANS.close()
         } catch (e: Exception) {
             println("[Error]<FirstPhase>: Seems to fail opening")
             colorName = "Red"
