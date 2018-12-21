@@ -1,8 +1,15 @@
 # Changelog for ArchiveDiffer-Kotlin
 
 ## Unreleased changes
+* Add more human-friendly messages and indicators
 
-* Change UI with threading
+## 0.2.2.0  -- 2018/12/20
+
+### Added
+* Show progress message for runOnce phases
+
+### Fixed
+* UI is freezing mo more: Introducing coroutines
 
 ## 0.2.1.0  -- 2018/12/20
 
