@@ -39,12 +39,9 @@ class GUI : Application() {
             var success = false
             if (db.hasFiles()) {
                 success = true
-                var filePath: String?
 
-                for (file in db.files) { db.files
-                    filePath = file.absolutePath
-                    println(filePath)
-                }
+                for (file in db.files)
+                    println(file.absolutePath)
 
                 val firstResult = rawFileAnalyze(db.files)
                 val theArchivePaths = firstResult.firstOrSinglePaths
@@ -53,45 +50,60 @@ class GUI : Application() {
                 statusIndicator.fill = Paint.valueOf(firstResult.colorName)
 
                 println("Make the table")
-                val theTable = makeTheTable(theArchivePaths, theDebugDirectory)
-                theTable.prepareWorkingDirectory()
-
-                for ( anArchiveSet in theTable.theArchiveSets)
-                    printItemList(anArchiveSet, anArchiveSet.getThisIDs())
-
-                for ( anItemRecord in theTable.theItemTable ) {
-                    print(anItemRecord.key.toString())
-                    println(anItemRecord.value.toString())
+                var theTable: TheTable? = null
+                var doesTheTableExist = false
+                GlobalScope.launch {
+                    theTable = makeTheTable(theArchivePaths, theDebugDirectory)
+                    doesTheTableExist = true
                 }
-
-                println("Difference only")
-                var count = 0
-                var resultList = mutableListOf<String>()
-                for (anItemEntry in theTable.theItemTable) {
-                    if (!anItemEntry.value.isFilled && !anItemEntry.value.isExtracted) {
-                        count++
-                        val stringBuilder = StringBuilder()
-                        stringBuilder.append(anItemEntry.key.toString())
-                        stringBuilder.append(anItemEntry.value.toString())
-                        val theString = stringBuilder.toString()
-                        resultList.add(theString)
-                        println(theString)
-                    }
-                }
-
-                analyzedIndicator.fill = Paint.valueOf("GRAY")
 
                 var isJobFinished = false
                 GlobalScope.launch() {
+                    while ( !doesTheTableExist ) {
+                        differencesLabel.text = "Now making TheTable"
+                        delay(19L)
+                    }
+                    while ( theTable == null ) {
+                        println("Can't be")
+                        delay(19L)
+                    }
+
+                    theTable!!.prepareWorkingDirectory()
+
+                    for ( anArchiveSet in theTable!!.theArchiveSets)
+                        printItemList(anArchiveSet, anArchiveSet.getThisIDs())
+
+                    for ( anItemRecord in theTable!!.theItemTable ) {
+                        print(anItemRecord.key.toString())
+                        println(anItemRecord.value.toString())
+                    }
+
+                    println("Difference only")
+                    var count = 0
+                    var resultList = mutableListOf<String>()
+                    for (anItemEntry in theTable!!.theItemTable) {
+                        if (!anItemEntry.value.isFilled && !anItemEntry.value.isExtracted) {
+                            count++
+                            val stringBuilder = StringBuilder()
+                            stringBuilder.append(anItemEntry.key.toString())
+                            stringBuilder.append(anItemEntry.value.toString())
+                            val theString = stringBuilder.toString()
+                            resultList.add(theString)
+                            println(theString)
+                        }
+                    }
+
+                    analyzedIndicator.fill = Paint.valueOf("GRAY")
+
                     var runCount = 1
                     while (true) {
                         println("Phase #$runCount")
-                        if (async{theTable.runOnce()}.await()) break
+                        if (async{theTable!!.runOnce()}.await()) break
 
-                        for (anArchiveSet in theTable.theArchiveSets)
+                        for (anArchiveSet in theTable!!.theArchiveSets)
                             printItemList(anArchiveSet, anArchiveSet.getThisIDs())
 
-                        for (anItemRecord in theTable.theItemTable) {
+                        for (anItemRecord in theTable!!.theItemTable) {
                             print(anItemRecord.key.toString())
                             println(anItemRecord.value.toString())
                         }
@@ -99,7 +111,7 @@ class GUI : Application() {
                         println("Difference only")
                         count = 0
                         resultList = mutableListOf<String>()
-                        for (anItemEntry in theTable.theItemTable) {
+                        for (anItemEntry in theTable!!.theItemTable) {
                             if (!anItemEntry.value.isFilled && !anItemEntry.value.isExtracted) {
                                 count++
                                 val stringBuilder = StringBuilder()
@@ -112,7 +124,7 @@ class GUI : Application() {
                         }
                         println("Same")
                         resultList.add("---------------- Same ----------------")
-                        for (anItemEntry in theTable.theItemTable) {
+                        for (anItemEntry in theTable!!.theItemTable) {
                             if (anItemEntry.value.isFilled || anItemEntry.value.isExtracted) {
                                 val stringBuilder = StringBuilder()
                                 stringBuilder.append(anItemEntry.key.toString())
@@ -130,7 +142,7 @@ class GUI : Application() {
 
                         resultList = mutableListOf()
                         resultList.add("Have no different files in the ArchiveSets")
-                        for (anItemEntry in theTable.theItemTable) {
+                        for (anItemEntry in theTable!!.theItemTable) {
                             val stringBuilder = StringBuilder()
                             stringBuilder.append(anItemEntry.key.toString())
                             stringBuilder.append(anItemEntry.value.toString())
@@ -146,13 +158,14 @@ class GUI : Application() {
                     differencesLabel.text = resultList.joinToString(separator = "\n")
                     analyzedIndicator.fill = Paint.valueOf(if (count == 0) "Green" else "Red")
 
-                    theTable.closeAllArchiveSets()
-                    theTable.removeAllArchiveSets()
+                    theTable!!.closeAllArchiveSets()
+                    theTable!!.removeAllArchiveSets()
                 }
 
                 GlobalScope.launch {
                     while (!isJobFinished) {
-                        differencesLabel.text = "Now analyzing"
+                        if (doesTheTableExist)
+                            differencesLabel.text = "Now analyzing"
                         delay(31L)
                     }
                 }
