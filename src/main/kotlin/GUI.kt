@@ -79,10 +79,12 @@ class GUI : Application() {
                     }
                 }
 
+                analyzedIndicator.fill = Paint.valueOf("GRAY")
+
+                var isJobFinished = false
                 GlobalScope.launch() {
                     var runCount = 1
                     while (true) {
-                        analyzedIndicator.fill = Paint.valueOf("GRAY")
                         println("Phase #$runCount")
                         if (async{theTable.runOnce()}.await()) break
 
@@ -138,11 +140,21 @@ class GUI : Application() {
                         }
                     }
 
+                    isJobFinished = true
+                    delay(17L)
+
                     differencesLabel.text = resultList.joinToString(separator = "\n")
                     analyzedIndicator.fill = Paint.valueOf(if (count == 0) "Green" else "Red")
 
                     theTable.closeAllArchiveSets()
                     theTable.removeAllArchiveSets()
+                }
+
+                GlobalScope.launch {
+                    while (!isJobFinished) {
+                        differencesLabel.text = "Now analyzing"
+                        delay(31L)
+                    }
                 }
 
                 println("End a phase")
