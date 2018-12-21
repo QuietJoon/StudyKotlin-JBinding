@@ -10,6 +10,8 @@ import javafx.scene.paint.Paint
 import javafx.scene.shape.Rectangle
 import javafx.stage.Stage
 
+import kotlinx.coroutines.*
+
 class GUI : Application() {
 
     override fun start(primaryStage: Stage) {
@@ -77,26 +79,56 @@ class GUI : Application() {
                     }
                 }
 
-                var runCount = 1
-                while(true) {
-                    analyzedIndicator.fill = Paint.valueOf("GRAY")
-                    println("Phase #$runCount")
-                    if (theTable.runOnce()) break
+                GlobalScope.launch() {
+                    var runCount = 1
+                    while (true) {
+                        analyzedIndicator.fill = Paint.valueOf("GRAY")
+                        println("Phase #$runCount")
+                        if (async{theTable.runOnce()}.await()) break
 
-                    for ( anArchiveSet in theTable.theArchiveSets)
-                        printItemList(anArchiveSet, anArchiveSet.getThisIDs())
+                        for (anArchiveSet in theTable.theArchiveSets)
+                            printItemList(anArchiveSet, anArchiveSet.getThisIDs())
 
-                    for ( anItemRecord in theTable.theItemTable ) {
-                        print(anItemRecord.key.toString())
-                        println(anItemRecord.value.toString())
+                        for (anItemRecord in theTable.theItemTable) {
+                            print(anItemRecord.key.toString())
+                            println(anItemRecord.value.toString())
+                        }
+
+                        println("Difference only")
+                        count = 0
+                        resultList = mutableListOf<String>()
+                        for (anItemEntry in theTable.theItemTable) {
+                            if (!anItemEntry.value.isFilled && !anItemEntry.value.isExtracted) {
+                                count++
+                                val stringBuilder = StringBuilder()
+                                stringBuilder.append(anItemEntry.key.toString())
+                                stringBuilder.append(anItemEntry.value.toString())
+                                val theString = stringBuilder.toString()
+                                resultList.add(theString)
+                                println(theString)
+                            }
+                        }
+                        println("Same")
+                        resultList.add("---------------- Same ----------------")
+                        for (anItemEntry in theTable.theItemTable) {
+                            if (anItemEntry.value.isFilled || anItemEntry.value.isExtracted) {
+                                val stringBuilder = StringBuilder()
+                                stringBuilder.append(anItemEntry.key.toString())
+                                stringBuilder.append(anItemEntry.value.toString())
+                                val theString = stringBuilder.toString()
+                                resultList.add(theString)
+                                println(theString)
+                            }
+                        }
+                        runCount++
                     }
 
-                    println("Difference only")
-                    count = 0
-                    resultList = mutableListOf<String>()
-                    for (anItemEntry in theTable.theItemTable) {
-                        if (!anItemEntry.value.isFilled && !anItemEntry.value.isExtracted) {
-                            count++
+                    if (count == 0) {
+                        println("Have no different files in the ArchiveSets")
+
+                        resultList = mutableListOf()
+                        resultList.add("Have no different files in the ArchiveSets")
+                        for (anItemEntry in theTable.theItemTable) {
                             val stringBuilder = StringBuilder()
                             stringBuilder.append(anItemEntry.key.toString())
                             stringBuilder.append(anItemEntry.value.toString())
@@ -105,41 +137,13 @@ class GUI : Application() {
                             println(theString)
                         }
                     }
-                    println("Same")
-                    resultList.add("---------------- Same ----------------")
-                    for (anItemEntry in theTable.theItemTable) {
-                        if (anItemEntry.value.isFilled || anItemEntry.value.isExtracted) {
-                            val stringBuilder = StringBuilder()
-                            stringBuilder.append(anItemEntry.key.toString())
-                            stringBuilder.append(anItemEntry.value.toString())
-                            val theString = stringBuilder.toString()
-                            resultList.add(theString)
-                            println(theString)
-                        }
-                    }
-                    runCount++
+
+                    differencesLabel.text = resultList.joinToString(separator = "\n")
+                    analyzedIndicator.fill = Paint.valueOf(if (count == 0) "Green" else "Red")
+
+                    theTable.closeAllArchiveSets()
+                    theTable.removeAllArchiveSets()
                 }
-
-                if (count == 0) {
-                    println("Have no different files in the ArchiveSets")
-
-                    resultList = mutableListOf()
-                    resultList.add("Have no different files in the ArchiveSets")
-                    for (anItemEntry in theTable.theItemTable) {
-                        val stringBuilder = StringBuilder()
-                        stringBuilder.append(anItemEntry.key.toString())
-                        stringBuilder.append(anItemEntry.value.toString())
-                        val theString = stringBuilder.toString()
-                        resultList.add(theString)
-                        println(theString)
-                    }
-                }
-
-                differencesLabel.text = resultList.joinToString(separator = "\n")
-                analyzedIndicator.fill = Paint.valueOf(if (count == 0) "Green" else "Red")
-
-                theTable.closeAllArchiveSets()
-                theTable.removeAllArchiveSets()
 
                 println("End a phase")
             } else {
