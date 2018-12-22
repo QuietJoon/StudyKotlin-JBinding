@@ -53,7 +53,7 @@ class GUI : Application() {
                 var theTable: TheTable? = null
                 var doesTheTableExist = false
                 GlobalScope.launch {
-                    theTable = makeTheTable(theArchivePaths, theDebugDirectory)
+                    theTable = async{makeTheTable(theArchivePaths, theDebugDirectory)}.await()
                     doesTheTableExist = true
                 }
 
