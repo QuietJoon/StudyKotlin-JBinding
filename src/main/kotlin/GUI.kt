@@ -9,8 +9,10 @@ import javafx.scene.input.TransferMode
 import javafx.scene.paint.Paint
 import javafx.scene.shape.Rectangle
 import javafx.stage.Stage
-
 import kotlinx.coroutines.*
+
+import util.filePathAnalyze
+
 
 class GUI : Application() {
 
@@ -20,11 +22,12 @@ class GUI : Application() {
         val fxml = javaClass.getResource("fxml/Main.fxml")
         val root: Parent = FXMLLoader.load(fxml)
         val scene = Scene(root)
-        val fileIndicator = root.lookup("#FileIndicator") as Rectangle
-        val filePathsLabel = root.lookup("#FilePathsLabel") as Label
-        val statusIndicator = root.lookup("#StatusIndicator") as Rectangle
+        val fileIndicator = root.lookup("#FileIndicator") as Rectangle // For number of proper input file
+        val filePathsLabel = root.lookup("#FilePathsLabel") as Label // Name of input file
+        val statusIndicator = root.lookup("#StatusIndicator") as Rectangle // Show progress
         val differencesLabel = root.lookup("#DifferencesLabel") as TextArea
-        val analyzedIndicator = root.lookup("#AnalyzedIndicator") as Rectangle
+        val analyzedIndicator = root.lookup("#AnalyzedIndicator") as Rectangle // Show final result
+        var fileSwitch = true
 
         scene.onDragOver = EventHandler { event ->
             val db = event.dragboard
@@ -41,30 +44,31 @@ class GUI : Application() {
             if (db.hasFiles()) {
                 success = true
 
-                for (file in db.files)
-                    println(file.absolutePath)
+                statusIndicator.fill = Paint.valueOf("Black")
+                analyzedIndicator.fill = Paint.valueOf("GRAY")
 
-                val firstResult = rawFilePathAnalyze(db.files)
+                val filePaths = filePathAnalyze(db.files)
 
-                filePathsLabel.text = firstResult.first
-                fileIndicator.fill = Paint.valueOf(firstResult.second)
+                filePathsLabel.text = filePaths.joinToString(separator = "\n")
+                fileIndicator.fill = Paint.valueOf(if(fileSwitch) "Blue" else "White")
+                fileSwitch = !fileSwitch
 
                 println("Make the table")
                 var theTable: TheTable? = null
                 var doesTheTableExist = false
                 GlobalScope.launch {
-                    theTable = async{makeTheTable(firstResult.third, theDebugDirectory)}.await()
+                    theTable = async{makeTheTable(filePaths, theDebugDirectory)}.await()
                     doesTheTableExist = true
                 }
 
                 var isJobFinished = false
                 GlobalScope.launch() {
                     while ( !doesTheTableExist ) {
-                        differencesLabel.text = "Now making TheTable"
+                        statusIndicator.fill = Paint.valueOf("Gray")
                         delay(19L)
                     }
                     while ( theTable == null ) {
-                        println("Can't be")
+                        println("<onDragDropped>: Can't be")
                         delay(19L)
                     }
 
@@ -92,8 +96,6 @@ class GUI : Application() {
                             println(theString)
                         }
                     }
-
-                    analyzedIndicator.fill = Paint.valueOf("GRAY")
 
                     var runCount = 1
                     while (true) {
@@ -155,10 +157,9 @@ class GUI : Application() {
                     isJobFinished = true
                     delay(17L)
 
+                    statusIndicator.fill = Paint.valueOf("Green")
                     differencesLabel.text = resultList.joinToString(separator = "\n")
-                    analyzedIndicator.fill =
-                            if (firstResult.third.size <= 1) Paint.valueOf(("Red"))
-                                else Paint.valueOf(if (count == 0) "Green" else "Red")
+                    analyzedIndicator.fill = Paint.valueOf(if (count == 0) "Green" else "Red")
 
                     theTable!!.closeAllArchiveSets()
                     theTable!!.removeAllArchiveSets()
@@ -175,7 +176,7 @@ class GUI : Application() {
                 println("End a phase")
             } else {
                 filePathsLabel.text = "No File"
-                statusIndicator.fill = Paint.valueOf("Red")
+                statusIndicator.fill = Paint.valueOf("Pink")
             }
             event.isDropCompleted = success
             event.consume()

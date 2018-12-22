@@ -1,14 +1,39 @@
 package util
 
 import java.io.File
-
-import directoryDelimiter
 import com.ibm.icu.lang.*
+
 import dateFormat
+import directoryDelimiter
+import Path
+
 
 fun generateStringFromFileList (strings : List<File>): String {
     val internalString = strings.map{it.toString().getFullName()}.joinToString(separator = "\n")
     return arrayOf("<\n", internalString, "\n>").joinToString(separator = "")
+}
+
+fun getFirstOrSingleArchivePaths(paths: Array<Path>) : Array<Path> {
+    var firstOrSingle: MutableList<String> = mutableListOf()
+    for ( aPath in paths ) {
+        if ( aPath.isArchive() ) {
+            // I knew this can be replaced by single if by using `maybePartNumber`
+            // But I want to leave this structure for easy reading
+            if (aPath.isSingleVolume()) {
+                firstOrSingle.add(aPath)
+            } else if (aPath.isFirstVolume()) {
+                firstOrSingle.add(aPath)
+            }
+        }
+    }
+    return firstOrSingle.toTypedArray()
+}
+
+
+fun filePathAnalyze(files: List<File>): Array<Path> {
+    val pathArray = files.map{it.toString()}.toTypedArray()
+
+    return getFirstOrSingleArchivePaths(pathArray)
 }
 
 fun String.getFullName(): String =
