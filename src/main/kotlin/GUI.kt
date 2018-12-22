@@ -147,7 +147,7 @@ class GUI : Application() {
                         for (anItemEntry in theTable!!.theItemTable) {
                             val stringBuilder = StringBuilder()
                             stringBuilder.append(anItemEntry.key.toString())
-                            stringBuilder.append(anItemEntry.value.toString())
+                            stringBuilder.append(anItemEntry.value.simpleString(theTable!!.theItemList))
                             val theString = stringBuilder.toString()
                             resultList.add(theString)
                             println(theString)

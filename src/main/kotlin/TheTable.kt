@@ -350,6 +350,23 @@ data class ItemRecord (
         return stringBuilder.toString()
     }
 
+    fun simpleString(theItemList: ItemList): String {
+        val stringBuilder = StringBuilder()
+        stringBuilder.append(if (isFilled) "O " else "X ")
+        stringBuilder.append(if (isArchive == true) (if (isExtracted) "E " else "N ") else "- ")
+        stringBuilder.append(if (isArchive==null) "? " else if (isArchive!!) "A " else "F ")
+        stringBuilder.append(if (isArchive==false) "  " else if (isFirstOrSingle) "S " else "M ")
+        for(i in existence)
+            stringBuilder.append(if (i==null) "    -     " else String.format(" %3d-%-5d",i.first,i.second))
+        for(i in existence) {
+            if (i != null) {
+                stringBuilder.append(" | ")
+                stringBuilder.append(theItemList[i.second]!!.path.last())
+            }
+        }
+        return stringBuilder.toString()
+    }
+
     fun getAnyID(): ExistanceMark {
         existence.forEach {
             if (it != null) return it
