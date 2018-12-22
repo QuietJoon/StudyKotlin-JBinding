@@ -1,33 +1,15 @@
 import java.io.File
 
-import archive.*
-import archive.ArchiveAndStream
 import util.*
 
 
-data class RawFileAnalyzed (
-    val paths : RealPath
-    , val colorName: String
-    , val firstOrSinglePaths: Array<RealPath>)
+typealias RawFilePathAnalyzed = Triple<RealPath,String,Array<RealPath>>
 
-fun rawFileAnalyze(files: List<File>): RawFileAnalyzed {
-    val paths = generateStringFromFileList(files)
+fun rawFilePathAnalyze(files: List<File>): RawFilePathAnalyzed {
     val pathArray = files.map{it.toString()}.toTypedArray()
     val firstOrSinglePaths = getFirstOrSingleArchivePaths(pathArray)
+    val paths = firstOrSinglePaths.map{it.getFullName()}.joinToString(separator = "\n")
     var colorName = if (firstOrSinglePaths.size == 1) "Red" else "Green"
-    var anANS: ArchiveAndStream?
 
-    for ( aPath in firstOrSinglePaths ) {
-        try {
-            println("<firstPhase>: opening $aPath")
-            anANS = openArchive(aPath) ?: error("[Error]<rawFileAnalyze>: Fail to open")
-            //printItemList(anANS.inArchive)
-            anANS.close()
-        } catch (e: Exception) {
-            println("[Error]<FirstPhase>: Seems to fail opening")
-            colorName = "Red"
-        }
-    }
-
-    return RawFileAnalyzed (paths, colorName, firstOrSinglePaths)
+    return Triple (paths, colorName, firstOrSinglePaths)
 }

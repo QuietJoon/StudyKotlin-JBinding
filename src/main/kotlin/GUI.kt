@@ -43,17 +43,16 @@ class GUI : Application() {
                 for (file in db.files)
                     println(file.absolutePath)
 
-                val firstResult = rawFileAnalyze(db.files)
-                val theArchivePaths = firstResult.firstOrSinglePaths
+                val firstResult = rawFilePathAnalyze(db.files)
 
-                filePathsLabel.text = firstResult.paths
-                statusIndicator.fill = Paint.valueOf(firstResult.colorName)
+                filePathsLabel.text = firstResult.first
+                statusIndicator.fill = Paint.valueOf(firstResult.second)
 
                 println("Make the table")
                 var theTable: TheTable? = null
                 var doesTheTableExist = false
                 GlobalScope.launch {
-                    theTable = async{makeTheTable(theArchivePaths, theDebugDirectory)}.await()
+                    theTable = async{makeTheTable(firstResult.third, theDebugDirectory)}.await()
                     doesTheTableExist = true
                 }
 
@@ -157,7 +156,7 @@ class GUI : Application() {
 
                     differencesLabel.text = resultList.joinToString(separator = "\n")
                     analyzedIndicator.fill =
-                            if (firstResult.firstOrSinglePaths.size <= 1) Paint.valueOf(("Red"))
+                            if (firstResult.third.size <= 1) Paint.valueOf(("Red"))
                                 else Paint.valueOf(if (count == 0) "Green" else "Red")
 
                     theTable!!.closeAllArchiveSets()
