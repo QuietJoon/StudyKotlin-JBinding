@@ -1,9 +1,29 @@
 # Changelog for ArchiveDiffer-Kotlin
 
 ## Unreleased changes
-* Add more human-friendly messages and indicators
 
-## 0.2.2.0  -- 2018/12/20
+## 0.3.0.0  -- 2018/12/23
+
+### Changed
+* Add more indicators and Redesign GUI
+* Use simpleString for `differenceLabel`
+* Rename `rawFileAnalyze` as `filePathAnalyze` and returns more simple result
+
+## 0.2.4.0  -- 2018/12/22
+
+### Fixed
+* Exclude CAB archive as ArchiveSet when testing executable file is an archive or not
+* Add missing async/await for `makeTheTable`
+* Remove `openArchive` from `rawFileAnalyze`
+
+## 0.2.3.0  -- 2018/12/22
+
+### Added
+* Threading opening process
+* Treat 7z
+* Add manifest for building executable jar
+
+## 0.2.2.0  -- 2018/12/21
 
 ### Added
 * Show progress message for runOnce phases
