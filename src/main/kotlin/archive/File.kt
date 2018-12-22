@@ -79,6 +79,9 @@ private fun openSingleVolumeArchive(aFilePath: RealPath): ArchiveAndStream? {
         println(String.format("[Error]<openArchive>: Fail to open InArchive with $aFilePath\n%s", e.toString()))
         return null
     }
+
+    if (inArchive.archiveFormat == ArchiveFormat.CAB) return null // Because Cab seems to be have no CRC
+
     return ArchiveAndStream(inArchive, randomAccessFile, null)
 }
 
