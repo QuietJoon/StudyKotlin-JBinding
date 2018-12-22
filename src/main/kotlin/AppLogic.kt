@@ -12,9 +12,9 @@ data class RawFileAnalyzed (
 
 fun rawFileAnalyze(files: List<File>): RawFileAnalyzed {
     val paths = generateStringFromFileList(files)
-    var colorName = if (files.size == 1) "Yellow" else "Green"
     val pathArray = files.map{it.toString()}.toTypedArray()
     val firstOrSinglePaths = getFirstOrSingleArchivePaths(pathArray)
+    var colorName = if (firstOrSinglePaths.size == 1) "Red" else "Green"
     var anANS: ArchiveAndStream?
 
     for ( aPath in firstOrSinglePaths ) {

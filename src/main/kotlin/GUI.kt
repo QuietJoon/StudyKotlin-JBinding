@@ -156,7 +156,9 @@ class GUI : Application() {
                     delay(17L)
 
                     differencesLabel.text = resultList.joinToString(separator = "\n")
-                    analyzedIndicator.fill = Paint.valueOf(if (count == 0) "Green" else "Red")
+                    analyzedIndicator.fill =
+                            if (firstResult.firstOrSinglePaths.size <= 1) Paint.valueOf(("Red"))
+                                else Paint.valueOf(if (count == 0) "Green" else "Red")
 
                     theTable!!.closeAllArchiveSets()
                     theTable!!.removeAllArchiveSets()
