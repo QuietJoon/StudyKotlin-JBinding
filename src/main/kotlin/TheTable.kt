@@ -334,7 +334,7 @@ data class ItemRecord (
     override fun toString(): String {
         val stringBuilder = StringBuilder()
         stringBuilder.append(if (isFilled) "O " else "X ")
-        stringBuilder.append(if (isArchive == true) (if (isExtracted) "E " else "- ") else "- ")
+        stringBuilder.append(if (isArchive == true) (if (isExtracted) "E " else "N ") else "- ")
         stringBuilder.append(if (isArchive==null) "? " else if (isArchive!!) "A " else "F ")
         stringBuilder.append(if (isArchive==false) "  " else if (isFirstOrSingle) "S " else "M ")
         for(i in existence)
