@@ -9,7 +9,11 @@ fun rawFilePathAnalyze(files: List<File>): RawFilePathAnalyzed {
     val pathArray = files.map{it.toString()}.toTypedArray()
     val firstOrSinglePaths = getFirstOrSingleArchivePaths(pathArray)
     val paths = firstOrSinglePaths.map{it.getFullName()}.joinToString(separator = "\n")
-    var colorName = if (firstOrSinglePaths.size == 1) "Red" else "Green"
+    var colorName = when (firstOrSinglePaths.size) {
+        0 -> "Red"
+        1 -> "Yellow"
+        else -> "Green"
+    }
 
     return Triple (paths, colorName, firstOrSinglePaths)
 }
