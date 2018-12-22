@@ -62,6 +62,7 @@ class GUI : Application() {
                 }
 
                 var isJobFinished = false
+                differencesLabel.text = "Start Analyzing"
                 GlobalScope.launch() {
                     while ( !doesTheTableExist ) {
                         statusIndicator.fill = Paint.valueOf("Gray")
@@ -88,6 +89,18 @@ class GUI : Application() {
                     for (anItemEntry in theTable!!.theItemTable) {
                         if (!anItemEntry.value.isFilled && !anItemEntry.value.isExtracted) {
                             count++
+                            val stringBuilder = StringBuilder()
+                            stringBuilder.append(anItemEntry.key.toString())
+                            stringBuilder.append(anItemEntry.value.toString())
+                            val theString = stringBuilder.toString()
+                            resultList.add(theString)
+                            println(theString)
+                        }
+                    }
+                    println("Same")
+                    resultList.add("--------------------------------    Same    --------------------------------")
+                    for (anItemEntry in theTable!!.theItemTable) {
+                        if (anItemEntry.value.isFilled || anItemEntry.value.isExtracted) {
                             val stringBuilder = StringBuilder()
                             stringBuilder.append(anItemEntry.key.toString())
                             stringBuilder.append(anItemEntry.value.toString())
@@ -125,7 +138,7 @@ class GUI : Application() {
                             }
                         }
                         println("Same")
-                        resultList.add("---------------- Same ----------------")
+                        resultList.add("--------------------------------    Same    --------------------------------")
                         for (anItemEntry in theTable!!.theItemTable) {
                             if (anItemEntry.value.isFilled || anItemEntry.value.isExtracted) {
                                 val stringBuilder = StringBuilder()
@@ -139,19 +152,20 @@ class GUI : Application() {
                         runCount++
                     }
 
+                    resultList = mutableListOf()
+
                     if (count == 0) {
                         println("Have no different files in the ArchiveSets")
-
-                        resultList = mutableListOf()
                         resultList.add("Have no different files in the ArchiveSets")
-                        for (anItemEntry in theTable!!.theItemTable) {
-                            val stringBuilder = StringBuilder()
-                            stringBuilder.append(anItemEntry.key.toString())
-                            stringBuilder.append(anItemEntry.value.simpleString(theTable!!.theItemList))
-                            val theString = stringBuilder.toString()
-                            resultList.add(theString)
-                            println(theString)
-                        }
+                    }
+
+                    for (anItemEntry in theTable!!.theItemTable) {
+                        val stringBuilder = StringBuilder()
+                        stringBuilder.append(anItemEntry.key.toString())
+                        stringBuilder.append(anItemEntry.value.simpleString(theTable!!.theItemList))
+                        val theString = stringBuilder.toString()
+                        resultList.add(theString)
+                        println(theString)
                     }
 
                     isJobFinished = true

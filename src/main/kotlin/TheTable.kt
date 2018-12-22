@@ -360,8 +360,8 @@ data class ItemRecord (
             stringBuilder.append(if (i==null) "    -     " else String.format(" %3d-%-5d",i.first,i.second))
         for(i in existence) {
             if (i != null) {
-                stringBuilder.append(" | ")
-                stringBuilder.append(theItemList[i.second]!!.path.last())
+                stringBuilder.append(" || ")
+                stringBuilder.append(theItemList[i.second]!!.path.last().getFullName())
             }
         }
         return stringBuilder.toString()
