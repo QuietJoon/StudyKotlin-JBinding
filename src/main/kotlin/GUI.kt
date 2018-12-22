@@ -20,6 +20,7 @@ class GUI : Application() {
         val fxml = javaClass.getResource("fxml/Main.fxml")
         val root: Parent = FXMLLoader.load(fxml)
         val scene = Scene(root)
+        val fileIndicator = root.lookup("#FileIndicator") as Rectangle
         val filePathsLabel = root.lookup("#FilePathsLabel") as Label
         val statusIndicator = root.lookup("#StatusIndicator") as Rectangle
         val differencesLabel = root.lookup("#DifferencesLabel") as TextArea
@@ -46,7 +47,7 @@ class GUI : Application() {
                 val firstResult = rawFilePathAnalyze(db.files)
 
                 filePathsLabel.text = firstResult.first
-                statusIndicator.fill = Paint.valueOf(firstResult.second)
+                fileIndicator.fill = Paint.valueOf(firstResult.second)
 
                 println("Make the table")
                 var theTable: TheTable? = null
