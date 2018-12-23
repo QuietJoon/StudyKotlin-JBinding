@@ -57,19 +57,15 @@ class GUI : Application() {
                 var theTable: TheTable? = null
                 var doesTheTableExist = false
                 GlobalScope.launch {
-                    theTable = async{makeTheTable(filePaths, theDebugDirectory)}.await()
+                    theTable = makeTheTable(filePaths, theDebugDirectory)
                     doesTheTableExist = true
                 }
 
                 var isJobFinished = false
                 differencesLabel.text = "Start Analyzing"
-                GlobalScope.launch() {
+                GlobalScope.launch {
                     while ( !doesTheTableExist ) {
                         statusIndicator.fill = Paint.valueOf("Gray")
-                        delay(19L)
-                    }
-                    while ( theTable == null ) {
-                        println("<onDragDropped>: Can't be")
                         delay(19L)
                     }
 
@@ -113,7 +109,7 @@ class GUI : Application() {
                     var runCount = 1
                     while (true) {
                         println("Phase #$runCount")
-                        if (async{theTable!!.runOnce()}.await()) break
+                        if (theTable!!.runOnce()) break
 
                         for (anArchiveSet in theTable!!.theArchiveSets)
                             printItemList(anArchiveSet, anArchiveSet.getThisIDs())
@@ -125,7 +121,7 @@ class GUI : Application() {
 
                         println("Difference only")
                         count = 0
-                        resultList = mutableListOf<String>()
+                        resultList = mutableListOf()
                         for (anItemEntry in theTable!!.theItemTable) {
                             if (!anItemEntry.value.isFilled && !anItemEntry.value.isExtracted) {
                                 count++
