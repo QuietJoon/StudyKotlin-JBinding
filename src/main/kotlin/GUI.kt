@@ -148,28 +148,44 @@ class GUI : Application() {
                         runCount++
                     }
 
-                    resultList = mutableListOf()
-
                     if (count == 0) {
                         println("Have no different files in the ArchiveSets")
                         resultList.add("Have no different files in the ArchiveSets")
                     }
 
+                    statusIndicator.fill = Paint.valueOf("Green")
+                    analyzedIndicator.fill = Paint.valueOf(if (count == 0) "Green" else "Red")
+
+                    println("Difference only")
+                    resultList = mutableListOf()
                     for (anItemEntry in theTable!!.theItemTable) {
-                        val stringBuilder = StringBuilder()
-                        stringBuilder.append(anItemEntry.key.toString())
-                        stringBuilder.append(anItemEntry.value.simpleString(theTable!!.theItemList))
-                        val theString = stringBuilder.toString()
-                        resultList.add(theString)
-                        println(theString)
+                        if (!anItemEntry.value.isFilled && !anItemEntry.value.isExtracted) {
+                            count++
+                            val stringBuilder = StringBuilder()
+                            stringBuilder.append(anItemEntry.key.toString())
+                            stringBuilder.append(anItemEntry.value.simpleString(theTable!!.theItemList))
+                            val theString = stringBuilder.toString()
+                            resultList.add(theString)
+                            println(theString)
+                        }
+                    }
+                    println("Same")
+                    resultList.add("--------------------------------    Same    --------------------------------")
+                    for (anItemEntry in theTable!!.theItemTable) {
+                        if (anItemEntry.value.isFilled || anItemEntry.value.isExtracted) {
+                            val stringBuilder = StringBuilder()
+                            stringBuilder.append(anItemEntry.key.toString())
+                            stringBuilder.append(anItemEntry.value.simpleString(theTable!!.theItemList))
+                            val theString = stringBuilder.toString()
+                            resultList.add(theString)
+                            println(theString)
+                        }
                     }
 
                     isJobFinished = true
                     delay(17L)
 
-                    statusIndicator.fill = Paint.valueOf("Green")
                     differencesLabel.text = resultList.joinToString(separator = "\n")
-                    analyzedIndicator.fill = Paint.valueOf(if (count == 0) "Green" else "Red")
 
                     theTable!!.closeAllArchiveSets()
                     theTable!!.removeAllArchiveSets()
