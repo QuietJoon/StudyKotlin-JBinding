@@ -50,8 +50,13 @@ class GUI : Application() {
                 val filePaths = filePathAnalyze(db.files)
 
                 filePathsLabel.text = filePaths.joinToString(separator = "\n")
-                fileIndicator.fill = Paint.valueOf(if(fileSwitch) "Blue" else "White")
-                fileSwitch = !fileSwitch
+                GlobalScope.launch {
+                    for ( i in 0..10 ) {
+                        fileIndicator.fill = Paint.valueOf(if (fileSwitch) "Blue" else "White")
+                        fileSwitch = !fileSwitch
+                        delay(100L)
+                    }
+                }
 
                 println("Make the table")
                 var theTable: TheTable? = null
