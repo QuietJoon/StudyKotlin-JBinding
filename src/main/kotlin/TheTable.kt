@@ -90,12 +90,13 @@ class TheTable (
         if (queryItemRecord == null) {
             val anItemRecord = anItem.makeItemRecordFromItem(archiveSetNum,idPair.third,idPair.first)
             theItemTable[aKey] = anItemRecord
-        } else {
-            rootArchiveSetIDs.forEach {
-                theItemTable[aKey]!!.existence[it] =
-                        Pair(anItem.parentArchiveSetID, anItem.id)
-            }
         }
+
+        rootArchiveSetIDs.forEach {
+            theItemTable[aKey]!!.existence[it] =
+                    Pair(anItem.parentArchiveSetID, anItem.id)
+        }
+
         if (theItemTable[aKey]!!.existence.isFilled())
             theItemTable[aKey]!!.isFilled = true
 
