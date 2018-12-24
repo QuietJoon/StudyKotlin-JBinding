@@ -197,9 +197,9 @@ class TheTable (
     }
 
     fun runOnce(): Boolean {
-        val theKey = getFirstItemKey()
+        var theKey = getFirstItemKey()
         if (theKey != null) {
-            val theItemRecord = theItemTable[theKey] ?: error("[Error]<runOnce>: No such item by $theKey")
+            var theItemRecord = theItemTable[theKey] ?: error("[Error]<runOnce>: No such item by $theKey")
             val idx = theItemRecord.getAnyID()
             val parentArchiveSet: ArchiveSet = theArchiveList[idx.first] ?: error("[Error]<runOnce>: No such ArchiveSet by ${idx.first}")
             // Actually, this is not good enough. However, we assume that even the item is different, same key means same contents.
@@ -217,13 +217,14 @@ class TheTable (
 
             var anANS = openArchive(anArchiveSetRealPath)
             if (anANS != null) {
-                val newKey = theKey.copy(isArchive = true)
                 if (theItemRecord.isArchive == null) {
+                    val newKey = theKey.copy(isArchive = true)
                     theItemTable[theKey]!!.isArchive = true
                     modifyKeyOfTheItemTable(theKey,newKey)
+                    theKey = newKey
                 }
 
-                theItemTable[newKey]!!.isExtracted = true
+                theItemTable[theKey]!!.isExtracted = true
                 for (id in idxs) {
                     val anKey = theItemList[id]!!.generateItemKey()
                     theItemTable[anKey]!!.isExtracted = true
