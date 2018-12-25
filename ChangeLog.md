@@ -2,6 +2,24 @@
 
 ## Unreleased changes
 
+### Change
+* Implement real `ArchiveSet`
+  * Currently, `ArchiveSet` is just an archive
+* Add space holder for missing Item's full-name for `differencesLabel`
+* Make more pretty columned text output
+* Extract archives only when other file Items is not full-filled
+
+## 0.3.1.0  -- 2018/12/25
+
+### Changed
+* Make `fileIndicator` more identifiable
+* Refine contents of `differencesLabel`
+
+## 0.3.0.1  -- 2018/12/24
+
+### Fixed
+* Missed marking when the Item wasn't registered before
+
 ## 0.3.0.0  -- 2018/12/23
 
 ### Changed
