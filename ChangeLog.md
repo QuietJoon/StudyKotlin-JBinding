@@ -1,6 +1,7 @@
-# Changelog for ArchiveDiffer-Kotlin
+Changelog for ArchiveDiffer-Kotlin
+====
 
-## Unreleased changes
+## Unreleased
 
 ### Change
 * Implement real `ArchiveSet`
